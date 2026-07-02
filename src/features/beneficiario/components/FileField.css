@@ -1,0 +1,30 @@
+.fl-file {
+  display: flex;
+  align-items: center;
+  gap: var(--fl-space-3);
+  padding: 0.75rem 0.9rem;
+  border: 1.5px dashed var(--fl-border-fuerte);
+  border-radius: var(--fl-radius-sm);
+  background: var(--fl-surface-sunken);
+  color: var(--fl-ink-soft);
+  font-size: var(--fl-fs-sm);
+  cursor: pointer;
+  transition: border-color 0.15s var(--fl-ease), background-color 0.15s var(--fl-ease);
+}
+.fl-file:hover { border-color: var(--fl-verde-bosque); background: var(--fl-verde-suave); }
+
+.fl-file__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--fl-verde-suave);
+  color: var(--fl-verde-bosque);
+  flex-shrink: 0;
+}
+
+.fl-field--error .fl-file {
+  border-color: var(--fl-error);
+  background: var(--fl-error-suave);
+}
