@@ -1,0 +1,16 @@
+.fl-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fl-fs-sm);
+  font-weight: 600;
+  color: var(--fl-ink-soft);
+  text-decoration: none;
+  margin-bottom: var(--fl-space-5);
+  transition: color 0.15s var(--fl-ease), gap 0.15s var(--fl-ease);
+}
+
+.fl-back-link:hover {
+  color: var(--fl-verde-bosque);
+  gap: 9px;
+}

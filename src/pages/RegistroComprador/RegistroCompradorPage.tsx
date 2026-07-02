@@ -10,6 +10,8 @@ export default function RegistroCompradorPage() {
       description="Crea tu cuenta para reservar lotes de excedentes alimentarios con descuento en los comercios más cercanos a ti."
       stat="3.4k"
       statLabel="compradores registrados"
+      backTo="/login"
+      backLabel="Volver a iniciar sesión"
     >
       <RegisterTypeTabs />
       <p className="fl-eyebrow">Cuenta personal</p>
