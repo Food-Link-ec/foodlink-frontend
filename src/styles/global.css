@@ -1,30 +1,88 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "./tokens.css";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #F5F5F5;
-  color: #424242;
-  line-height: 1.6;
+  margin: 0;
+  background: var(--fl-bg);
+  color: var(--fl-ink);
+  font-family: var(--fl-font-body);
+  font-size: var(--fl-fs-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+h1, h2, h3, h4 {
+  font-family: var(--fl-font-display);
+  color: var(--fl-verde-musgo);
+  margin: 0 0 var(--fl-space-2);
+  letter-spacing: -0.01em;
 }
 
-input, button, textarea, select {
-  font-family: inherit;
+p { margin: 0 0 var(--fl-space-3); }
+
+a { color: var(--fl-verde-bosque); }
+
+button, input, select, textarea { font-family: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--fl-dorado);
+  outline-offset: 2px;
+  border-radius: var(--fl-radius-sm);
 }
 
-/* Clases utilitarias (puedes usar Tailwind si prefieres) */
-.container {
-  max-width: 1200px;
+.fl-container {
+  width: 100%;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--fl-space-5);
+}
+
+.fl-mono {
+  font-family: var(--fl-font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Borde perforado — motivo "boleta de rescate" */
+.fl-ticket-edge {
+  position: relative;
+}
+.fl-ticket-edge::before,
+.fl-ticket-edge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  background-image: radial-gradient(circle at 9px 0, transparent 9px, var(--fl-bg) 9.5px);
+  background-size: 18px 22px;
+  background-repeat: repeat-y;
+}
+.fl-ticket-edge::before { left: -1px; }
+.fl-ticket-edge::after { right: -1px; transform: scaleX(-1); }
+
+.fl-eyebrow {
+  font-family: var(--fl-font-mono);
+  font-size: var(--fl-fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--fl-coral-oscuro);
+  font-weight: 500;
+}
+
+.fl-visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

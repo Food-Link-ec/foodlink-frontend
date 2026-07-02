@@ -1,0 +1,76 @@
+
+:root {
+  /* Color — superficie */
+  --fl-bg: #FAF7F0;
+  --fl-bg-alt: #F1EAD9;
+  --fl-surface: #FFFFFF;
+  --fl-surface-sunken: #F5F1E6;
+
+  /* Color — marca */
+  --fl-verde-bosque: #1F4D3C;
+  --fl-verde-musgo: #14332A;
+  --fl-verde-suave: #DCE8DE;
+  --fl-verde-linea: #A9C4B4;
+
+  /* Color — acción / acento */
+  --fl-coral: #E8543E;
+  --fl-coral-oscuro: #C43F2C;
+  --fl-coral-suave: #FBE1DC;
+
+  --fl-dorado: #F0A93A;
+  --fl-dorado-oscuro: #C98418;
+  --fl-dorado-suave: #FCEACB;
+
+  /* Color — texto */
+  --fl-ink: #17241D;
+  --fl-ink-soft: #4B5850;
+  --fl-ink-faint: #8B9690;
+
+  /* Color — estado */
+  --fl-error: #B3261E;
+  --fl-error-suave: #FBE2E0;
+  --fl-success: #2F7A4D;
+  --fl-success-suave: #E1F0E6;
+
+  /* Bordes */
+  --fl-border: #E4DECC;
+  --fl-border-fuerte: #CFC6AE;
+
+  /* Tipografía */
+  --fl-font-display: "Sora", "Segoe UI", sans-serif;
+  --fl-font-body: "Inter", "Segoe UI", sans-serif;
+  --fl-font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+
+  --fl-fs-xs: 0.75rem;
+  --fl-fs-sm: 0.875rem;
+  --fl-fs-base: 1rem;
+  --fl-fs-md: 1.125rem;
+  --fl-fs-lg: 1.375rem;
+  --fl-fs-xl: 1.75rem;
+  --fl-fs-2xl: 2.25rem;
+  --fl-fs-3xl: 3rem;
+
+  /* Espaciado */
+  --fl-space-1: 0.25rem;
+  --fl-space-2: 0.5rem;
+  --fl-space-3: 0.75rem;
+  --fl-space-4: 1rem;
+  --fl-space-5: 1.5rem;
+  --fl-space-6: 2rem;
+  --fl-space-7: 3rem;
+  --fl-space-8: 4rem;
+
+  /* Radios */
+  --fl-radius-sm: 6px;
+  --fl-radius-md: 12px;
+  --fl-radius-lg: 20px;
+  --fl-radius-full: 999px;
+
+  /* Sombra */
+  --fl-shadow-sm: 0 1px 2px rgba(23, 36, 29, 0.06);
+  --fl-shadow-md: 0 8px 24px rgba(23, 36, 29, 0.10);
+  --fl-shadow-lg: 0 16px 40px rgba(23, 36, 29, 0.16);
+
+  /* Transición */
+  --fl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

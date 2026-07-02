@@ -1,0 +1,99 @@
+.pageWrapper {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(67, 160, 71, 0.10), transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(201, 154, 61, 0.10), transparent 45%),
+    linear-gradient(135deg, #eef6ee 0%, #dcebdc 100%);
+}
+
+.container {
+  max-width: 540px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.75rem;
+  padding: 2.75rem 2.5rem;
+  box-shadow:
+    0 24px 60px rgba(27, 77, 32, 0.14),
+    0 6px 18px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 30px 70px rgba(27, 77, 32, 0.17),
+    0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2.25rem;
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary-dark));
+  box-shadow: 0 8px 20px rgba(27, 77, 32, 0.25);
+}
+
+.iconWrapper svg {
+  width: 30px;
+  height: 30px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.3px;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  max-width: 340px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.footerLink {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+.footerLink a {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.footerLink a:hover {
+  border-bottom: 1px solid var(--color-primary-dark);
+}
