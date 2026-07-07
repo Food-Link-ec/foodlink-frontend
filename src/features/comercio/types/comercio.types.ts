@@ -4,6 +4,7 @@ export interface DatosRegistroComercio {
   direccion: string
   telefono: string
   correo: string
+  password: string
 }
 
 export type EstadoComercio = 'PENDIENTE_VERIFICACION' | 'VERIFICADO' | 'RECHAZADO'
