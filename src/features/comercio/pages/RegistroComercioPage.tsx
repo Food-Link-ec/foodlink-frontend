@@ -1,6 +1,6 @@
-import AuthLayout from '../../components/layout/AuthLayout'
-import RegisterTypeTabs from '../../components/layout/RegisterTypeTabs'
-import RegistroComercioForm from '../../features/comercio/components/RegistroComercioForm'
+import AuthLayout from '../../../components/layout/AuthLayout'
+import RegisterTypeTabs from '../../../components/layout/RegisterTypeTabs'
+import RegistroComercioForm from '../components/RegistroComercioForm'
 
 export default function RegistroComercioPage() {
   return (

@@ -1,6 +1,6 @@
-import AuthLayout from '../../components/layout/AuthLayout'
-import RegisterTypeTabs from '../../components/layout/RegisterTypeTabs'
-import RegistroBeneficiarioForm from '../../features/beneficiario/components/RegistroBeneficiarioForm'
+import AuthLayout from '../../../components/layout/AuthLayout'
+import RegisterTypeTabs from '../../../components/layout/RegisterTypeTabs'
+import RegistroBeneficiarioForm from '../components/RegistroBeneficiarioForm'
 
 export default function RegistroBeneficiarioPage() {
   return (
