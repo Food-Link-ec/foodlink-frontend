@@ -1,0 +1,187 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #FAF7F0;
+  font-family: 'Inter', sans-serif;
+  color: #17241D;
+  flex-direction: column;
+}
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 8%;
+}
+.brandTitle {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #1F4D3C;
+}
+.topLoginLink {
+  text-decoration: none;
+  color: #1F4D3C;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.mainWrapper {
+  display: flex;
+  flex: 1;
+  padding: 0 8% 3rem 8%;
+  gap: 3rem;
+  align-items: stretch;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.leftBanner {
+  flex: 1;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 3.5rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+}
+.leftBanner::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to top, rgba(23, 36, 29, 0.95) 5%, rgba(23, 36, 29, 0.3) 50%, transparent 80%);
+}
+.bannerOverlay {
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.bannerOverlay h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.2;
+  color: #FFFFFF;
+}
+.bannerOverlay p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #EAE3D5;
+  margin: 0;
+}
+.rightFormColumn {
+  flex: 1;
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+}
+.formHeader h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.75rem;
+  color: #17241D;
+  margin: 0 0 0.25rem 0;
+}
+.formHeader p {
+  color: #667A70;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+.rowTwo {
+  display: flex;
+  gap: 1rem;
+}
+.inputGroup {
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+.inputGroup label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #4A5C54;
+  margin-bottom: 0.4rem;
+}
+.inputGroup input[type="text"], .inputGroup input[type="email"], .inputGroup input[type="password"] {
+  width: 100%;
+  background-color: #F5F3EC;
+  border: 1px solid #EAE3D5;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: #17241D;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.inputGroup input:focus {
+  border-color: #1F4D3C;
+}
+.checkboxGroup {
+  margin: 1.25rem 0;
+}
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: #4A5C54;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.checkboxLabel input {
+  margin-top: 0.15rem;
+  cursor: pointer;
+}
+.submitBtn {
+  width: 100%;
+  background-color: #9A4225;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.95rem;
+  font-size: 1rem;
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 1.5rem;
+}
+.submitBtn:hover {
+  background-color: #873e23;
+}
+.switchBusiness {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #667A70;
+  border-top: 1px solid #EAE3D5;
+  padding-top: 1.25rem;
+}
+.switchBusiness a {
+  color: #9A4225;
+  font-weight: 700;
+  text-decoration: none;
+}
+.switchBusiness a:hover {
+  text-decoration: underline;
+}
+.footerNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: #667A70;
+}
+.footerNav a {
+  color: #667A70;
+  text-decoration: none;
+}
+.footerNav a:hover {
+  text-decoration: underline;
+}
