@@ -10,8 +10,8 @@ import compradoresImg from '../../../assets/images/LandingPageCompradores.png';
 export const LandingPage = () => {
   const navigate = useNavigate();
 
-  const handleActionClick = () => {
-    navigate('/login');
+  const handleSmartRedirect = (targetPath: string) => {
+    navigate('/login', { state: { redirectTo: targetPath } });
   };
 
   return (
@@ -23,14 +23,9 @@ export const LandingPage = () => {
           </div>
           <span className={styles.logoText}>FoodLink</span>
         </div>
-        <div className={styles.navLinks}>
-          <a href="#explorar" className={styles.activeNavLink}>Explorar</a>
-          <a href="#impacto">Impacto</a>
-          <a href="#nosotros">Nosotros</a>
-        </div>
         <div className={styles.navActions}>
           <Link to="/login" className={styles.loginLink}>Ingresar</Link>
-          <button onClick={handleActionClick} className={styles.navPrimaryBtn}>
+          <button onClick={() => handleSmartRedirect('/registro/comercio')} className={styles.navPrimaryBtn}>
             Donar Alimento
           </button>
         </div>
@@ -44,10 +39,10 @@ export const LandingPage = () => {
             Conectamos el excedente de los mejores restaurantes y productores con organizaciones sociales para erradicar el desperdicio y nutrir a nuestra comunidad.
           </p>
           <div className={styles.heroButtons}>
-            <button onClick={handleActionClick} className={styles.heroPrimaryBtn}>
+            <button onClick={() => handleSmartRedirect('/registro/comercio')} className={styles.heroPrimaryBtn}>
               Publicar excedentes
             </button>
-            <button onClick={handleActionClick} className={styles.heroSecondaryBtn}>
+            <button onClick={() => handleSmartRedirect('/registro/beneficiario')} className={styles.heroSecondaryBtn}>
               Registrar organización
             </button>
           </div>
@@ -127,21 +122,21 @@ export const LandingPage = () => {
             <div className={styles.roleImgPlaceholderOne} style={{ backgroundImage: `url(${empresasImg})` }}></div>
             <h3>Empresas</h3>
             <p>Convierte tu desperdicio en impacto social y obtén beneficios tributarios mientras cuidas el planeta.</p>
-            <button onClick={handleActionClick} className={styles.roleCardBtn}>Publicar excedentes</button>
+            <button onClick={() => handleSmartRedirect('/registro/comercio')} className={styles.roleCardBtn}>Publicar excedentes</button>
           </div>
           
           <div className={styles.roleCard}>
             <div className={styles.roleImgPlaceholderTwo} style={{ backgroundImage: `url(${organizacionesImg})` }}></div>
             <h3>Organizaciones</h3>
             <p>Accede a suministros constantes de alimentos frescos y de calidad para potenciar tu labor social.</p>
-            <button onClick={handleActionClick} className={styles.roleCardBtn}>Registrar organización</button>
+            <button onClick={() => handleSmartRedirect('/registro/beneficiario')} className={styles.roleCardBtn}>Registrar organización</button>
           </div>
           
           <div className={styles.roleCard}>
             <div className={styles.roleImgPlaceholderThree} style={{ backgroundImage: `url(${compradoresImg})` }}></div>
             <h3>Compradores</h3>
             <p>Adquiere canastas de productos rescatados a precios preferenciales y apoya el ecosistema.</p>
-            <button onClick={handleActionClick} className={styles.roleCardBtn}>Quiero comprar</button>
+            <button onClick={() => handleSmartRedirect('/registro/comprador')} className={styles.roleCardBtn}>Quiero comprar</button>
           </div>
         </div>
       </section>
