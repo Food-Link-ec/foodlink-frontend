@@ -1,32 +1,43 @@
 import { useState } from 'react';
-import type { FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './RegistroCompradorPage.module.css';
+import Alert from '../../../components/ui/Alert';
+import PasswordInput from '../../../components/ui/PasswordInput';
+import { useForm } from '../../../hooks/useForm';
+import { registrarComprador } from '../services/compradorService';
+import { validarComprador } from '../validation/compradorValidation';
+import type { DatosRegistroComprador } from '../types/comprador.types';
 
 import loginCompradorImg from '../../../assets/images/LoginComprador.png';
 
-export default function RegistroCompradorPage() {
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [cedula, setCedula] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const navigate = useNavigate();
+const VALORES_INICIALES: DatosRegistroComprador = {
+  cedula: '',
+  nombre: '',
+  apellido: '',
+  email: '',
+  telefono: '',
+  password: '',
+};
 
-  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!termsAccepted) return;
-    navigate('/dashboard');
-  };
+export default function RegistroCompradorPage() {
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const form = useForm<DatosRegistroComprador>({
+    initialValues: VALORES_INICIALES,
+    validate: validarComprador,
+    onSubmit: async (values) => {
+      await registrarComprador(values);
+    },
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.topBar}>
-        <span className={styles.brandTitle}>FoodLink</span>
-        <Link to="/login" className={styles.topLoginLink}>¿Ya tienes cuenta? Ingresar</Link>
+        <Link to="/" className={styles.brandTitle}>FoodLink</Link>
+        <div className={styles.topBarLinks}>
+          <Link to="/" className={styles.topBackLink}>⬅ Volver al inicio</Link>
+          <Link to="/login" className={styles.topLoginLink}>¿Ya tienes cuenta? Ingresar</Link>
+        </div>
       </div>
 
       <div className={styles.mainWrapper}>
@@ -38,134 +49,145 @@ export default function RegistroCompradorPage() {
         </div>
 
         <div className={styles.rightFormColumn}>
-          <div className={styles.formHeader}>
-            <h2>Crear Cuenta Persona Natural</h2>
-            <p>Completa tus datos para empezar a comprar lotes rescatados.</p>
-          </div>
-
-          <form onSubmit={handleRegister} className={styles.form}>
-            <div className={styles.rowTwo}>
-              <div className={styles.inputGroup}>
-                <label>Nombre</label>
-                <input 
-                  type="text" 
-                  placeholder="Ej. Juan" 
-                  value={nombre}
-                  onChange={(e) => setNombre(e.target.value)}
-                  required 
-                />
+          {form.submitSuccess ? (
+            <Alert variant="success" title="¡Cuenta creada!">
+              Bienvenido/a <strong>{form.values.nombre}</strong>, tu cuenta fue registrada correctamente.{' '}
+              <Link to="/login">Ir a iniciar sesión</Link>
+            </Alert>
+          ) : (
+            <>
+              <div className={styles.formHeader}>
+                <h2>Crear Cuenta Persona Natural</h2>
+                <p>Completa tus datos para empezar a comprar lotes rescatados.</p>
               </div>
-              <div className={styles.inputGroup}>
-                <label>Apellido</label>
-                <input 
-                  type="text" 
-                  placeholder="Ej. Pérez" 
-                  value={apellido}
-                  onChange={(e) => setApellido(e.target.value)}
-                  required 
-                />
-              </div>
-            </div>
 
-            <div className={styles.inputGroup}>
-              <label>Número de Cédula</label>
-              <input 
-                type="text" 
-                placeholder="000000000-0" 
-                maxLength={10}
-                value={cedula}
-                onChange={(e) => setCedula(e.target.value)}
-                required 
-              />
-            </div>
+              {form.submitError && (
+                <Alert variant="error" title="No pudimos completar el registro">{form.submitError}</Alert>
+              )}
 
-            <div className={styles.rowTwo}>
-              <div className={styles.inputGroup}>
-                <label>Correo Electrónico</label>
-                <input 
-                  type="email" 
-                  placeholder="tu@correo.com" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required 
-                />
-              </div>
-              <div className={styles.inputGroup}>
-                <label>Teléfono</label>
-                <input 
-                  type="text" 
-                  placeholder="099 999 9999" 
-                  value={telefono}
-                  onChange={(e) => setTelefono(e.target.value)}
-                  required 
-                />
-              </div>
-            </div>
+              <form onSubmit={form.handleSubmit} className={styles.form} noValidate>
+                <div className={styles.rowTwo}>
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="nombre">Nombre</label>
+                    <input
+                      id="nombre"
+                      name="nombre"
+                      type="text"
+                      placeholder="Ej. Juan"
+                      value={form.values.nombre}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    {form.errorFor('nombre') && <span className={styles.fieldError}>{form.errorFor('nombre')}</span>}
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="apellido">Apellido</label>
+                    <input
+                      id="apellido"
+                      name="apellido"
+                      type="text"
+                      placeholder="Ej. Pérez"
+                      value={form.values.apellido}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    {form.errorFor('apellido') && <span className={styles.fieldError}>{form.errorFor('apellido')}</span>}
+                  </div>
+                </div>
 
-            <div className={styles.inputGroup}>
-              <label>Contraseña</label>
-              <div style={{ position: 'relative' }}>
-                <input 
-                  type={showPassword ? "text" : "password"} 
-                  placeholder="••••••••" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  style={{ paddingRight: '40px' }}
-                  required 
-                />
+                <div className={styles.inputGroup}>
+                  <label htmlFor="cedula">Número de Cédula</label>
+                  <input
+                    id="cedula"
+                    name="cedula"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0000000000"
+                    maxLength={10}
+                    value={form.values.cedula}
+                    onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                  />
+                  {form.errorFor('cedula') && <span className={styles.fieldError}>{form.errorFor('cedula')}</span>}
+                </div>
+
+                <div className={styles.rowTwo}>
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="email">Correo Electrónico</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="tu@correo.com"
+                      value={form.values.email}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    {form.errorFor('email') && <span className={styles.fieldError}>{form.errorFor('email')}</span>}
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="telefono">Teléfono</label>
+                    <input
+                      id="telefono"
+                      name="telefono"
+                      type="text"
+                      inputMode="tel"
+                      placeholder="099 999 9999"
+                      value={form.values.telefono}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    {form.errorFor('telefono') && <span className={styles.fieldError}>{form.errorFor('telefono')}</span>}
+                  </div>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="password">Contraseña</label>
+                  <PasswordInput
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                    value={form.values.password}
+                    onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                  />
+                  {form.errorFor('password') && <span className={styles.fieldError}>{form.errorFor('password')}</span>}
+                </div>
+
+                <div className={styles.checkboxGroup}>
+                  <label className={styles.checkboxLabel}>
+                    <input
+                      type="checkbox"
+                      checked={termsAccepted}
+                      onChange={(e) => setTermsAccepted(e.target.checked)}
+                      required
+                    />
+                    <span>Acepto los Términos de Servicio y la Política de Privacidad de FoodLink Quito.</span>
+                  </label>
+                </div>
+
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: '#667A70',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 0
-                  }}
+                  type="submit"
+                  className={styles.submitBtn}
+                  disabled={form.isSubmitting || !termsAccepted}
+                  aria-busy={form.isSubmitting}
                 >
-                  {showPassword ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                  ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  )}
+                  {form.isSubmitting && <span className={styles.spinner} aria-hidden="true" />}
+                  {form.isSubmitting ? 'Procesando…' : 'Completar Registro'}
                 </button>
+              </form>
+
+              <div className={styles.switchBusiness}>
+                <p>¿Representas a una empresa o restaurante? <Link to="/registro/comercio">Registrarse como Comercio</Link></p>
               </div>
-            </div>
 
-            <div className={styles.checkboxGroup}>
-              <label className={styles.checkboxLabel}>
-                <input 
-                  type="checkbox" 
-                  checked={termsAccepted}
-                  onChange={(e) => setTermsAccepted(e.target.checked)}
-                  required 
-                />
-                <span>Acepto los Términos de Servicio y la Política de Privacidad de FoodLink Quito.</span>
-              </label>
-            </div>
-
-            <button type="submit" className={styles.submitBtn}>
-              Completar Registro
-            </button>
-          </form>
-
-          <div className={styles.switchBusiness}>
-            <p>¿Representas a una empresa o restaurante? <Link to="/registro/comercio">Registrarse como Comercio</Link></p>
-          </div>
-
-          <div className={styles.footerNav}>
-            <Link to="#">Privacidad</Link>
-            <span>•</span>
-            <Link to="#">Ayuda</Link>
-          </div>
+              <div className={styles.footerNav}>
+                <Link to="#">Privacidad</Link>
+                <span>•</span>
+                <Link to="#">Ayuda</Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

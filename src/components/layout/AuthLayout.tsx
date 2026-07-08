@@ -16,7 +16,10 @@ export default function AuthLayout({ eyebrow, title, description, stat, statLabe
   return (
     <div className="fl-auth">
       <aside className="fl-auth__panel fl-ticket-edge">
-        <Link to="/" className="fl-auth__logo"><Logo light /></Link>
+        <div className="fl-auth__panel-top">
+          <Link to="/" className="fl-auth__logo"><Logo light /></Link>
+          <Link to="/" className="fl-auth__back">⬅ Volver al inicio</Link>
+        </div>
 
         <div className="fl-auth__panel-body">
           <p className="fl-eyebrow" style={{ color: 'var(--fl-dorado)' }}>{eyebrow}</p>
@@ -33,7 +36,12 @@ export default function AuthLayout({ eyebrow, title, description, stat, statLabe
       </aside>
 
       <main className="fl-auth__content">
-        <div className="fl-auth__card">{children}</div>
+        <div className="fl-auth__card">
+          {children}
+          <p className="fl-auth__login-hint">
+            ¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link>
+          </p>
+        </div>
       </main>
     </div>
   )

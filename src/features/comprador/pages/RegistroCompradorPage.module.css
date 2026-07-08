@@ -17,12 +17,32 @@
   font-weight: 700;
   font-size: 1.35rem;
   color: #1F4D3C;
+  text-decoration: none;
+}
+.topBarLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.topBackLink {
+  text-decoration: none;
+  color: #667A70;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.topBackLink:hover {
+  color: #1F4D3C;
 }
 .topLoginLink {
   text-decoration: none;
   color: #1F4D3C;
   font-weight: 700;
   font-size: 0.95rem;
+  transition: opacity 0.2s;
+}
+.topLoginLink:hover {
+  opacity: 0.75;
 }
 .mainWrapper {
   display: flex;
@@ -116,10 +136,21 @@
   color: #17241D;
   outline: none;
   box-sizing: border-box;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.inputGroup input:hover {
+  border-color: #D1CCC1;
 }
 .inputGroup input:focus {
   border-color: #1F4D3C;
+  box-shadow: 0 0 0 3px rgba(31, 77, 60, 0.12);
+}
+.fieldError {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #B3261E;
 }
 .checkboxGroup {
   margin: 1.25rem 0;
@@ -139,6 +170,10 @@
 }
 .submitBtn {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
   background-color: #9A4225;
   color: white;
   border: none;
@@ -148,11 +183,31 @@
   font-family: 'Sora', sans-serif;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.15s;
   margin-bottom: 1.5rem;
+  box-shadow: 0 8px 20px rgba(154, 66, 37, 0.18);
 }
-.submitBtn:hover {
+.submitBtn:hover:not(:disabled) {
   background-color: #873e23;
+}
+.submitBtn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.submitBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 .switchBusiness {
   text-align: center;

@@ -1,6 +1,12 @@
 import type { Errores } from '../../../hooks/useForm'
 import type { DatosRegistroBeneficiario } from '../types/beneficiario.types'
-import { esRequerido, esRucEcuadorValido, esTelefonoEcuadorValido } from '../../../utils/validators'
+import {
+  esEmailValido,
+  esRequerido,
+  esRucEcuadorValido,
+  esTelefonoEcuadorValido,
+  longitudMinima,
+} from '../../../utils/validators'
 
 const EXTENSIONES_PERMITIDAS = ['pdf', 'jpg', 'jpeg', 'png']
 const TAMANO_MAXIMO_MB = 5
@@ -37,6 +43,18 @@ export function validarBeneficiario(values: DatosRegistroBeneficiario): Errores<
     errores.telefono = 'Ingresa un teléfono de contacto.'
   } else if (!esTelefonoEcuadorValido(values.telefono)) {
     errores.telefono = 'Formato no válido. Ej: 0991234567.'
+  }
+
+  if (!esRequerido(values.correo)) {
+    errores.correo = 'Ingresa un correo electrónico.'
+  } else if (!esEmailValido(values.correo)) {
+    errores.correo = 'El formato del correo no es válido.'
+  }
+
+  if (!esRequerido(values.password)) {
+    errores.password = 'Ingresa una contraseña.'
+  } else if (!longitudMinima(values.password, 8)) {
+    errores.password = 'La contraseña debe tener al menos 8 caracteres.'
   }
 
   if (!values.archivoDocumento) {
