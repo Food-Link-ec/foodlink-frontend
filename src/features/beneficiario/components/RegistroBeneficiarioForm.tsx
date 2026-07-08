@@ -4,6 +4,7 @@ import { useForm } from '../../../hooks/useForm'
 import FormField, { inputAria } from '../../../components/ui/FormField'
 import Button from '../../../components/ui/Button'
 import Alert from '../../../components/ui/Alert'
+import PasswordInput from '../../../components/ui/PasswordInput'
 import { registrarBeneficiario } from '../services/beneficiarioService'
 import { validarBeneficiario } from '../validation/beneficiarioValidation'
 import type { DatosRegistroBeneficiario } from '../types/beneficiario.types'
@@ -15,6 +16,8 @@ const VALORES_INICIALES: DatosRegistroBeneficiario = {
   direccion: '',
   telefono: '',
   archivoDocumento: null,
+  correo: '',
+  password: '',
 }
 
 export default function RegistroBeneficiarioForm() {
@@ -100,6 +103,30 @@ export default function RegistroBeneficiarioForm() {
           onChange={form.handleChange}
           onBlur={form.handleBlur}
           {...inputAria({ id: 'telefono', error: form.errorFor('telefono') })}
+        />
+      </FormField>
+
+      <FormField id="correo" label="Correo electrónico" required error={form.errorFor('correo')}>
+        <input
+          className="fl-input"
+          name="correo"
+          type="email"
+          placeholder="contacto@organizacion.org"
+          value={form.values.correo}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          {...inputAria({ id: 'correo', error: form.errorFor('correo') })}
+        />
+      </FormField>
+
+      <FormField id="password" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
+        <PasswordInput
+          name="password"
+          placeholder="••••••••"
+          value={form.values.password}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          {...inputAria({ id: 'password', error: form.errorFor('password'), hint: true })}
         />
       </FormField>
 

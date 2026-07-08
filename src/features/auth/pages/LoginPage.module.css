@@ -12,6 +12,18 @@
   flex-direction: column;
   justify-content: center;
 }
+.backLink {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4A5C54;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.backLink:hover {
+  color: #1F4D3C;
+}
 .logoBadge {
   margin-bottom: 2rem;
 }
@@ -116,10 +128,14 @@
   border: 1px solid #EAE3D5;
   border-radius: 8px;
   padding: 0 1rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.inputWrapper:hover {
+  border-color: #D1CCC1;
 }
 .inputWrapper:focus-within {
   border-color: #1F4D3C;
+  box-shadow: 0 0 0 3px rgba(31, 77, 60, 0.12);
 }
 .inputWrapper svg {
   margin-right: 0.75rem;
@@ -178,10 +194,12 @@
   text-decoration: none;
   color: inherit;
   margin-bottom: 0.75rem;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 .registerBtn:hover {
   background-color: #E2DFD6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(23, 36, 29, 0.08);
 }
 .btnLeft {
   display: flex;

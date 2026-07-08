@@ -5,6 +5,7 @@ import {
   esRequerido,
   esRucEcuadorValido,
   esTelefonoEcuadorValido,
+  longitudMinima,
 } from '../../../utils/validators'
 
 /**
@@ -39,6 +40,12 @@ export function validarComercio(values: DatosRegistroComercio): Errores<DatosReg
     errores.correo = 'Ingresa un correo electrónico.'
   } else if (!esEmailValido(values.correo)) {
     errores.correo = 'El formato del correo no es válido.'
+  }
+
+  if (!esRequerido(values.password)) {
+    errores.password = 'Ingresa una contraseña.'
+  } else if (!longitudMinima(values.password, 8)) {
+    errores.password = 'La contraseña debe tener al menos 8 caracteres.'
   }
 
   return errores

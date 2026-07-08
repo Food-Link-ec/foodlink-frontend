@@ -1,20 +1,36 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginComercio } from '../services/LoginService';
+import Alert from '../../../components/ui/Alert';
 import styles from './LoginPage.module.css';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate('/dashboard');
+    setErrorMsg(null);
+    setIsLoading(true);
+
+    try {
+      await loginComercio({ email, password });
+      navigate('/dashboard');
+    } catch (error: any) {
+      setErrorMsg(error.message || 'Correo o contraseña incorrectos');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.leftColumn}>
+        <Link to="/" className={styles.backLink}>⬅ Volver al inicio</Link>
+
         <div className={styles.logoBadge}>
           <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="20" rx="4" fill="#1F4D3C"/>
@@ -22,7 +38,7 @@ export const LoginPage = () => {
             <path d="M20 5v10" stroke="#FAF7F0" strokeWidth="2"/>
           </svg>
         </div>
-        
+
         <h1 className={styles.title}>
           Rescatando el <span className={styles.textTerracotta}>Sabor</span>,<br />
           Nutriendo el <span className={styles.textGold}>Futuro</span>.
@@ -54,6 +70,10 @@ export const LoginPage = () => {
             <h2>Ingresar</h2>
             <p>Bienvenido de vuelta a FoodLink Quito.</p>
           </div>
+
+          {errorMsg && (
+            <Alert variant="error" title="Acceso denegado">{errorMsg}</Alert>
+          )}
 
           <form onSubmit={handleLogin} className={styles.form}>
             <div className={styles.inputGroup}>
@@ -87,8 +107,8 @@ export const LoginPage = () => {
               </div>
             </div>
 
-            <button type="submit" className={styles.submitBtn}>
-              Iniciar Sesión
+            <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+              {isLoading ? 'Verificando...' : 'Iniciar Sesión'}
             </button>
           </form>
 

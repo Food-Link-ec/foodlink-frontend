@@ -6,6 +6,14 @@ import RegistroBeneficiarioPage from '../features/beneficiario/pages/RegistroBen
 import RegistroCompradorPage from '../features/comprador/pages/RegistroCompradorPage';
 import DashboardComercioPage from '../features/comercio/pages/DashboardComercioPage';
 
+const RutaProtegida = ({ children }: { children: React.ReactNode }) => {
+  const token = localStorage.getItem('accessToken');
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+};
+
 export default function AppRouter() {
   return (
     <Routes>
@@ -14,7 +22,14 @@ export default function AppRouter() {
       <Route path="/registro/comercio" element={<RegistroComercioPage />} />
       <Route path="/registro/beneficiario" element={<RegistroBeneficiarioPage />} />
       <Route path="/registro/comprador" element={<RegistroCompradorPage />} />
-      <Route path="/dashboard" element={<DashboardComercioPage />} />
+      <Route 
+        path="/dashboard" 
+        element={
+          <RutaProtegida>
+            <DashboardComercioPage />
+          </RutaProtegida>
+        } 
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
