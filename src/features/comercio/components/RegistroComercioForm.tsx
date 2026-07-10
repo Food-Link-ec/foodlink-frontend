@@ -13,13 +13,9 @@ const VALORES_INICIALES: DatosRegistroComercio = {
   ruc: '',
   direccion: '',
   telefono: '',
-  correo: '',
-<<<<<<< HEAD
-  clave: '',
+  email: '',
+  password: '',
   confirmarClave: '',
-=======
-  password: '', 
->>>>>>> dev
 }
 
 export default function RegistroComercioForm() {
@@ -32,7 +28,7 @@ export default function RegistroComercioForm() {
       try {
         await registrarComercio(values)
       } catch (error: any) {
-        const mensajeReal = error.response?.data?.message || "No pudimos completar el registro"
+        const mensajeReal = error.message || "No pudimos completar el registro"
         throw new Error(mensajeReal)
       }
     },
@@ -86,20 +82,19 @@ export default function RegistroComercioForm() {
         />
       </FormField>
 
-      <FormField id="correo" label="Correo electrónico" required error={form.errorFor('correo')}>
+      <FormField id="email" label="Correo electrónico" required error={form.errorFor('email')}>
         <input
-          className="fl-input" name="correo" type="email" placeholder="contacto@comercio.com"
-          value={form.values.correo} onChange={form.handleChange} onBlur={form.handleBlur}
-          {...inputAria({ id: 'correo', error: form.errorFor('correo') })}
+          className="fl-input" name="email" type="email" placeholder="contacto@comercio.com"
+          value={form.values.email} onChange={form.handleChange} onBlur={form.handleBlur}
+          {...inputAria({ id: 'email', error: form.errorFor('email') })}
         />
       </FormField>
 
-<<<<<<< HEAD
-      <FormField id="clave" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('clave')}>
+      <FormField id="password" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
         <PasswordInput
-          name="clave" autoComplete="new-password" placeholder="••••••••"
-          value={form.values.clave} onChange={form.handleChange} onBlur={form.handleBlur}
-          {...inputAria({ id: 'clave', error: form.errorFor('clave'), hint: true })}
+          name="password" autoComplete="new-password" placeholder="••••••••"
+          value={form.values.password} onChange={form.handleChange} onBlur={form.handleBlur}
+          {...inputAria({ id: 'password', error: form.errorFor('password'), hint: true })}
         />
       </FormField>
 
@@ -108,16 +103,6 @@ export default function RegistroComercioForm() {
           name="confirmarClave" autoComplete="new-password" placeholder="••••••••"
           value={form.values.confirmarClave} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'confirmarClave', error: form.errorFor('confirmarClave') })}
-=======
-      <FormField id="password" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
-        <PasswordInput
-          name="password"
-          placeholder="••••••••"
-          value={form.values.password}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          {...inputAria({ id: 'password', error: form.errorFor('password'), hint: true })}
->>>>>>> dev
         />
       </FormField>
 

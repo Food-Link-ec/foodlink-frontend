@@ -22,14 +22,14 @@ export function validarComercio(values: DatosRegistroComercio): Errores<DatosReg
   if (!esRequerido(values.telefono)) errores.telefono = 'Ingresa un teléfono de contacto.'
   else if (!esTelefonoEcuadorValido(values.telefono)) errores.telefono = 'Formato no válido. Ej: 0991234567.'
 
-  if (!esRequerido(values.correo)) errores.correo = 'Ingresa un correo electrónico.'
-  else if (!esEmailValido(values.correo)) errores.correo = 'El formato del correo no es válido.'
+  if (!esRequerido(values.email)) errores.email = 'Ingresa un correo electrónico.'
+  else if (!esEmailValido(values.email)) errores.email = 'El formato del correo no es válido.'
 
-  if (!esRequerido(values.clave)) errores.clave = 'Ingresa una contraseña.'
-  else if (!esPasswordSegura(values.clave)) errores.clave = 'La contraseña debe tener al menos 8 caracteres.'
+  if (!esRequerido(values.password)) errores.password = 'Ingresa una contraseña.'
+  else if (!esPasswordSegura(values.password)) errores.password = 'La contraseña debe tener al menos 8 caracteres.'
 
   if (!esRequerido(values.confirmarClave)) errores.confirmarClave = 'Confirma tu contraseña.'
-  else if (values.confirmarClave !== values.clave) errores.confirmarClave = 'Las contraseñas no coinciden.'
+  else if (values.confirmarClave !== values.password) errores.confirmarClave = 'Las contraseñas no coinciden.'
 
   if (!esRequerido(values.password)) {
     errores.password = 'Ingresa una contraseña.'

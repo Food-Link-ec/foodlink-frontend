@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginComercio } from '../services/LoginService';
 import Alert from '../../../components/ui/Alert';
 import styles from './LoginPage.module.css';
+import logoImg from '../../../assets/images/foodlink-logo.png.png';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -29,37 +30,43 @@ export const LoginPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.leftColumn}>
-        <Link to="/" className={styles.backLink}>⬅ Volver al inicio</Link>
+                 <div className={styles.logoBadge}>
+                <img src={logoImg} alt="FoodLink" className={styles.logoImg} />
+                <span className={styles.logoWordmark}>FoodLink</span>
+          </div>
+        <div className={styles.leftTop}>
+          <Link to="/" className={styles.backLink}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+            Volver al inicio
+          </Link>
 
-        <div className={styles.logoBadge}>
-          <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="40" height="20" rx="4" fill="#1F4D3C"/>
-            <path d="M12 10c0 3 4 5 8 5s8-2 8-5-4-5-8-5-8 2-8 5z" stroke="#FAF7F0" strokeWidth="2"/>
-            <path d="M20 5v10" stroke="#FAF7F0" strokeWidth="2"/>
-          </svg>
         </div>
 
-        <h1 className={styles.title}>
-          Rescatando el <span className={styles.textTerracotta}>Sabor</span>,<br />
-          Nutriendo el <span className={styles.textGold}>Futuro</span>.
-        </h1>
-        
-        <p className={styles.subtitle}>
-          Únete a la red de abundancia digna de Quito.<br />
-          Conectamos excedentes gastronómicos con<br />
-          quienes más los necesitan.
-        </p>
+        <div className={styles.leftBody}>
+          <h1 className={styles.title}>
+            Rescatando el <span className={styles.textTerracotta}>Sabor</span>,<br />
+            Nutriendo el <span className={styles.textGold}>Futuro</span>.
+          </h1>
 
-        <div className={styles.statsRow}>
-          <div className={styles.statCard}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#873e23" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
-            <h3>500kg+</h3>
-            <p>Rescatados Semanalmente</p>
-          </div>
-          <div className={styles.statCard}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#873e23" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-            <h3>120+</h3>
-            <p>Alianzas Activas</p>
+          <p className={styles.subtitle}>
+            Únete a la red de abundancia digna de Quito. Conectamos excedentes gastronómicos con quienes más los necesitan.
+          </p>
+
+          <div className={styles.statsRow}>
+            <div className={styles.statCard}>
+              <div className={styles.statIconWrapper}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FAF7F0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+              </div>
+              <h3>500kg+</h3>
+              <p>Rescatados Semanalmente</p>
+            </div>
+            <div className={styles.statCard}>
+              <div className={`${styles.statIconWrapper} ${styles.statIconWrapperAlt}`}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FAF7F0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </div>
+              <h3>120+</h3>
+              <p>Alianzas Activas</p>
+            </div>
           </div>
         </div>
       </div>

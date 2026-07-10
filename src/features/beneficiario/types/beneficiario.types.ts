@@ -3,7 +3,6 @@ export interface DatosRegistroBeneficiario {
   ruc: string
   direccion: string
   telefono: string
-  correo: string
   clave: string
   confirmarClave: string
   archivoDocumento: File | null

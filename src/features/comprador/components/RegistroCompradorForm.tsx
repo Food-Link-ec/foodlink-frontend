@@ -12,9 +12,9 @@ const VALORES_INICIALES: DatosRegistroComprador = {
   nombre: '',
   apellido: '',
   cedula: '',
-  correo: '',
+  email: '',
   telefono: '',
-  clave: '',
+  password: '',
   confirmarClave: '',
 }
 
@@ -71,11 +71,11 @@ export default function RegistroCompradorForm() {
         />
       </FormField>
 
-      <FormField id="correo" label="Correo electrónico" required error={form.errorFor('correo')}>
+      <FormField id="email" label="Correo electrónico" required error={form.errorFor('email')}>
         <input
-          className="fl-input" name="correo" type="email" placeholder="tú@ejemplo.com"
-          value={form.values.correo} onChange={form.handleChange} onBlur={form.handleBlur}
-          {...inputAria({ id: 'correo', error: form.errorFor('correo') })}
+          className="fl-input" name="email" type="email" placeholder="tú@ejemplo.com"
+          value={form.values.email} onChange={form.handleChange} onBlur={form.handleBlur}
+          {...inputAria({ id: 'email', error: form.errorFor('email'), hint: true })}
         />
       </FormField>
 
@@ -83,15 +83,15 @@ export default function RegistroCompradorForm() {
         <input
           className="fl-input" name="telefono" inputMode="tel" placeholder="0991234567"
           value={form.values.telefono} onChange={form.handleChange} onBlur={form.handleBlur}
-          {...inputAria({ id: 'telefono', error: form.errorFor('telefono') })}
+          {...inputAria({ id: 'telefono', error: form.errorFor('telefono'), hint: true })}
         />
       </FormField>
 
-      <FormField id="clave" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('clave')}>
+      <FormField id="clave" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
         <PasswordInput
           name="clave" autoComplete="new-password" placeholder="••••••••"
-          value={form.values.clave} onChange={form.handleChange} onBlur={form.handleBlur}
-          {...inputAria({ id: 'clave', error: form.errorFor('clave'), hint: true })}
+          value={form.values.password} onChange={form.handleChange} onBlur={form.handleBlur}
+          {...inputAria({ id: 'clave', error: form.errorFor('password'), hint: true })}
         />
       </FormField>
 

@@ -3,13 +3,9 @@ export interface DatosRegistroComercio {
   ruc: string
   direccion: string
   telefono: string
-  correo: string
-<<<<<<< HEAD
-  clave: string
-  confirmarClave: string
-=======
+  email: string
   password: string
->>>>>>> dev
+  confirmarClave?: string
 }
 
 export type EstadoComercio = 'PENDIENTE_VERIFICACION' | 'VERIFICADO' | 'RECHAZADO'
@@ -20,6 +16,6 @@ export interface ComercioRegistrado {
   ruc: string
   direccion: string
   telefono: string
-  correo: string
+  email: string
   estado: EstadoComercio
 }

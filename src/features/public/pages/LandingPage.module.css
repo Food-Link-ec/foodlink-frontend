@@ -3,6 +3,7 @@
   color: #17241D;
   background-color: #FAF7F0;
   width: 100%;
+  overflow-x: hidden;
 }
 .navbar {
   display: flex;
@@ -13,6 +14,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 .logoContainer {
   display: flex;
@@ -20,13 +23,11 @@
   gap: 0.5rem;
 }
 .logoIcon {
-  width: 28px;
-  height: 28px;
-  background-color: #1F4D3C;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 .logoText {
   font-family: 'Sora', sans-serif;
@@ -55,12 +56,14 @@
   display: flex;
   align-items: center;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 .loginLink {
   text-decoration: none;
   color: #1F4D3C;
   font-weight: 700;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 .navPrimaryBtn {
   background-color: #B5502E;
@@ -72,6 +75,7 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  white-space: nowrap;
 }
 .navPrimaryBtn:hover {
   background-color: #14332A;
@@ -81,18 +85,21 @@
   min-height: 92vh;
   display: flex;
   align-items: center;
-  padding: 0 8%;
+  padding: 3rem 8%;
   background-size: cover;
   background-position: center;
+  box-sizing: border-box;
 }
 .heroContent {
   max-width: 580px;
+  width: 100%;
   background: rgba(250, 247, 240, 0.94);
   backdrop-filter: blur(12px);
   padding: 3rem;
   border-radius: 16px;
   margin-right: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
 }
 .badge {
   background-color: #D1ECE1;
@@ -123,6 +130,7 @@
 .heroButtons {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 .heroPrimaryBtn {
   background-color: #B5502E;
@@ -158,6 +166,7 @@
   padding: 5rem 8%;
   gap: 2rem;
   background-color: #FAF7F0;
+  box-sizing: border-box;
 }
 .statBox {
   background: white;
@@ -166,6 +175,7 @@
   flex: 1;
   box-shadow: 0 10px 30px rgba(23, 36, 29, 0.03);
   border: 1px solid #EAE3D5;
+  box-sizing: border-box;
 }
 .statIconWrapper {
   width: 40px;
@@ -200,12 +210,15 @@
 .processSection {
   padding: 5rem 8%;
   background-color: #FAF7F0;
+  box-sizing: border-box;
 }
 .processHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 3rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 .processHeader h2 {
   font-family: 'Sora', sans-serif;
@@ -224,6 +237,7 @@
   text-decoration: none;
   font-weight: 700;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 .processGrid {
   display: flex;
@@ -241,6 +255,7 @@
   background-position: center 25%;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 .processMainCard::after {
   content: '';
@@ -280,6 +295,7 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
+  box-sizing: border-box;
 }
 .processSideCardGreen { background-color: #1F4D3C; }
 .processSideCardTerracotta { background-color: #9A4225; }
@@ -303,6 +319,7 @@
 .rolesSection {
   padding: 6rem 8%;
   background-color: #FAF7F0;
+  box-sizing: border-box;
 }
 .rolesTitle {
   font-family: 'Sora', sans-serif;
@@ -324,6 +341,7 @@
   box-shadow: 0 4px 20px rgba(23, 36, 29, 0.02);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 .roleImgPlaceholderOne, .roleImgPlaceholderTwo, .roleImgPlaceholderThree {
   height: 220px;
@@ -367,6 +385,7 @@
   background-color: #EAE3D5;
   padding: 4rem 8% 3rem 8%;
   border-top: 1px solid #D1CCC1;
+  box-sizing: border-box;
 }
 .footerTop {
   display: flex;
@@ -374,6 +393,8 @@
   align-items: center;
   padding-bottom: 3rem;
   border-bottom: 1px solid #D1CCC1;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 .footerLogo {
   display: flex;
@@ -386,12 +407,18 @@
   font-size: 1.2rem;
   color: #1F4D3C;
 }
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .footerLinks a {
   margin: 0 1.5rem;
   text-decoration: none;
   color: #4A5C54;
   font-size: 0.9rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 .footerSocials {
   display: flex;
@@ -405,6 +432,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 .footerBottom {
   padding-top: 2rem;
@@ -413,5 +441,163 @@
   font-size: 0.85rem;
   color: #667A70;
   font-weight: 500;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 .footerBottom p { margin: 0; }
+
+/* ============ RESPONSIVE ============ */
+
+/* Tablets / small laptops */
+@media (max-width: 1024px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+  .heroContent {
+    max-width: 100%;
+  }
+  .statsSection {
+    flex-wrap: wrap;
+  }
+  .statBox {
+    flex: 1 1 calc(50% - 1rem);
+    min-width: 220px;
+  }
+  .processGrid {
+    flex-direction: column;
+  }
+  .processMainCard {
+    height: 380px;
+  }
+  .processSideColumn {
+    flex-direction: row;
+  }
+  .rolesGrid {
+    flex-wrap: wrap;
+  }
+  .roleCard {
+    flex: 1 1 calc(50% - 1rem);
+    min-width: 260px;
+  }
+}
+
+/* Tablets portrait / large phones */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 6%;
+  }
+  .navActions {
+    gap: 1rem;
+  }
+  .heroSection {
+    min-height: auto;
+    padding: 2.5rem 6%;
+  }
+  .heroContent {
+    padding: 2rem;
+  }
+  .heroTitle {
+    font-size: 2rem;
+  }
+  .heroSubtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.75rem;
+  }
+  .heroButtons {
+    flex-direction: column;
+  }
+  .heroPrimaryBtn, .heroSecondaryBtn {
+    width: 100%;
+    text-align: center;
+  }
+  .statsSection {
+    padding: 3rem 6%;
+    flex-direction: column;
+  }
+  .statBox {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .processSection, .rolesSection, .footerSection {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+  .processHeader {
+    align-items: flex-start;
+  }
+  .processHeader h2 {
+    font-size: 1.75rem;
+  }
+  .processSideColumn {
+    flex-direction: column;
+  }
+  .rolesGrid {
+    flex-direction: column;
+  }
+  .roleCard {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .rolesTitle {
+    font-size: 1.75rem;
+    margin-bottom: 2.5rem;
+  }
+  .footerTop {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .footerLinks {
+    justify-content: flex-start;
+  }
+  .footerLinks a {
+    margin: 0 1rem 0 0;
+  }
+  .footerBottom {
+    flex-direction: column;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.85rem 5%;
+  }
+  .logoText {
+    font-size: 1.15rem;
+  }
+  .navPrimaryBtn {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.8rem;
+  }
+  .loginLink {
+    font-size: 0.85rem;
+  }
+  .heroContent {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  .heroTitle {
+    font-size: 1.6rem;
+    letter-spacing: -0.5px;
+  }
+  .badge {
+    font-size: 0.7rem;
+  }
+  .statBox {
+    padding: 1.75rem;
+  }
+  .statBox h2 {
+    font-size: 2.1rem;
+  }
+  .processMainCard {
+    height: 320px;
+    padding: 1.75rem;
+  }
+  .processSideCardGreen, .processSideCardTerracotta {
+    padding: 1.75rem;
+  }
+  .roleImgPlaceholderOne, .roleImgPlaceholderTwo, .roleImgPlaceholderThree {
+    height: 180px;
+  }
+}
