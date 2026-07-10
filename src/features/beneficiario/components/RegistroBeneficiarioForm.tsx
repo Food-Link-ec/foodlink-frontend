@@ -19,6 +19,8 @@ const VALORES_INICIALES: DatosRegistroBeneficiario = {
   clave: '',
   confirmarClave: '',
   archivoDocumento: null,
+  correo: '',
+  password: '',
 }
 
 export default function RegistroBeneficiarioForm() {
@@ -110,6 +112,30 @@ export default function RegistroBeneficiarioForm() {
           name="confirmarClave" autoComplete="new-password" placeholder="••••••••"
           value={form.values.confirmarClave} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'confirmarClave', error: form.errorFor('confirmarClave') })}
+        />
+      </FormField>
+
+      <FormField id="correo" label="Correo electrónico" required error={form.errorFor('correo')}>
+        <input
+          className="fl-input"
+          name="correo"
+          type="email"
+          placeholder="contacto@organizacion.org"
+          value={form.values.correo}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          {...inputAria({ id: 'correo', error: form.errorFor('correo') })}
+        />
+      </FormField>
+
+      <FormField id="password" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
+        <PasswordInput
+          name="password"
+          placeholder="••••••••"
+          value={form.values.password}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          {...inputAria({ id: 'password', error: form.errorFor('password'), hint: true })}
         />
       </FormField>
 

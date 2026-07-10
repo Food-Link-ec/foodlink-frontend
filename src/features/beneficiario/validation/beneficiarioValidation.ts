@@ -2,10 +2,17 @@ import type { Errores } from '../../../hooks/useForm'
 import type { DatosRegistroBeneficiario } from '../types/beneficiario.types'
 import {
   esEmailValido,
+<<<<<<< HEAD
   esPasswordSegura,
   esRequerido,
   esRucEcuadorValido,
   esTelefonoEcuadorValido,
+=======
+  esRequerido,
+  esRucEcuadorValido,
+  esTelefonoEcuadorValido,
+  longitudMinima,
+>>>>>>> dev
 } from '../../../utils/validators'
 
 const EXTENSIONES_PERMITIDAS = ['pdf', 'jpg', 'jpeg', 'png']
@@ -43,6 +50,18 @@ export function validarBeneficiario(values: DatosRegistroBeneficiario): Errores<
 
   if (!esRequerido(values.confirmarClave)) errores.confirmarClave = 'Confirma tu contraseña.'
   else if (values.confirmarClave !== values.clave) errores.confirmarClave = 'Las contraseñas no coinciden.'
+
+  if (!esRequerido(values.correo)) {
+    errores.correo = 'Ingresa un correo electrónico.'
+  } else if (!esEmailValido(values.correo)) {
+    errores.correo = 'El formato del correo no es válido.'
+  }
+
+  if (!esRequerido(values.password)) {
+    errores.password = 'Ingresa una contraseña.'
+  } else if (!longitudMinima(values.password, 8)) {
+    errores.password = 'La contraseña debe tener al menos 8 caracteres.'
+  }
 
   if (!values.archivoDocumento) {
     errores.archivoDocumento = 'Adjunta el documento de validación (PDF o imagen).'

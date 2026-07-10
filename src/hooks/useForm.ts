@@ -21,13 +21,26 @@ export function useForm<T extends object>({ initialValues, validate, onSubmit }:
   const handleChange = useCallback((event: CampoEvento) => {
     const { name, value, type } = event.target
     const checked = (event.target as HTMLInputElement).checked
+    
     setValues((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+    
+
+    setErrors((prev) => {
+      if (prev[name as keyof T]) {
+        const copy = { ...prev }
+        delete copy[name as keyof T]
+        return copy
+      }
+      return prev
+    })
   }, [])
 
   const handleBlur = useCallback((event: FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name } = event.target
     setTouched((prev) => ({ ...prev, [name]: true }))
-    setErrors((prev) => ({ ...prev, ...validate(values) }))
+    
+    const currentErrors = validate(values)
+    setErrors((prev) => ({ ...prev, [name]: currentErrors[name as keyof T] }))
   }, [validate, values])
 
   const handleSubmit = useCallback(

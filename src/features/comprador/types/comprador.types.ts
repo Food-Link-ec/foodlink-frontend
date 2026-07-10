@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export interface DatosRegistroComprador {
   nombre: string
   apellido: string
@@ -15,4 +16,14 @@ export interface CompradorRegistrado {
   cedula: string
   correo: string
   telefono: string
+=======
+
+export interface DatosRegistroComprador {
+  cedula: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  password: string;
+>>>>>>> dev
 }

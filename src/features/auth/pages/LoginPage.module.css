@@ -1,0 +1,242 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #FAF7F0;
+  font-family: 'Inter', sans-serif;
+  color: #17241D;
+}
+.leftColumn {
+  flex: 1.1;
+  padding: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.backLink {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4A5C54;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.backLink:hover {
+  color: #1F4D3C;
+}
+.logoBadge {
+  margin-bottom: 2rem;
+}
+.title {
+  font-family: 'Sora', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #1F4D3C;
+  margin-bottom: 1.5rem;
+}
+.textTerracotta {
+  color: #9A4225;
+}
+.textGold {
+  color: #8B6508;
+}
+.subtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4A5C54;
+  margin-bottom: 4rem;
+  max-width: 90%;
+}
+.statsRow {
+  display: flex;
+  gap: 1.5rem;
+}
+.statCard {
+  background-color: #F3EFE6;
+  border: 1px solid #EAE3D5;
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-width: 200px;
+}
+.statCard svg {
+  margin-bottom: 0.75rem;
+}
+.statCard h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.5rem;
+  color: #1F4D3C;
+  margin: 0 0 0.25rem 0;
+}
+.statCard p {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4A5C54;
+  margin: 0;
+}
+.rightColumn {
+  flex: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.loginCard {
+  background: white;
+  padding: 3.5rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+}
+.cardHeader h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 2rem;
+  color: #17241D;
+  margin: 0 0 0.25rem 0;
+}
+.cardHeader p {
+  color: #667A70;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+.inputGroup {
+  margin-bottom: 1.5rem;
+}
+.inputGroup label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4A5C54;
+  margin-bottom: 0.5rem;
+}
+.passwordHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.forgotLink {
+  font-size: 0.8rem;
+  color: #9A4225;
+  text-decoration: none;
+  font-weight: 700;
+}
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: #F5F3EC;
+  border: 1px solid #EAE3D5;
+  border-radius: 8px;
+  padding: 0 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.inputWrapper:hover {
+  border-color: #D1CCC1;
+}
+.inputWrapper:focus-within {
+  border-color: #1F4D3C;
+  box-shadow: 0 0 0 3px rgba(31, 77, 60, 0.12);
+}
+.inputWrapper svg {
+  margin-right: 0.75rem;
+}
+.inputWrapper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.85rem 0;
+  font-size: 0.95rem;
+  color: #17241D;
+  outline: none;
+}
+.submitBtn {
+  width: 100%;
+  background-color: #9A4225;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin: 1rem 0 2.5rem 0;
+}
+.submitBtn:hover {
+  background-color: #873e23;
+}
+.registerSection {
+  border-top: 1px solid #EAE3D5;
+  padding-top: 2rem;
+  position: relative;
+}
+.registerTitle {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #667A70;
+  letter-spacing: 1px;
+  margin: 0;
+}
+.registerBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #EBE8E0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 0.75rem;
+  transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.registerBtn:hover {
+  background-color: #E2DFD6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(23, 36, 29, 0.08);
+}
+.btnLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.btnText h4 {
+  margin: 0 0 0.15rem 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #17241D;
+}
+.btnText span {
+  font-size: 0.75rem;
+  color: #667A70;
+}
+.chevron {
+  color: #667A70;
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.footer a {
+  font-size: 0.85rem;
+  color: #667A70;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+.dot {
+  color: #D1CCC1;
+  font-size: 0.85rem;
+}

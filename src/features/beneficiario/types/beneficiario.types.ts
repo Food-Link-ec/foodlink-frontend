@@ -7,6 +7,8 @@ export interface DatosRegistroBeneficiario {
   clave: string
   confirmarClave: string
   archivoDocumento: File | null
+  correo: string
+  password: string
 }
 
 export type EstadoBeneficiario = 'PENDIENTE_VERIFICACION' | 'VERIFICADO' | 'RECHAZADO'

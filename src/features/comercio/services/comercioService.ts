@@ -1,8 +1,21 @@
-import type { ComercioRegistrado, DatosRegistroComercio } from '../types/comercio.types'
+import api from '../../../api/foodLinkApi';
+import type{ DatosRegistroComercio } from '../types/comercio.types';
+import { getMensajeErrorRegistro } from '../../../utils/apiErrors';
 
-const SIMULAR_BACKEND = true
-const API_BASE_URL = import.meta.env?.VITE_API_URL ?? '/api'
+export const registrarComercio = async (datosFormulario: DatosRegistroComercio) => {
+  try {
+    const payload = {
+      ruc: datosFormulario.ruc,
+      nombre: datosFormulario.nombre,
+      telefono: datosFormulario.telefono,
+      email: datosFormulario.correo,
+      provincia: 'Pichincha',
+      ciudad: 'Quito',
+      callePrincipal: datosFormulario.direccion,
+      password: datosFormulario.password,
+    };
 
+<<<<<<< HEAD
 export async function registrarComercio(datos: DatosRegistroComercio): Promise<ComercioRegistrado> {
   if (SIMULAR_BACKEND) return simularRegistro(datos)
 
@@ -31,3 +44,12 @@ async function simularRegistro(datos: DatosRegistroComercio): Promise<ComercioRe
   const { clave, confirmarClave, ...resto } = datos
   return { id: 'com_' + Date.now(), estado: 'PENDIENTE_VERIFICACION', ...resto }
 }
+=======
+    const response = await api.post('/api/v1/comercios', payload);
+    return response.data;
+  } catch (error) {
+    console.error("Error al registrar comercio:", error);
+    throw new Error(getMensajeErrorRegistro(error));
+  }
+};
+>>>>>>> dev

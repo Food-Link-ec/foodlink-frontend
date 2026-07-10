@@ -27,7 +27,8 @@ export default function AuthLayout({
 }: AuthLayoutProps) {
   return (
     <div className="fl-auth">
-      <aside className="fl-auth__panel">
+      <aside className="fl-auth__panel fl-ticket-edge">
+        {/* Textura de fondo SVG */}
         <div className="fl-auth__texture" aria-hidden="true">
           <svg width="100%" height="100%" viewBox="0 0 400 700" preserveAspectRatio="xMidYMid slice">
             <circle cx="360" cy="50" r="160" fill="url(#g1)" />
@@ -39,14 +40,26 @@ export default function AuthLayout({
           </svg>
         </div>
 
-        <Link to="/login" className="fl-auth__logo"><Logo light size={34} /></Link>
+        {/* Encabezado del panel */}
+        <div className="fl-auth__panel-top">
+          <Link to="/" className="fl-auth__logo">
+            <Logo light size={34} />
+          </Link>
+          {backTo && (
+            <Link to={backTo} className="fl-auth__back">
+              {backLabel || '← Volver'}
+            </Link>
+          )}
+        </div>
 
+        {/* Cuerpo del panel */}
         <div className="fl-auth__panel-body">
           <span className="fl-auth__eyebrow-badge">{eyebrow}</span>
           <h1 className="fl-auth__title">{title}</h1>
           <p className="fl-auth__description">{description}</p>
         </div>
 
+        {/* Estadísticas */}
         {stat && (
           <div className="fl-auth__stat">
             <span className="fl-auth__stat-value fl-mono">{stat}</span>
@@ -55,10 +68,18 @@ export default function AuthLayout({
         )}
       </aside>
 
+      {/* Contenido principal */}
       <main className="fl-auth__content">
         <div className="fl-auth__card">
+          {/* Si existe un BackLink específico, lo mostramos */}
           {backTo && backLabel && <BackLink to={backTo} label={backLabel} />}
+          
           {children}
+
+          {/* Pie de página del formulario */}
+          <p className="fl-auth__login-hint">
+            ¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link>
+          </p>
         </div>
       </main>
     </div>

@@ -6,6 +6,7 @@ import {
   esRequerido,
   esRucEcuadorValido,
   esTelefonoEcuadorValido,
+  longitudMinima,
 } from '../../../utils/validators'
 
 export function validarComercio(values: DatosRegistroComercio): Errores<DatosRegistroComercio> {
@@ -29,6 +30,12 @@ export function validarComercio(values: DatosRegistroComercio): Errores<DatosReg
 
   if (!esRequerido(values.confirmarClave)) errores.confirmarClave = 'Confirma tu contraseña.'
   else if (values.confirmarClave !== values.clave) errores.confirmarClave = 'Las contraseñas no coinciden.'
+
+  if (!esRequerido(values.password)) {
+    errores.password = 'Ingresa una contraseña.'
+  } else if (!longitudMinima(values.password, 8)) {
+    errores.password = 'La contraseña debe tener al menos 8 caracteres.'
+  }
 
   return errores
 }

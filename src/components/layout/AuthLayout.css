@@ -1,3 +1,4 @@
+/* --- Estructura Principal --- */
 .fl-auth {
   min-height: 100vh;
   display: grid;
@@ -16,11 +17,29 @@
   justify-content: space-between;
 }
 
+/* --- Panel Superior y Capas --- */
 .fl-auth__texture { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.fl-auth__logo, .fl-auth__panel-body, .fl-auth__stat { position: relative; z-index: 1; }
+.fl-auth__logo, .fl-auth__panel-body, .fl-auth__stat, .fl-auth__panel-top { position: relative; z-index: 1; }
+
+.fl-auth__panel-top { display: flex; align-items: center; justify-content: space-between; gap: var(--fl-space-4); }
 .fl-auth__logo { text-decoration: none; width: fit-content; }
 
-.fl-auth__panel-body { margin-top: var(--fl-space-8); max-width: 340px; }
+/* --- Botón de Regreso --- */
+.fl-auth__back {
+  font-size: var(--fl-fs-xs);
+  font-weight: 600;
+  color: rgba(250, 247, 240, 0.85);
+  text-decoration: none;
+  padding: var(--fl-space-1) var(--fl-space-3);
+  border: 1px solid rgba(250, 247, 240, 0.3);
+  border-radius: var(--fl-radius-full);
+  transition: background-color 0.15s var(--fl-ease), border-color 0.15s var(--fl-ease);
+  white-space: nowrap;
+}
+.fl-auth__back:hover { background: rgba(250, 247, 240, 0.12); border-color: rgba(250, 247, 240, 0.5); }
+
+/* --- Tipografía y Contenido del Panel --- */
+.fl-auth__panel-body { margin-top: var(--fl-space-8); max-width: 360px; }
 
 .fl-auth__eyebrow-badge {
   display: inline-flex;
@@ -36,31 +55,22 @@
   border-radius: var(--fl-radius-full);
 }
 
-.fl-auth__title {
-  color: #fff;
-  font-size: var(--fl-fs-2xl);
-  font-weight: 700;
-  line-height: 1.18;
-  margin-top: var(--fl-space-4);
-}
+.fl-auth__title { color: #fff; font-size: var(--fl-fs-2xl); font-weight: 700; line-height: 1.18; margin-top: var(--fl-space-4); }
+.fl-auth__description { color: rgba(250, 247, 240, 0.8); font-size: var(--fl-fs-md); line-height: 1.6; margin-top: var(--fl-space-3); }
 
-.fl-auth__description {
-  color: rgba(250, 247, 240, 0.78);
-  font-size: var(--fl-fs-md);
-  line-height: 1.65;
-  margin-top: var(--fl-space-3);
-}
-
+/* --- Estadísticas --- */
 .fl-auth__stat {
   display: flex;
   align-items: baseline;
   gap: var(--fl-space-3);
   border-top: 1px dashed rgba(250, 247, 240, 0.25);
   padding-top: var(--fl-space-4);
+  margin-top: var(--fl-space-6);
 }
 .fl-auth__stat-value { font-size: var(--fl-fs-2xl); font-weight: 700; color: var(--fl-dorado); line-height: 1; }
 .fl-auth__stat-label { font-size: var(--fl-fs-sm); color: rgba(250, 247, 240, 0.65); max-width: 140px; line-height: 1.4; }
 
+/* --- Área de Login (Formulario) --- */
 .fl-auth__content {
   display: flex;
   align-items: center;
@@ -79,6 +89,18 @@
   padding: var(--fl-space-6);
 }
 
+.fl-auth__login-hint {
+  margin: var(--fl-space-5) 0 0;
+  padding-top: var(--fl-space-4);
+  border-top: 1px dashed var(--fl-border-fuerte);
+  text-align: center;
+  font-size: var(--fl-fs-sm);
+  color: var(--fl-ink-soft);
+}
+.fl-auth__login-hint a { font-weight: 700; text-decoration: none; color: var(--fl-verde-bosque); }
+.fl-auth__login-hint a:hover { text-decoration: underline; }
+
+/* --- Responsividad --- */
 @media (max-width: 860px) {
   .fl-auth { grid-template-columns: 1fr; }
   .fl-auth__panel { padding: var(--fl-space-5); min-height: 240px; }

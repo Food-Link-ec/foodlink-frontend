@@ -14,8 +14,12 @@ const VALORES_INICIALES: DatosRegistroComercio = {
   direccion: '',
   telefono: '',
   correo: '',
+<<<<<<< HEAD
   clave: '',
   confirmarClave: '',
+=======
+  password: '', 
+>>>>>>> dev
 }
 
 export default function RegistroComercioForm() {
@@ -25,7 +29,12 @@ export default function RegistroComercioForm() {
     initialValues: VALORES_INICIALES,
     validate: validarComercio,
     onSubmit: async (values) => {
-      await registrarComercio(values)
+      try {
+        await registrarComercio(values)
+      } catch (error: any) {
+        const mensajeReal = error.response?.data?.message || "No pudimos completar el registro"
+        throw new Error(mensajeReal)
+      }
     },
   })
 
@@ -85,6 +94,7 @@ export default function RegistroComercioForm() {
         />
       </FormField>
 
+<<<<<<< HEAD
       <FormField id="clave" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('clave')}>
         <PasswordInput
           name="clave" autoComplete="new-password" placeholder="••••••••"
@@ -98,6 +108,16 @@ export default function RegistroComercioForm() {
           name="confirmarClave" autoComplete="new-password" placeholder="••••••••"
           value={form.values.confirmarClave} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'confirmarClave', error: form.errorFor('confirmarClave') })}
+=======
+      <FormField id="password" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
+        <PasswordInput
+          name="password"
+          placeholder="••••••••"
+          value={form.values.password}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          {...inputAria({ id: 'password', error: form.errorFor('password'), hint: true })}
+>>>>>>> dev
         />
       </FormField>
 
