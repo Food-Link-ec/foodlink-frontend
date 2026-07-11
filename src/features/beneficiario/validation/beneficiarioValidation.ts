@@ -42,13 +42,13 @@ export function validarBeneficiario(values: DatosRegistroBeneficiario): Errores<
   else if (!esEmailValido(values.correo)) errores.correo = 'El formato del correo no es válido.'
 
   // Validación de Contraseña
-  if (!esRequerido(values.password)) errores.password = 'Ingresa una contraseña.'
-  else if (!longitudMinima(values.password, 8) || !esPasswordSegura(values.password)) {
-    errores.password = 'La contraseña debe tener al menos 8 caracteres y ser segura.'
+  if (!esRequerido(values.clave)) errores.clave = 'Ingresa una contraseña.'
+  else if (!longitudMinima(values.clave, 8) || !esPasswordSegura(values.clave)) {
+    errores.clave = 'La contraseña debe tener al menos 8 caracteres y ser segura.'
   }
 
   if (!esRequerido(values.confirmarClave)) errores.confirmarClave = 'Confirma tu contraseña.'
-  else if (values.confirmarClave !== values.password) errores.confirmarClave = 'Las contraseñas no coinciden.'
+  else if (values.confirmarClave !== values.clave) errores.confirmarClave = 'Las contraseñas no coinciden.'
 
   // Validación de Archivo
   if (!values.archivoDocumento) {

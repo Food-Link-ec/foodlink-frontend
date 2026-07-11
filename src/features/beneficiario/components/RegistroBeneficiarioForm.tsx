@@ -19,7 +19,6 @@ const VALORES_INICIALES: DatosRegistroBeneficiario = {
   clave: '',
   confirmarClave: '',
   archivoDocumento: null,
-  correo: '',
   password: '',
 }
 
@@ -34,10 +33,10 @@ export default function RegistroBeneficiarioForm() {
     },
   })
 
-  const handleArchivo = (event: ChangeEvent<HTMLInputElement>) => {
+const handleArchivo = (event: ChangeEvent<HTMLInputElement>) => {
     const archivo = event.target.files?.[0] ?? null
     form.handleChange({
-      target: { name: 'archivoDocumento', value: archivo as unknown as string, type: 'file' },
+      target: { name: 'archivoDocumento', value: archivo },
     } as unknown as ChangeEvent<HTMLInputElement>)
   }
 
@@ -115,30 +114,6 @@ export default function RegistroBeneficiarioForm() {
         />
       </FormField>
 
-      <FormField id="correo" label="Correo electrónico" required error={form.errorFor('correo')}>
-        <input
-          className="fl-input"
-          name="correo"
-          type="email"
-          placeholder="contacto@organizacion.org"
-          value={form.values.correo}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          {...inputAria({ id: 'correo', error: form.errorFor('correo') })}
-        />
-      </FormField>
-
-      <FormField id="password" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
-        <PasswordInput
-          name="password"
-          placeholder="••••••••"
-          value={form.values.password}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          {...inputAria({ id: 'password', error: form.errorFor('password'), hint: true })}
-        />
-      </FormField>
-
       <FormField
         id="archivoDocumento"
         label="Documentación de validación"
@@ -153,8 +128,7 @@ export default function RegistroBeneficiarioForm() {
         <input
           className="fl-visually-hidden" type="file" name="archivoDocumento" accept=".pdf,.jpg,.jpeg,.png"
           onChange={handleArchivo} onBlur={form.handleBlur}
-          {...inputAria({ id: 'archivoDocumento', error: form.errorFor('archivoDocumento'), hint: true })}
-        />
+{...inputAria({ id: 'archivoDocumento', error: form.errorFor('archivoDocumento'), hint: true })}        />
       </FormField>
 
       <Button type="submit" fullWidth isLoading={form.isSubmitting}>Registrar beneficiario</Button>
