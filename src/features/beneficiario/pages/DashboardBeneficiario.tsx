@@ -63,7 +63,7 @@ export default function DashboardBeneficiarioPage() {
           <h1>Impacto de Donaciones</h1>
           <div className={styles.headerActions}>
             <button className={styles.iconBtn}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" onClick={() => navigate('/dashboard/comercio/notificaciones')}></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
             </button>
           </div>
         </header>

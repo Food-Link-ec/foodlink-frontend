@@ -31,15 +31,24 @@ export default function NuevoLotePage() {
 
   return (
     <div style={{ padding: '40px', backgroundColor: '#FAF7F0', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', color: '#2C3E35' }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto 24px auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: '13px', color: '#667A70', fontWeight: 500 }}>Mis Lotes &gt; Nuevo Lote</span>
+        <button 
+          type="button" 
+          onClick={() => navigate('/dashboard')} 
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#FFFFFF', color: '#1F4D3C', border: '1px solid #D6D0C4', borderRadius: '8px', fontWeight: 600, fontSize: '13px', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Regresar al Panel
+        </button>
+      </div>
+
       <header style={{ maxWidth: '1000px', margin: '0 auto 32px auto' }}>
-        <span style={{ fontSize: '13px', color: '#667A70', display: 'block', marginBottom: '8px', fontWeight: 500 }}>Mis Lotes &gt; Nuevo Lote</span>
         <h1 style={{ fontSize: '32px', color: '#1F4D3C', margin: '0 0 8px 0', fontWeight: 800, letterSpacing: '-0.5px' }}>Rescatar Alimento</h1>
-        <p style={{ color: '#4F6359', fontSize: '15px', margin: 0, lineHeight: '1.5' }}>Comparte el excedente de tu negocio con dignidad. Cada lote publicado ayuda to reducir el desperdicio en Quito.</p>
+        <p style={{ color: '#4F6359', fontSize: '15px', margin: 0, lineHeight: '1.5' }}>Comparte el excedente de tu negocio con dignidad. Cada lote publicado ayuda a reducir el desperdicio en Quito.</p>
       </header>
 
       <form onSubmit={handleSubmit} style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '24px' }}>
-        
-        {/* Columna Izquierda: Detalles del Alimento */}
         <div style={{ backgroundColor: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid #EBE7DF', boxShadow: '0 4px 12px rgba(31, 77, 60, 0.04)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
             <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#FAF7F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B5502E' }}>
@@ -70,10 +79,7 @@ export default function NuevoLotePage() {
           </div>
         </div>
 
-        {/* Columna Derecha: Foto y Modalidad */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          
-          {/* Card Foto con preview funcional */}
           <div style={{ backgroundColor: '#FFFFFF', border: '2px dashed #C8C2B4', borderRadius: '16px', padding: '20px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '145px', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
             <input type="file" accept="image/*" onChange={handleImageChange} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', zIndex: 2 }} />
             {imagenPreview ? (
@@ -82,12 +88,11 @@ export default function NuevoLotePage() {
               <div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#667A70" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 6px auto' }}><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                 <strong style={{ display: 'block', color: '#1F4D3C', fontSize: '14px', marginBottom: '2px' }}>Sube una foto real</strong>
-                <small style={{ color: '#667A70', fontSize: '12px' }}>Ayuda to los receptores a ver la calidad del lote.</small>
+                <small style={{ color: '#667A70', fontSize: '12px' }}>Ayuda a los receptores a ver la calidad del lote.</small>
               </div>
             )}
           </div>
 
-          {/* Card Modalidad */}
           <div style={{ backgroundColor: '#FFFFFF', padding: '24px', borderRadius: '16px', border: '1px solid #EBE7DF', boxShadow: '0 4px 12px rgba(31, 77, 60, 0.04)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
               <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#FAF7F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B5502E' }}>
@@ -113,10 +118,8 @@ export default function NuevoLotePage() {
               </div>
             </label>
           </div>
-
         </div>
 
-        {/* Sección Punto de Retiro (Full Width) */}
         <div style={{ gridColumn: '1 / -1', backgroundColor: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid #EBE7DF', boxShadow: '0 4px 12px rgba(31, 77, 60, 0.04)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
             <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#FAF7F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B5502E' }}>
@@ -137,7 +140,6 @@ export default function NuevoLotePage() {
           </div>
         </div>
 
-        {/* Botones de Acción Footer */}
         <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'flex-end', gap: '14px', marginTop: '10px' }}>
           <button type="button" onClick={() => navigate('/dashboard')} style={{ padding: '14px 22px', backgroundColor: '#EBE7DF', color: '#4F6359', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}>Guardar Borrador</button>
           <button type="submit" style={{ padding: '14px 28px', backgroundColor: '#B5502E', color: '#FFFFFF', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(181, 80, 46, 0.2)' }}>Publicar Lote Ahora &gt;</button>

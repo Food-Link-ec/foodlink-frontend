@@ -6,6 +6,11 @@ import RegistroBeneficiarioPage from '../features/beneficiario/pages/RegistroBen
 import RegistroCompradorPage from '../features/comprador/pages/RegistroCompradorPage';
 import DashboardComercioPage from '../features/comercio/pages/DashboardComercioPage';
 import NuevoLotePage from '../features/comercio/pages/NuevoLotePage';
+import ReservasComercioPage from '../features/comercio/pages/ReservasComercioPage';
+import MisLotesPage from '../features/comercio/pages/MisLotesPage';
+import ImpactoComercioPage from '../features/comercio/pages/ImpactoComercioPage';
+import ConfiguracionComercioPage from '../features/comercio/pages/ConfiguracionComercioPage';
+import NotificacionesComercioPage from '../features/comercio/pages/NotificacionesComercioPage';
 
 const RutaProtegida = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('accessToken');
@@ -42,7 +47,58 @@ export default function AppRouter() {
         } 
       />
 
+      <Route 
+        path="/dashboard/comercio/reservas" 
+        element={
+          <RutaProtegida>
+            <ReservasComercioPage />
+          </RutaProtegida>
+        } 
+      />
+
+      <Route 
+        path="/dashboard/comercio/mis-lotes" 
+        element={
+          <RutaProtegida>
+            <MisLotesPage />
+          </RutaProtegida>
+
+          
+        } 
+      />
+
+      <Route 
+        path="/dashboard/comercio/impacto" 
+        element={
+          <RutaProtegida>
+            <ImpactoComercioPage />
+          </RutaProtegida>
+        } 
+      />
+
+
+      <Route 
+        path="/dashboard/comercio/configuracion" 
+        element={
+          <RutaProtegida>
+            <ConfiguracionComercioPage />
+          </RutaProtegida>
+        } 
+      />
+
+
+      <Route 
+        path="/dashboard/comercio/notificaciones" 
+        element={
+          <RutaProtegida>
+            <NotificacionesComercioPage />
+          </RutaProtegida>
+        } 
+      />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+
+    
   );
 }
