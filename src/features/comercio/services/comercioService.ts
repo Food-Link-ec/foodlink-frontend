@@ -1,21 +1,25 @@
 import api from '../../../api/foodLinkApi';
-import type{ DatosRegistroComercio } from '../types/comercio.types';
+import type { DatosRegistroComercio, ComercioRegistrado } from '../types/comercio.types';
 import { getMensajeErrorRegistro } from '../../../utils/apiErrors';
 
-export const registrarComercio = async (datosFormulario: DatosRegistroComercio) => {
+export const registrarComercio = async (datos: DatosRegistroComercio): Promise<ComercioRegistrado> => {
   try {
+    // Destructuramos para separar el campo que no va al backend
+    const { confirmarClave, ...rest } = datos;
+
+    // Mapeo a la estructura esperada por el endpoint
     const payload = {
-      ruc: datosFormulario.ruc,
-      nombre: datosFormulario.nombre,
-      telefono: datosFormulario.telefono,
-      email: datosFormulario.correo,
+      ruc: rest.ruc,
+      nombre: rest.nombre,
+      telefono: rest.telefono,
+      email: rest.email, // Ajustado a la nueva interfaz
       provincia: 'Pichincha',
       ciudad: 'Quito',
-      callePrincipal: datosFormulario.direccion,
-      password: datosFormulario.password,
+      callePrincipal: rest.direccion,
+      password: rest.password, // Ajustado a la nueva interfaz
     };
 
-    const response = await api.post('/api/v1/comercios', payload);
+    const response = await api.post<ComercioRegistrado>('/api/v1/comercios', payload);
     return response.data;
   } catch (error) {
     console.error("Error al registrar comercio:", error);

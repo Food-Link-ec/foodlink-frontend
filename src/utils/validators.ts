@@ -55,3 +55,8 @@ export function esRucEcuadorValido(valor: unknown): boolean {
   }
   return tercerDigito === 6 || tercerDigito === 9
 }
+
+/** Contraseña: mínimo 8 caracteres. */
+export function esPasswordSegura(valor: unknown): boolean {
+  return String(valor ?? '').trim().length >= 8
+}

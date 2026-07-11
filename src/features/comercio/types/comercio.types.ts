@@ -3,13 +3,19 @@ export interface DatosRegistroComercio {
   ruc: string
   direccion: string
   telefono: string
-  correo: string
+  email: string
   password: string
+  confirmarClave?: string
 }
 
 export type EstadoComercio = 'PENDIENTE_VERIFICACION' | 'VERIFICADO' | 'RECHAZADO'
 
-export interface ComercioRegistrado extends DatosRegistroComercio {
+export interface ComercioRegistrado {
   id: string
+  nombre: string
+  ruc: string
+  direccion: string
+  telefono: string
+  email: string
   estado: EstadoComercio
 }

@@ -13,8 +13,8 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(function 
     <div className="fl-password">
       <input
         ref={ref}
-        className={`fl-input fl-password__input ${className ?? ''}`}
         type={visible ? 'text' : 'password'}
+        className={`fl-input fl-password__input ${className ?? ''}`}
         {...rest}
       />
       <button
@@ -25,9 +25,16 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(function 
         tabIndex={-1}
       >
         {visible ? (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+          /* Icono de "Ojo tachado" */
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 3l18 18M10.6 10.6a3 3 0 004.24 4.24M9.9 5.1A10.9 10.9 0 0112 5c5.5 0 9.5 4 11 7-0.6 1.2-1.6 2.6-3 3.9M6.2 6.6C4 8.1 2.5 10.1 1 12c1.5 3 5.5 7 11 7 1.3 0 2.5-.2 3.7-.6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         ) : (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          /* Icono de "Ojo" */
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
+          </svg>
         )}
       </button>
     </div>

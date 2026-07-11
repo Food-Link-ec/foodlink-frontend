@@ -2,6 +2,7 @@ import type { Errores } from '../../../hooks/useForm'
 import type { DatosRegistroBeneficiario } from '../types/beneficiario.types'
 import {
   esEmailValido,
+  esPasswordSegura,
   esRequerido,
   esRucEcuadorValido,
   esTelefonoEcuadorValido,
@@ -25,38 +26,31 @@ function archivoEsValido(archivo: File): string | null {
 export function validarBeneficiario(values: DatosRegistroBeneficiario): Errores<DatosRegistroBeneficiario> {
   const errores: Errores<DatosRegistroBeneficiario> = {}
 
-  if (!esRequerido(values.nombre)) {
-    errores.nombre = 'Ingresa el nombre de la organización.'
+  // Validación de Organización
+  if (!esRequerido(values.nombre)) errores.nombre = 'Ingresa el nombre de la organización.'
+  
+  if (!esRequerido(values.ruc)) errores.ruc = 'Ingresa el RUC de la organización.'
+  else if (!esRucEcuadorValido(values.ruc)) errores.ruc = 'El RUC debe tener 13 dígitos y terminar en 001.'
+
+  if (!esRequerido(values.direccion)) errores.direccion = 'Ingresa la dirección de la organización.'
+
+  // Validación de Contacto
+  if (!esRequerido(values.telefono)) errores.telefono = 'Ingresa un teléfono de contacto.'
+  else if (!esTelefonoEcuadorValido(values.telefono)) errores.telefono = 'Formato no válido. Ej: 0991234567.'
+
+  if (!esRequerido(values.correo)) errores.correo = 'Ingresa un correo electrónico de contacto.'
+  else if (!esEmailValido(values.correo)) errores.correo = 'El formato del correo no es válido.'
+
+  // Validación de Contraseña
+  if (!esRequerido(values.password)) errores.password = 'Ingresa una contraseña.'
+  else if (!longitudMinima(values.password, 8) || !esPasswordSegura(values.password)) {
+    errores.password = 'La contraseña debe tener al menos 8 caracteres y ser segura.'
   }
 
-  if (!esRequerido(values.ruc)) {
-    errores.ruc = 'Ingresa el RUC de la organización.'
-  } else if (!esRucEcuadorValido(values.ruc)) {
-    errores.ruc = 'El RUC debe tener 13 dígitos y terminar en 001.'
-  }
+  if (!esRequerido(values.confirmarClave)) errores.confirmarClave = 'Confirma tu contraseña.'
+  else if (values.confirmarClave !== values.password) errores.confirmarClave = 'Las contraseñas no coinciden.'
 
-  if (!esRequerido(values.direccion)) {
-    errores.direccion = 'Ingresa la dirección de la organización.'
-  }
-
-  if (!esRequerido(values.telefono)) {
-    errores.telefono = 'Ingresa un teléfono de contacto.'
-  } else if (!esTelefonoEcuadorValido(values.telefono)) {
-    errores.telefono = 'Formato no válido. Ej: 0991234567.'
-  }
-
-  if (!esRequerido(values.correo)) {
-    errores.correo = 'Ingresa un correo electrónico.'
-  } else if (!esEmailValido(values.correo)) {
-    errores.correo = 'El formato del correo no es válido.'
-  }
-
-  if (!esRequerido(values.password)) {
-    errores.password = 'Ingresa una contraseña.'
-  } else if (!longitudMinima(values.password, 8)) {
-    errores.password = 'La contraseña debe tener al menos 8 caracteres.'
-  }
-
+  // Validación de Archivo
   if (!values.archivoDocumento) {
     errores.archivoDocumento = 'Adjunta el documento de validación (PDF o imagen).'
   } else {

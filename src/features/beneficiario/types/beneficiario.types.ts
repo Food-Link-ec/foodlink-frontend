@@ -1,13 +1,10 @@
-/**
- * Datos que captura el formulario. El archivo se maneja aparte del
- * resto de campos porque un `File` no es serializable a JSON: se
- * envía en un FormData cuando se conecte al backend real.
- */
 export interface DatosRegistroBeneficiario {
   nombre: string
   ruc: string
   direccion: string
   telefono: string
+  clave: string
+  confirmarClave: string
   archivoDocumento: File | null
   correo: string
   password: string
@@ -21,6 +18,7 @@ export interface BeneficiarioRegistrado {
   ruc: string
   direccion: string
   telefono: string
+  correo: string
   nombreDocumento: string
   estado: EstadoBeneficiario
 }

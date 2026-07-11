@@ -1,7 +1,6 @@
 @import "./tokens.css";
 
 *, *::before, *::after { box-sizing: border-box; }
-
 html, body, #root { height: 100%; }
 
 body {
@@ -22,9 +21,7 @@ h1, h2, h3, h4 {
 }
 
 p { margin: 0 0 var(--fl-space-3); }
-
 a { color: var(--fl-verde-bosque); }
-
 button, input, select, textarea { font-family: inherit; }
 
 :focus-visible {
@@ -33,35 +30,7 @@ button, input, select, textarea { font-family: inherit; }
   border-radius: var(--fl-radius-sm);
 }
 
-.fl-container {
-  width: 100%;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 var(--fl-space-5);
-}
-
-.fl-mono {
-  font-family: var(--fl-font-mono);
-  letter-spacing: 0.02em;
-}
-
-/* Borde perforado — motivo "boleta de rescate" */
-.fl-ticket-edge {
-  position: relative;
-}
-.fl-ticket-edge::before,
-.fl-ticket-edge::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 18px;
-  background-image: radial-gradient(circle at 9px 0, transparent 9px, var(--fl-bg) 9.5px);
-  background-size: 18px 22px;
-  background-repeat: repeat-y;
-}
-.fl-ticket-edge::before { left: -1px; }
-.fl-ticket-edge::after { right: -1px; transform: scaleX(-1); }
+.fl-mono { font-family: var(--fl-font-mono); letter-spacing: 0.02em; }
 
 .fl-eyebrow {
   font-family: var(--fl-font-mono);

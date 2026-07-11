@@ -13,8 +13,9 @@ const VALORES_INICIALES: DatosRegistroComercio = {
   ruc: '',
   direccion: '',
   telefono: '',
-  correo: '',
-  password: '', 
+  email: '',
+  password: '',
+  confirmarClave: '',
 }
 
 export default function RegistroComercioForm() {
@@ -27,7 +28,7 @@ export default function RegistroComercioForm() {
       try {
         await registrarComercio(values)
       } catch (error: any) {
-        const mensajeReal = error.response?.data?.message || "No pudimos completar el registro"
+        const mensajeReal = error.message || "No pudimos completar el registro"
         throw new Error(mensajeReal)
       }
     },
@@ -51,76 +52,57 @@ export default function RegistroComercioForm() {
 
       <FormField id="nombre" label="Nombre del comercio" required error={form.errorFor('nombre')}>
         <input
-          className="fl-input"
-          name="nombre"
-          placeholder="Ej: Supermercado La Favorita — Sucursal Norte"
-          value={form.values.nombre}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
+          className="fl-input" name="nombre" placeholder="Ej: Supermercado La Favorita — Sucursal Norte"
+          value={form.values.nombre} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'nombre', error: form.errorFor('nombre') })}
         />
       </FormField>
 
       <FormField id="ruc" label="RUC" required mono hint="13 dígitos, termina en 001." error={form.errorFor('ruc')}>
         <input
-          className="fl-input fl-mono"
-          name="ruc"
-          inputMode="numeric"
-          maxLength={13}
-          placeholder="1790012345001"
-          value={form.values.ruc}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
+          className="fl-input fl-mono" name="ruc" inputMode="numeric" maxLength={13} placeholder="1790012345001"
+          value={form.values.ruc} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'ruc', error: form.errorFor('ruc'), hint: true })}
         />
       </FormField>
 
       <FormField id="direccion" label="Dirección" required error={form.errorFor('direccion')}>
         <input
-          className="fl-input"
-          name="direccion"
-          placeholder="Av. Amazonas N34-451 y Av. Atahualpa, Quito"
-          value={form.values.direccion}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
+          className="fl-input" name="direccion" placeholder="Av. Amazonas N34-451 y Av. Atahualpa, Quito"
+          value={form.values.direccion} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'direccion', error: form.errorFor('direccion') })}
         />
       </FormField>
 
       <FormField id="telefono" label="Teléfono" required error={form.errorFor('telefono')}>
         <input
-          className="fl-input"
-          name="telefono"
-          inputMode="tel"
-          placeholder="0991234567"
-          value={form.values.telefono}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
+          className="fl-input" name="telefono" inputMode="tel" placeholder="0991234567"
+          value={form.values.telefono} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'telefono', error: form.errorFor('telefono') })}
         />
       </FormField>
 
-      <FormField id="correo" label="Correo electrónico" required error={form.errorFor('correo')}>
+      <FormField id="email" label="Correo electrónico" required error={form.errorFor('email')}>
         <input
-          className="fl-input"
-          name="correo"
-          type="email"
-          placeholder="contacto@comercio.com"
-          value={form.values.correo}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          {...inputAria({ id: 'correo', error: form.errorFor('correo') })}
+          className="fl-input" name="email" type="email" placeholder="contacto@comercio.com"
+          value={form.values.email} onChange={form.handleChange} onBlur={form.handleBlur}
+          {...inputAria({ id: 'email', error: form.errorFor('email') })}
         />
       </FormField>
 
       <FormField id="password" label="Contraseña" required hint="Mínimo 8 caracteres." error={form.errorFor('password')}>
         <PasswordInput
-          name="password"
-          placeholder="••••••••"
-          value={form.values.password}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
+          name="password" autoComplete="new-password" placeholder="••••••••"
+          value={form.values.password} onChange={form.handleChange} onBlur={form.handleBlur}
           {...inputAria({ id: 'password', error: form.errorFor('password'), hint: true })}
+        />
+      </FormField>
+
+      <FormField id="confirmarClave" label="Confirmar contraseña" required error={form.errorFor('confirmarClave')}>
+        <PasswordInput
+          name="confirmarClave" autoComplete="new-password" placeholder="••••••••"
+          value={form.values.confirmarClave} onChange={form.handleChange} onBlur={form.handleBlur}
+          {...inputAria({ id: 'confirmarClave', error: form.errorFor('confirmarClave') })}
         />
       </FormField>
 

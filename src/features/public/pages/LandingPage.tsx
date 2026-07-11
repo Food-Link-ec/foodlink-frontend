@@ -6,6 +6,7 @@ import registroLoteImg from '../../../assets/images/LandingPage1Registro.png';
 import empresasImg from '../../../assets/images/LandingPageEmpresas.png';
 import organizacionesImg from '../../../assets/images/LandingPageOrganizaciones.png';
 import compradoresImg from '../../../assets/images/LandingPageCompradores.png';
+import logoImg from '../../../assets/images/foodlink-logo.png.png';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -18,9 +19,7 @@ export const LandingPage = () => {
     <div className={styles.landingContainer}>
       <nav className={styles.navbar}>
         <div className={styles.logoContainer}>
-          <div className={styles.logoIcon}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FAF7F0" strokeWidth="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
+          <img src={logoImg} alt="FoodLink" className={styles.logoIcon} />
           <span className={styles.logoText}>FoodLink</span>
         </div>
         <div className={styles.navActions}>
@@ -58,7 +57,7 @@ export const LandingPage = () => {
           <p className={styles.statLabel}>ALIMENTOS RESCATADOS</p>
           <p className={styles.statDesc}>Impacto directo en la seguridad alimentaria de Quito este mes.</p>
         </div>
-        
+
         <div className={styles.statBox}>
           <div className={styles.statIconWrapper}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FAF7F0" strokeWidth="2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
@@ -86,7 +85,7 @@ export const LandingPage = () => {
           </div>
           <a href="#metodologia" className={styles.linkVerMas}>Ver metodología completa →</a>
         </div>
-        
+
         <div className={styles.processGrid}>
           <div className={styles.processMainCard} style={{ backgroundImage: `url(${registroLoteImg})` }}>
             <div className={styles.processMainContent}>
@@ -94,7 +93,7 @@ export const LandingPage = () => {
               <p>Los establecimientos publican sus excedentes diarios a través de nuestra plataforma en segundos.</p>
             </div>
           </div>
-          
+
           <div className={styles.processSideColumn}>
             <div className={styles.processSideCardGreen}>
               <div className={styles.sideCardIcon}>
@@ -103,7 +102,7 @@ export const LandingPage = () => {
               <h3>2. Verificación</h3>
               <p>Garantizamos los estándares de calidad y seguridad alimentaria de cada donación.</p>
             </div>
-            
+
             <div className={styles.processSideCardTerracotta}>
               <div className={styles.sideCardIcon}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FAF7F0" strokeWidth="2"><rect width="16" height="12" x="2" y="6" rx="2"/><path d="M16 8h4l3 3v5h-7V8zM6 18a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM18 18a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
@@ -124,14 +123,14 @@ export const LandingPage = () => {
             <p>Convierte tu desperdicio en impacto social y obtén beneficios tributarios mientras cuidas el planeta.</p>
             <button onClick={() => handleSmartRedirect('/registro/comercio')} className={styles.roleCardBtn}>Publicar excedentes</button>
           </div>
-          
+
           <div className={styles.roleCard}>
             <div className={styles.roleImgPlaceholderTwo} style={{ backgroundImage: `url(${organizacionesImg})` }}></div>
             <h3>Organizaciones</h3>
             <p>Accede a suministros constantes de alimentos frescos y de calidad para potenciar tu labor social.</p>
             <button onClick={() => handleSmartRedirect('/registro/beneficiario')} className={styles.roleCardBtn}>Registrar organización</button>
           </div>
-          
+
           <div className={styles.roleCard}>
             <div className={styles.roleImgPlaceholderThree} style={{ backgroundImage: `url(${compradoresImg})` }}></div>
             <h3>Compradores</h3>
@@ -144,9 +143,7 @@ export const LandingPage = () => {
       <footer className={styles.footerSection}>
         <div className={styles.footerTop}>
           <div className={styles.footerLogo}>
-            <div className={styles.logoIcon}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FAF7F0" strokeWidth="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
+            <img src={logoImg} alt="FoodLink" className={styles.logoIcon} />
             <span>FoodLink</span>
           </div>
           <div className={styles.footerLinks}>
