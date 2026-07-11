@@ -18,7 +18,23 @@ export const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      await loginComercio({ email, password });
+      const response: any = await loginComercio({ email, password });
+      
+      console.log("¡MIRA LO QUE MANDA EL BACKEND! ->", response);
+      
+      // 1. Atrapamos el tipo de usuario o el rol, lo que venga primero
+      let rawRole = response?.tipoUsuario || response?.data?.tipoUsuario || response?.rol || response?.data?.rol || 'COMERCIO';
+      
+      // 2. Lo limpiamos (si viene 'ROLE_COMPRADOR', lo dejamos como 'COMPRADOR')
+      const userRole = String(rawRole).replace('ROLE_', '').toUpperCase();
+      
+      // 3. Atrapamos el nombre
+      const userName = response?.nombre || response?.data?.nombre || response?.name || 'Usuario FoodLink';
+      
+      // 4. Guardamos en el navegador
+      localStorage.setItem('tipoUsuario', userRole);
+      localStorage.setItem('nombreUsuario', String(userName));
+      
       navigate('/dashboard');
     } catch (error: any) {
       setErrorMsg(error.message || 'Correo o contraseña incorrectos');
@@ -30,16 +46,15 @@ export const LoginPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.leftColumn}>
-                 <div className={styles.logoBadge}>
-                <img src={logoImg} alt="FoodLink" className={styles.logoImg} />
-                <span className={styles.logoWordmark}>FoodLink</span>
-          </div>
+        <div className={styles.logoBadge}>
+          <img src={logoImg} alt="FoodLink" className={styles.logoImg} />
+          <span className={styles.logoWordmark}>FoodLink</span>
+        </div>
         <div className={styles.leftTop}>
           <Link to="/" className={styles.backLink}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
             Volver al inicio
           </Link>
-
         </div>
 
         <div className={styles.leftBody}>
