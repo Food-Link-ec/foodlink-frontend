@@ -3,9 +3,14 @@ import styles from './DashboardComercioPage.module.css';
 
 export default function DashboardComercioPage() {
   const navigate = useNavigate();
+  const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Usuario';
 
   const handleLogout = () => {
     navigate('/');
+  };
+
+  const handleNuevoLote = () => {
+    navigate('/dashboard/comercio/nuevo-lote');
   };
 
   return (
@@ -20,13 +25,13 @@ export default function DashboardComercioPage() {
           <div className={styles.userProfile}>
             <div className={styles.avatar}></div>
             <div className={styles.userInfo}>
-              <span className={styles.userName}>Supermaxi Quito</span>
+              <span className={styles.userName}>{nombreUsuario}</span>
               <span className={styles.userRole}>Administrador de Rescate</span>
             </div>
           </div>
 
           <nav className={styles.navMenu}>
-            <Link to="/dashboard" className={`${styles.navItem} ${styles.active}`}>
+            <Link to="/dashboard/comercio" className={`${styles.navItem} ${styles.active}`}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
               Panel Control
             </Link>
@@ -76,13 +81,48 @@ export default function DashboardComercioPage() {
         </header>
 
         <div className={styles.actionRow}>
-          <button className={styles.primaryBtn}>
+          <button className={styles.primaryBtn} onClick={handleNuevoLote}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             Nuevo Lote
           </button>
         </div>
 
+        <section className={styles.bottomCards}>
+          <div className={styles.heroCard}>
+            <div className={styles.heroIconWrapper}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B5502E" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </div>
+            <h3>Héroe del Mes</h3>
+            <p>Has ayudado to proveer 3,500 raciones de comida este mes a 12 fundaciones aliadas.</p>
+            <button className={styles.reportBtn}>Descargar Reporte</button>
+          </div>
+
+          <div className={styles.mapCard}>
+            <div className={styles.cardHeaderFlex}>
+              <h3>Mapa de Impacto Local</h3>
+              <span>QUITO, ECUADOR</span>
+            </div>
+            <div className={styles.mapPlaceholder}>
+              <div className={styles.mapDot1}></div>
+              <div className={styles.mapDot2}></div>
+              <div className={styles.mapDot3}></div>
+            </div>
+          </div>
+        </section>
+
         <section className={styles.statsGrid}>
+          <div className={styles.statCard}>
+            <div className={styles.statCardHeader}>
+              <span>INVERSIÓN RECUPERADA</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D1CCC1" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <div className={styles.statValue}>$850<span>.50</span></div>
+            <div className={styles.statTrend}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+              Aumento de rescate este mes
+            </div>
+          </div>
+
           <div className={styles.statCard}>
             <div className={styles.statCardHeader}>
               <span>REDISTRIBUIDO</span>
@@ -91,19 +131,7 @@ export default function DashboardComercioPage() {
             <div className={styles.statValue}>1,240 <span>kg</span></div>
             <div className={styles.statTrend}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
-              +12% este mes
-            </div>
-          </div>
-
-          <div className={styles.statCard}>
-            <div className={styles.statCardHeader}>
-              <span>LOTES ACTIVOS</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D1CCC1" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-            </div>
-            <div className={styles.statValueOrange}>08</div>
-            <div className={styles.statWarning}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              4 por vencer hoy
+              Equivale a 500kg de CO2 ahorrados
             </div>
           </div>
 
@@ -167,61 +195,8 @@ export default function DashboardComercioPage() {
                   <td><span className={`${styles.badge} ${styles.badgeReserved}`}>RESERVADO</span></td>
                   <td><button className={styles.actionBtn}>&#8942;</button></td>
                 </tr>
-                <tr>
-                  <td>
-                    <div className={styles.productCell}>
-                      <div className={styles.productImgPlaceholder3}></div>
-                      <div>
-                        <strong>Lácteos Premium</strong>
-                        <span>#B-4480-Q</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>30 kg</td>
-                  <td>Ayer, 18:40</td>
-                  <td><span className={`${styles.badge} ${styles.badgePicked}`}>RECOGIDO</span></td>
-                  <td><button className={styles.actionBtn}>&#8942;</button></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className={styles.productCell}>
-                      <div className={styles.productImgPlaceholder4}></div>
-                      <div>
-                        <strong>Verduras de Hoja Verde</strong>
-                        <span>#B-4475-Q</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>15 kg</td>
-                  <td>Ayer, 09:15</td>
-                  <td><span className={`${styles.badge} ${styles.badgeExpired}`}>EXPIRADO</span></td>
-                  <td><button className={styles.actionBtn}>&#8942;</button></td>
-                </tr>
               </tbody>
             </table>
-          </div>
-        </section>
-
-        <section className={styles.bottomCards}>
-          <div className={styles.mapCard}>
-            <div className={styles.cardHeaderFlex}>
-              <h3>Mapa de Impacto Local</h3>
-              <span>QUITO, ECUADOR</span>
-            </div>
-            <div className={styles.mapPlaceholder}>
-              <div className={styles.mapDot1}></div>
-              <div className={styles.mapDot2}></div>
-              <div className={styles.mapDot3}></div>
-            </div>
-          </div>
-          
-          <div className={styles.heroCard}>
-            <div className={styles.heroIconWrapper}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B5502E" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            </div>
-            <h3>Héroe del Mes</h3>
-            <p>Has ayudado a proveer 3,500 raciones de comida este mes a 12 fundaciones aliadas.</p>
-            <button className={styles.reportBtn}>Descargar Reporte</button>
           </div>
         </section>
 

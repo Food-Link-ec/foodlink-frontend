@@ -5,8 +5,8 @@ import RegistroComercioPage from '../features/comercio/pages/RegistroComercioPag
 import RegistroBeneficiarioPage from '../features/beneficiario/pages/RegistroBeneficiarioPage';
 import RegistroCompradorPage from '../features/comprador/pages/RegistroCompradorPage';
 import DashboardComercioPage from '../features/comercio/pages/DashboardComercioPage';
+import NuevoLotePage from '../features/comercio/pages/NuevoLotePage';
 
-// Componente para proteger rutas que requieren autenticación
 const RutaProtegida = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('accessToken');
   if (!token) {
@@ -18,14 +18,12 @@ const RutaProtegida = ({ children }: { children: React.ReactNode }) => {
 export default function AppRouter() {
   return (
     <Routes>
-      {/* Rutas Públicas */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/registro/comercio" element={<RegistroComercioPage />} />
       <Route path="/registro/beneficiario" element={<RegistroBeneficiarioPage />} />
       <Route path="/registro/comprador" element={<RegistroCompradorPage />} />
 
-      {/* Rutas Protegidas */}
       <Route 
         path="/dashboard" 
         element={
@@ -35,7 +33,15 @@ export default function AppRouter() {
         } 
       />
 
-      {/* Ruta de redirección por defecto */}
+      <Route 
+        path="/dashboard/comercio/nuevo-lote" 
+        element={
+          <RutaProtegida>
+            <NuevoLotePage />
+          </RutaProtegida>
+        } 
+      />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
