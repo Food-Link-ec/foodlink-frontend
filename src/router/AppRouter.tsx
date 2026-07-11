@@ -4,7 +4,7 @@ import { LoginPage } from '../features/auth/pages/LoginPage';
 import RegistroComercioPage from '../features/comercio/pages/RegistroComercioPage';
 import RegistroBeneficiarioPage from '../features/beneficiario/pages/RegistroBeneficiarioPage';
 import RegistroCompradorPage from '../features/comprador/pages/RegistroCompradorPage';
-import DashboardComercioPage from '../features/comercio/pages/DashboardComercioPage';
+import { DashboardPage } from '../features/dashboard/pages/DashboardPage'; 
 import NuevoLotePage from '../features/comercio/pages/NuevoLotePage';
 import ReservasComercioPage from '../features/comercio/pages/ReservasComercioPage';
 import MisLotesPage from '../features/comercio/pages/MisLotesPage';
@@ -33,7 +33,7 @@ export default function AppRouter() {
         path="/dashboard" 
         element={
           <RutaProtegida>
-            <DashboardComercioPage />
+            <DashboardPage />
           </RutaProtegida>
         } 
       />
@@ -62,8 +62,6 @@ export default function AppRouter() {
           <RutaProtegida>
             <MisLotesPage />
           </RutaProtegida>
-
-          
         } 
       />
 
@@ -76,7 +74,6 @@ export default function AppRouter() {
         } 
       />
 
-
       <Route 
         path="/dashboard/comercio/configuracion" 
         element={
@@ -85,7 +82,6 @@ export default function AppRouter() {
           </RutaProtegida>
         } 
       />
-
 
       <Route 
         path="/dashboard/comercio/notificaciones" 
@@ -98,7 +94,5 @@ export default function AppRouter() {
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-
-    
   );
 }
