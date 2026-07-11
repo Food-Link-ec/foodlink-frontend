@@ -7,13 +7,15 @@ const api = axios.create({
   },
   withCredentials: true,
 });
-
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken');
-    if (token) {
+    
+    // LA MAGIA: Solo enviamos el token si existe Y la ruta NO es la de login
+    if (token && !config.url?.includes('/auth/login')) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
     return config;
   },
   (error) => {
