@@ -11,7 +11,7 @@ import MisLotesPage from '../features/comercio/pages/MisLotesPage';
 import ImpactoComercioPage from '../features/comercio/pages/ImpactoComercioPage';
 import ConfiguracionComercioPage from '../features/comercio/pages/ConfiguracionComercioPage';
 import NotificacionesComercioPage from '../features/comercio/pages/NotificacionesComercioPage';
-import PerfilComercioPage from '../features/comercio/pages/Perfilcomerciopage';
+import PerfilComercioPage from '../features/comercio/pages/PerfilComercioPage';
 // Comprador
 import ExplorarLotesPage from '../features/comprador/pages/ExplorarLotesPage';
 import DetalleLotePage from '../features/comprador/pages/DetalleLotePage';
