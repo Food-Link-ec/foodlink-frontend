@@ -80,13 +80,13 @@ export default function ExplorarLotesPage() {
             </div>
             <div className={styles.heroStatDiv}/>
             <div className={styles.heroStat}>
-              <span className={styles.heroStatNum}>12</span>
-              <span className={styles.heroStatLabel}>Familias ayudadas</span>
+              <span className={styles.heroStatNum}>63%</span>
+              <span className={styles.heroStatLabel}>Descuento Promedio</span>
             </div>
             <div className={styles.heroStatDiv}/>
             <div className={styles.heroStat}>
               <span className={styles.heroStatNum}>45</span>
-              <span className={styles.heroStatLabel}>Lotes activos hoy</span>
+              <span className={styles.heroStatLabel}>Productos activos hoy</span>
             </div>
           </div>
         </section>
