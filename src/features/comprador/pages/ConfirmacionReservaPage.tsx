@@ -44,7 +44,7 @@ export default function ConfirmacionReservaPage() {
 
   if (!state?.lote) return null
 
-  const { lote, cantidad, precioTotal } = state
+  const { lote, cantidad} = state
   const subtotal = lote.precio * cantidad
   const tasaServicio = lote.modalidad === 'Venta' ? +(subtotal * 0.05).toFixed(2) : 0
   const total = +(subtotal + tasaServicio).toFixed(2)

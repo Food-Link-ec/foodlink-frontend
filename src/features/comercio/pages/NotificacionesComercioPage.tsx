@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ComercioLayout from '../components/ComercioLayout'
 import styles from './NotificacionesComercioPage.module.css'
 

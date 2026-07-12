@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CompradorLayout from '../components/CompradorLayout'
 import { LOTES } from '../data/lotes'
-import type { Lote } from '../data/lotes'
 import styles from './ExplorarLotesPage.module.css'
 
 const CATEGORIAS = ['Todos', 'Panadería', 'Frutas y Verduras', 'Lácteos', 'Preparados']
