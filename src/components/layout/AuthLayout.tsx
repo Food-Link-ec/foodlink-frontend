@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../ui/Logo'
-import BackLink from '../ui/BackLink'
 import './AuthLayout.css'
 
 interface AuthLayoutProps {
@@ -68,12 +67,22 @@ export default function AuthLayout({
         )}
       </aside>
 
-      {/* Contenido principal */}
+      {/* Columna derecha: formulario */}
       <main className="fl-auth__content">
+        {/* Header superior: logo + volver al inicio */}
+        <div className="fl-auth__form-header">
+          <Link to="/" className="fl-auth__form-logo">
+            <Logo size={28} compact />
+          </Link>
+          <Link to="/" className="fl-auth__form-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
+            </svg>
+            Volver al inicio
+          </Link>
+        </div>
+
         <div className="fl-auth__card">
-          {/* Si existe un BackLink específico, lo mostramos */}
-          {backTo && backLabel && <BackLink to={backTo} label={backLabel} />}
-          
           {children}
 
           {/* Pie de página del formulario */}

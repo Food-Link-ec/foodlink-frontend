@@ -10,8 +10,6 @@ export default function RegistroBeneficiarioPage() {
       description="Regístrate como organización benéfica para recibir donaciones directas de comercios verificados. Validamos tu documentación en menos de 48 horas."
       stat="46"
       statLabel="organizaciones verificadas en Quito"
-      backTo="/login"
-      backLabel="Volver a iniciar sesión"
     >
       <RegisterTypeTabs />
       <p className="fl-eyebrow">Verificación requerida</p>

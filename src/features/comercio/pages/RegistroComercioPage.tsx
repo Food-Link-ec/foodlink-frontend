@@ -10,7 +10,6 @@ export default function RegistroComercioPage() {
       description="Publica lotes de comida próxima a vencer, define si se donan, se retiran o se venden a bajo costo, y llega a beneficiarios y compradores cerca de tu local."
       stat="180+"
       statLabel="comercios activos en Quito"
-      backTo="/login"
       backLabel="Volver a iniciar sesión"
     >
       <RegisterTypeTabs />
