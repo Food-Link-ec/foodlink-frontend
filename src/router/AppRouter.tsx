@@ -14,6 +14,7 @@ import NotificacionesComercioPage from '../features/comercio/pages/Notificacione
 // Comprador
 import ExplorarLotesPage from '../features/comprador/pages/ExplorarLotesPage';
 import DetalleLotePage from '../features/comprador/pages/DetalleLotePage';
+import ConfirmacionReservaPage from '../features/comprador/pages/ConfirmacionReservaPage';
 
 const RutaProtegida = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('accessToken');
@@ -47,6 +48,7 @@ export default function AppRouter() {
       {/* Comprador */}
       <Route path="/dashboard/comprador" element={<RutaProtegida><ExplorarLotesPage /></RutaProtegida>} />
       <Route path="/dashboard/comprador/lote/:id" element={<RutaProtegida><DetalleLotePage /></RutaProtegida>} />
+      <Route path="/dashboard/comprador/confirmacion/:id" element={<RutaProtegida><ConfirmacionReservaPage /></RutaProtegida>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
