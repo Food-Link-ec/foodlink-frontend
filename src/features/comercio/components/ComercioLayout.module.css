@@ -1,0 +1,252 @@
+.shell { display: flex; flex-direction: column; min-height: 100vh; background: var(--fl-bg); }
+
+/* HEADER */
+.header { display: flex; align-items: center; justify-content: space-between; padding: 0 1.75rem; height: 58px; background: var(--fl-surface); border-bottom: 1px solid var(--fl-border); position: sticky; top: 0; z-index: 30; gap: 1rem; }
+
+.logoLink { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; flex-shrink: 0; }
+.logoImg { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; }
+.logoText { font-family: var(--fl-font-display); font-size: 1.1rem; font-weight: 800; color: var(--fl-verde-bosque); letter-spacing: -0.03em; }
+
+.headerRight { display: flex; align-items: center; gap: 0.75rem; }
+
+.btnNuevoLote { display: inline-flex; align-items: center; gap: 6px; padding: 0.5rem 1rem; background: var(--fl-verde-bosque); color: #fff; border: none; border-radius: var(--fl-radius-full); font-size: 0.84rem; font-weight: 700; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background 0.12s; }
+.btnNuevoLote:hover { background: var(--fl-verde-musgo); }
+
+.panelAnchor { position: relative; }
+
+.notifBtn { position: relative; background: none; border: 1px solid var(--fl-border); cursor: pointer; color: var(--fl-ink-soft); padding: 0.45rem; border-radius: var(--fl-radius-sm); display: flex; align-items: center; transition: background 0.12s; }
+.notifBtn:hover { background: var(--fl-bg); }
+.notifDot { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; background: var(--fl-coral); border-radius: 50%; border: 1.5px solid var(--fl-surface); }
+
+/* Dropdown notif */
+.notifDropdown { position: absolute; top: calc(100% + 8px); right: 0; width: 300px; background: var(--fl-surface); border: 1px solid var(--fl-border); border-radius: var(--fl-radius-lg); box-shadow: 0 16px 48px rgba(0,0,0,0.12); z-index: 50; overflow: hidden; }
+.notifHeader { display: flex; align-items: center; justify-content: space-between; padding: 0.875rem 1rem; border-bottom: 1px solid var(--fl-border); font-size: 0.875rem; font-weight: 700; color: var(--fl-ink); }
+.notifVerTodas { background: none; border: none; cursor: pointer; font-size: 0.75rem; font-weight: 600; color: var(--fl-verde-bosque); }
+.notifItem { display: flex; align-items: flex-start; gap: 0.625rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--fl-border); transition: background 0.12s; cursor: pointer; }
+.notifItem:last-child { border-bottom: none; }
+.notifItem:hover { background: var(--fl-bg); }
+.notifIcono { width: 28px; height: 28px; min-width: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.notifTitulo { font-size: 0.8rem; font-weight: 700; color: var(--fl-ink); margin: 0 0 2px; }
+.notifDesc { font-size: 0.72rem; color: var(--fl-ink-soft); margin: 0 0 3px; }
+.notifTiempo { font-size: 0.65rem; color: var(--fl-ink-faint); font-weight: 500; }
+
+.avatarPill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.3rem 0.75rem 0.3rem 0.375rem;
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-full);
+  background: var(--fl-surface);
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.avatarPill:hover,
+.avatarPillActivo {
+  border-color: var(--fl-verde-linea);
+  background: var(--fl-bg);
+}
+
+/* ── Dropdown de perfil ── */
+.perfilDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 260px;
+  background: var(--fl-surface);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-lg);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.perfilDropHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.125rem;
+  border-bottom: 1px solid var(--fl-border);
+  background: linear-gradient(135deg, rgba(181,80,46,0.04), transparent);
+}
+
+.perfilDropAvatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #B5502E, #9A4225);
+  color: #fff;
+  font-family: var(--fl-font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.perfilDropNombre {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--fl-ink);
+  margin: 0 0 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.perfilDropEmail {
+  font-size: 0.72rem;
+  color: var(--fl-ink-faint);
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.perfilDropRol {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(181,80,46,0.1);
+  color: #B5502E;
+  padding: 2px 7px;
+  border-radius: var(--fl-radius-full);
+}
+
+.perfilDropStats {
+  display: flex;
+  align-items: center;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--fl-border);
+  background: var(--fl-bg);
+}
+
+.perfilDropStat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.perfilDropStatNum {
+  font-family: var(--fl-font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--fl-ink);
+}
+
+.perfilDropStatLabel {
+  font-size: 0.62rem;
+  color: var(--fl-ink-faint);
+  font-weight: 500;
+  text-align: center;
+}
+
+.perfilDropStatDiv {
+  width: 1px;
+  height: 26px;
+  background: var(--fl-border);
+  flex-shrink: 0;
+}
+
+.perfilDropMenu {
+  display: flex;
+  flex-direction: column;
+  padding: 0.375rem 0;
+}
+
+.perfilDropItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+  color: var(--fl-ink-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.12s, color 0.12s;
+}
+
+.perfilDropItem:hover {
+  background: var(--fl-bg);
+  color: var(--fl-ink);
+}
+
+.perfilDropItemIcon {
+  display: flex;
+  align-items: center;
+  color: var(--fl-ink-faint);
+  flex-shrink: 0;
+}
+
+.perfilDropChevron {
+  margin-left: auto;
+  color: var(--fl-ink-faint);
+  opacity: 0.4;
+}
+
+.perfilDropLogout {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--fl-border);
+  cursor: pointer;
+  color: var(--fl-coral);
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background 0.12s;
+  font-family: inherit;
+}
+
+.perfilDropLogout:hover { background: var(--fl-coral-suave); }
+.avatarCircle { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #B5502E, #9A4225); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--fl-font-display); font-weight: 800; font-size: 0.75rem; flex-shrink: 0; }
+.avatarName { font-size: 0.82rem; font-weight: 600; color: var(--fl-ink); }
+
+/* BODY */
+.body { display: flex; flex: 1; min-height: 0; }
+
+/* SIDEBAR */
+.sidebar { width: 224px; min-width: 224px; background: var(--fl-surface); border-right: 1px solid var(--fl-border); display: flex; flex-direction: column; padding: 1.25rem 1rem; position: sticky; top: 58px; height: calc(100vh - 58px); overflow-y: auto; }
+
+.userCard { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem; background: var(--fl-bg); border-radius: var(--fl-radius-md); border: 1px solid var(--fl-border); margin-bottom: 1.5rem; }
+.userAvatar { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; background: linear-gradient(135deg, #B5502E, #9A4225); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--fl-font-display); font-weight: 800; font-size: 0.82rem; flex-shrink: 0; }
+.userInfo { display: flex; flex-direction: column; overflow: hidden; gap: 1px; }
+.userName { font-size: 0.82rem; font-weight: 700; color: var(--fl-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.userRole { font-size: 0.65rem; color: var(--fl-ink-faint); font-weight: 500; }
+
+.sideNav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+
+.sideNavItem { display: flex; align-items: center; gap: 0.625rem; padding: 0.625rem 0.75rem; border-radius: var(--fl-radius-sm); text-decoration: none; color: var(--fl-ink-soft); font-size: 0.855rem; font-weight: 500; transition: background 0.12s, color 0.12s; }
+.sideNavItem:hover { background: var(--fl-bg); color: var(--fl-ink); }
+.sideNavIcon { display: flex; align-items: center; opacity: 0.55; flex-shrink: 0; transition: opacity 0.12s; }
+.sideNavActive { background: rgba(181,80,46,0.08); color: #B5502E; font-weight: 700; }
+.sideNavActive .sideNavIcon { opacity: 1; }
+.sideNavActive:hover { background: rgba(181,80,46,0.1); }
+.sideNavDot { width: 5px; height: 5px; border-radius: 50%; background: #B5502E; margin-left: auto; flex-shrink: 0; }
+
+.sideBottom { display: flex; flex-direction: column; gap: 0.625rem; padding-top: 1rem; margin-top: auto; border-top: 1px solid var(--fl-border); }
+
+.notifLink { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 0.75rem; background: rgba(181,80,46,0.06); border-radius: var(--fl-radius-sm); border: 1px solid rgba(181,80,46,0.15); color: #B5502E; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: background 0.12s; }
+.notifLink:hover { background: rgba(181,80,46,0.12); }
+.notifBadge { margin-left: auto; background: #B5502E; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: var(--fl-radius-full); }
+
+.logoutBtn { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.6rem 0.75rem; background: transparent; border: 1px solid var(--fl-border); border-radius: var(--fl-radius-sm); color: var(--fl-coral); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: background 0.12s, border-color 0.12s; }
+.logoutBtn:hover { background: var(--fl-coral-suave); border-color: var(--fl-coral); }
+
+.main { flex: 1; min-width: 0; overflow-y: auto; }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .header { padding: 0 1.25rem; }
+  .avatarName { display: none; }
+}
