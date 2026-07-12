@@ -1,38 +1,11 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CompradorLayout from '../components/CompradorLayout'
+import { LOTES } from '../data/lotes'
+import type { Lote } from '../data/lotes'
 import styles from './ExplorarLotesPage.module.css'
 
 const CATEGORIAS = ['Todos', 'Panadería', 'Frutas y Verduras', 'Lácteos', 'Preparados']
-
-interface Lote {
-  id: string
-  nombre: string
-  comercio: string
-  zona: string
-  categoria: string
-  modalidad: 'Venta' | 'Donación' | 'Retiro'
-  precioNormal: number
-  precio: number
-  ahorro: number
-  cantidad: string
-  caduca: string
-  tag: string
-  tagVariant: 'urgente' | 'verde' | 'dorado'
-  img: string
-  disponibles: number
-}
-
-const LOTES: Lote[] = [
-  { id:'1', nombre:'Canasta Frutas Tropicales', comercio:'La Frutería', zona:'La Floresta', categoria:'Frutas y Verduras', modalidad:'Venta', precioNormal:12, precio:4.50, ahorro:62, cantidad:'3 kg aprox.', caduca:'Hoy, 18:00', tag:'Caduca hoy', tagVariant:'urgente', img:'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=500&q=75', disponibles:5 },
-  { id:'2', nombre:'Pack Panadería Artesanal', comercio:'Panadería El Trigo', zona:'La Mariscal', categoria:'Panadería', modalidad:'Venta', precioNormal:8, precio:3, ahorro:62, cantidad:'10 panes', caduca:'Hoy, 20:00', tag:'Recién horneado', tagVariant:'dorado', img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=75', disponibles:8 },
-  { id:'3', nombre:'10 Raciones Gourmet', comercio:'Cocina Contemporánea', zona:'González Suárez', categoria:'Preparados', modalidad:'Venta', precioNormal:45, precio:18, ahorro:60, cantidad:'10 raciones', caduca:'Hoy, 21:30', tag:'Lote gourmet', tagVariant:'verde', img:'https://images.unsplash.com/photo-1547592180-85f173990554?w=500&q=75', disponibles:2 },
-  { id:'4', nombre:'Lote Lácteos Premium', comercio:'Delilac Quesería', zona:'Cumbayá', categoria:'Lácteos', modalidad:'Venta', precioNormal:15.50, precio:6, ahorro:61, cantidad:'Queso, yogur, leche', caduca:'Mañana, 12:00', tag:'Últimas unidades', tagVariant:'urgente', img:'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=500&q=75', disponibles:3 },
-  { id:'5', nombre:'Verduras Orgánicas Mix', comercio:'Mercado El Labrador', zona:'Cotocollao', categoria:'Frutas y Verduras', modalidad:'Donación', precioNormal:6, precio:0, ahorro:100, cantidad:'2 kg variado', caduca:'Mañana, 10:00', tag:'Donación gratuita', tagVariant:'verde', img:'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=75', disponibles:10 },
-  { id:'6', nombre:'Almuerzos del Día', comercio:'Catering Quito Fresh', zona:'Iñaquito', categoria:'Preparados', modalidad:'Donación', precioNormal:9, precio:0, ahorro:100, cantidad:'5 raciones', caduca:'Hoy, 15:00', tag:'Donación gratuita', tagVariant:'verde', img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=75', disponibles:5 },
-  { id:'7', nombre:'Pan de Masa Madre', comercio:'Panadería El Horno', zona:'La Gasca', categoria:'Panadería', modalidad:'Venta', precioNormal:4, precio:1.50, ahorro:62, cantidad:'4 hogazas', caduca:'Hoy, 19:00', tag:'Recién horneado', tagVariant:'dorado', img:'https://images.unsplash.com/photo-1585478259715-4d3c8a9c1e1e?w=500&q=75', disponibles:6 },
-  { id:'8', nombre:'Mix Frutas de Temporada', comercio:'Supermaxi La Gasca', zona:'La Gasca', categoria:'Frutas y Verduras', modalidad:'Venta', precioNormal:10, precio:3.50, ahorro:65, cantidad:'2.5 kg', caduca:'Hoy, 20:00', tag:'Caduca hoy', tagVariant:'urgente', img:'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=500&q=75', disponibles:4 },
-]
 
 export default function ExplorarLotesPage() {
   const [categoriaActiva, setCategoriaActiva] = useState('Todos')
@@ -65,7 +38,7 @@ export default function ExplorarLotesPage() {
             <p className={styles.heroSub}>
               Dinero conservado en tu economía
               <span className={styles.heroSubDot}>·</span>
-              <strong>18 kg de CO₂ evitados</strong> 
+              <strong>18 kg de CO₂ evitados</strong> 🌍
             </p>
           </div>
 
@@ -80,13 +53,13 @@ export default function ExplorarLotesPage() {
             </div>
             <div className={styles.heroStatDiv}/>
             <div className={styles.heroStat}>
-              <span className={styles.heroStatNum}>63%</span>
-              <span className={styles.heroStatLabel}>Descuento Promedio</span>
+              <span className={styles.heroStatNum}>12</span>
+              <span className={styles.heroStatLabel}>Familias ayudadas</span>
             </div>
             <div className={styles.heroStatDiv}/>
             <div className={styles.heroStat}>
               <span className={styles.heroStatNum}>45</span>
-              <span className={styles.heroStatLabel}>Productos activos hoy</span>
+              <span className={styles.heroStatLabel}>Lotes activos hoy</span>
             </div>
           </div>
         </section>
@@ -116,6 +89,10 @@ export default function ExplorarLotesPage() {
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               )}
+            </div>
+            <div className={styles.loteActivos}>
+              <span className={styles.loteActivosDot}/>
+              <span>{lotesFiltrados.length} lotes activos</span>
             </div>
           </div>
         </div>
