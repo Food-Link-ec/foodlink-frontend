@@ -3,13 +3,19 @@ import FormField, { inputAria } from '../../../components/ui/FormField'
 import Button from '../../../components/ui/Button'
 import Alert from '../../../components/ui/Alert'
 import { iniciarSesion } from '../services/authService'
-import { validarCredenciales } from '../validation/authValidation'
-import type { Credenciales } from '../types/auth.types'
+import type { LoginRequest } from '../types/auth.types'
 
-const VALORES_INICIALES: Credenciales = { correo: '', clave: '' }
+const VALORES_INICIALES: LoginRequest = { email: '', password: '' }
+
+const validarCredenciales = (values: LoginRequest): Record<string, string> => {
+  const errors: Record<string, string> = {}
+  if (!values.email) errors.email = 'El correo es obligatorio'
+  if (!values.password) errors.password = 'La contraseña es obligatoria'
+  return errors
+}
 
 export default function LoginForm() {
-  const form = useForm<Credenciales>({
+  const form = useForm<LoginRequest>({
     initialValues: VALORES_INICIALES,
     validate: validarCredenciales,
     onSubmit: async (values) => {
@@ -31,31 +37,31 @@ export default function LoginForm() {
         <Alert variant="error" title="No pudimos iniciar tu sesión">{form.submitError}</Alert>
       )}
 
-      <FormField id="correo" label="Correo electrónico" required error={form.errorFor('correo')}>
+      <FormField id="email" label="Correo electrónico" required error={form.errorFor('email')}>
         <input
           className="fl-input"
-          name="correo"
+          name="email"
           type="email"
           autoComplete="email"
           placeholder="user@correo.com"
-          value={form.values.correo}
+          value={form.values.email}
           onChange={form.handleChange}
           onBlur={form.handleBlur}
-          {...inputAria({ id: 'correo', error: form.errorFor('correo') })}
+          {...inputAria({ id: 'email', error: form.errorFor('email') })}
         />
       </FormField>
 
-      <FormField id="clave" label="Contraseña" required error={form.errorFor('clave')}>
+      <FormField id="password" label="Contraseña" required error={form.errorFor('password')}>
         <input
           className="fl-input"
-          name="clave"
+          name="password"
           type="password"
           autoComplete="current-password"
           placeholder="••••••••"
-          value={form.values.clave}
+          value={form.values.password}
           onChange={form.handleChange}
           onBlur={form.handleBlur}
-          {...inputAria({ id: 'clave', error: form.errorFor('clave') })}
+          {...inputAria({ id: 'password', error: form.errorFor('password') })}
         />
       </FormField>
 
