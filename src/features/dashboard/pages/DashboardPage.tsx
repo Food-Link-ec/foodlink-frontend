@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import DashboardComercioPage from '../../comercio/pages/DashboardComercioPage';
 import DashboardBeneficiarioPage from '../../beneficiario/pages/DashboardBeneficiario';
-import DashboardComprador from '../../comprador/pages/DashboardComprador';
+import ExplorarLotesPage from '../../comprador/pages/ExplorarLotesPage';
 
 export const DashboardPage = () => {
   const tipoUsuario = (localStorage.getItem('tipoUsuario') || '').trim().toUpperCase();
@@ -12,7 +12,7 @@ export const DashboardPage = () => {
     case 'BENEFICIARIO':
       return <DashboardBeneficiarioPage />;
     case 'COMPRADOR':
-      return <DashboardComprador />;
+      return <ExplorarLotesPage />;
     default:
       return <Navigate to="/login" replace />;
   }
