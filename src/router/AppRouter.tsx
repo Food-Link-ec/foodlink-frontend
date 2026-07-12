@@ -4,13 +4,15 @@ import { LoginPage } from '../features/auth/pages/LoginPage';
 import RegistroComercioPage from '../features/comercio/pages/RegistroComercioPage';
 import RegistroBeneficiarioPage from '../features/beneficiario/pages/RegistroBeneficiarioPage';
 import RegistroCompradorPage from '../features/comprador/pages/RegistroCompradorPage';
-import { DashboardPage } from '../features/dashboard/pages/DashboardPage'; 
+import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 import NuevoLotePage from '../features/comercio/pages/NuevoLotePage';
 import ReservasComercioPage from '../features/comercio/pages/ReservasComercioPage';
 import MisLotesPage from '../features/comercio/pages/MisLotesPage';
 import ImpactoComercioPage from '../features/comercio/pages/ImpactoComercioPage';
 import ConfiguracionComercioPage from '../features/comercio/pages/ConfiguracionComercioPage';
 import NotificacionesComercioPage from '../features/comercio/pages/NotificacionesComercioPage';
+// Comprador
+import ExplorarLotesPage from '../features/comprador/pages/ExplorarLotesPage';
 
 const RutaProtegida = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('accessToken');
@@ -23,74 +25,27 @@ const RutaProtegida = ({ children }: { children: React.ReactNode }) => {
 export default function AppRouter() {
   return (
     <Routes>
+      {/* Públicas */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/registro/comercio" element={<RegistroComercioPage />} />
       <Route path="/registro/beneficiario" element={<RegistroBeneficiarioPage />} />
       <Route path="/registro/comprador" element={<RegistroCompradorPage />} />
 
-      <Route 
-        path="/dashboard" 
-        element={
-          <RutaProtegida>
-            <DashboardPage />
-          </RutaProtegida>
-        } 
-      />
+      {/* Dashboard general (redirige según rol) */}
+      <Route path="/dashboard" element={<RutaProtegida><DashboardPage /></RutaProtegida>} />
 
-      <Route 
-        path="/dashboard/comercio/nuevo-lote" 
-        element={
-          <RutaProtegida>
-            <NuevoLotePage />
-          </RutaProtegida>
-        } 
-      />
+      {/* Comercio */}
+      <Route path="/dashboard/comercio/nuevo-lote" element={<RutaProtegida><NuevoLotePage /></RutaProtegida>} />
+      <Route path="/dashboard/comercio/reservas" element={<RutaProtegida><ReservasComercioPage /></RutaProtegida>} />
+      <Route path="/dashboard/comercio/mis-lotes" element={<RutaProtegida><MisLotesPage /></RutaProtegida>} />
+      <Route path="/dashboard/comercio/impacto" element={<RutaProtegida><ImpactoComercioPage /></RutaProtegida>} />
+      <Route path="/dashboard/comercio/configuracion" element={<RutaProtegida><ConfiguracionComercioPage /></RutaProtegida>} />
+      <Route path="/dashboard/comercio/notificaciones" element={<RutaProtegida><NotificacionesComercioPage /></RutaProtegida>} />
 
-      <Route 
-        path="/dashboard/comercio/reservas" 
-        element={
-          <RutaProtegida>
-            <ReservasComercioPage />
-          </RutaProtegida>
-        } 
-      />
-
-      <Route 
-        path="/dashboard/comercio/mis-lotes" 
-        element={
-          <RutaProtegida>
-            <MisLotesPage />
-          </RutaProtegida>
-        } 
-      />
-
-      <Route 
-        path="/dashboard/comercio/impacto" 
-        element={
-          <RutaProtegida>
-            <ImpactoComercioPage />
-          </RutaProtegida>
-        } 
-      />
-
-      <Route 
-        path="/dashboard/comercio/configuracion" 
-        element={
-          <RutaProtegida>
-            <ConfiguracionComercioPage />
-          </RutaProtegida>
-        } 
-      />
-
-      <Route 
-        path="/dashboard/comercio/notificaciones" 
-        element={
-          <RutaProtegida>
-            <NotificacionesComercioPage />
-          </RutaProtegida>
-        } 
-      />
+      {/* Comprador — PR 1 */}
+      <Route path="/dashboard/comprador" element={<RutaProtegida><ExplorarLotesPage /></RutaProtegida>} />
+      {/* PR 2 y 3 se añaden aquí */}
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
