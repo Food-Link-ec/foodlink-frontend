@@ -38,7 +38,7 @@ export default function ExplorarLotesPage() {
             <p className={styles.heroSub}>
               Dinero conservado en tu economía
               <span className={styles.heroSubDot}>·</span>
-              <strong>18 kg de CO₂ evitados</strong> 🌍
+              <strong>18 kg de CO₂ evitados</strong> 
             </p>
           </div>
 
@@ -53,13 +53,13 @@ export default function ExplorarLotesPage() {
             </div>
             <div className={styles.heroStatDiv}/>
             <div className={styles.heroStat}>
-              <span className={styles.heroStatNum}>12</span>
-              <span className={styles.heroStatLabel}>Familias ayudadas</span>
+              <span className={styles.heroStatNum}>63%</span>
+              <span className={styles.heroStatLabel}>Descuento promedio</span>
             </div>
             <div className={styles.heroStatDiv}/>
             <div className={styles.heroStat}>
               <span className={styles.heroStatNum}>45</span>
-              <span className={styles.heroStatLabel}>Lotes activos hoy</span>
+              <span className={styles.heroStatLabel}>Productos activos hoy</span>
             </div>
           </div>
         </section>
@@ -89,10 +89,6 @@ export default function ExplorarLotesPage() {
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               )}
-            </div>
-            <div className={styles.loteActivos}>
-              <span className={styles.loteActivosDot}/>
-              <span>{lotesFiltrados.length} lotes activos</span>
             </div>
           </div>
         </div>
