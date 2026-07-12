@@ -1,150 +1,158 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ComercioLayout from '../components/ComercioLayout'
+import styles from './NuevoLotePage.module.css'
+
+const CATEGORIAS = ['Panadería', 'Frutas y Verduras', 'Lácteos', 'Preparados', 'Carnes', 'Bebidas', 'Otros']
 
 export default function NuevoLotePage() {
-  const navigate = useNavigate();
-  localStorage.getItem('nombreUsuario');
+  const navigate = useNavigate()
+  const [categoria, setCategoria] = useState('')
+  const [modalidad, setModalidad] = useState('DONACION')
+  const [cantidad, setCantidad] = useState('')
+  const [unidad, setUnidad] = useState('kg')
+  const [fecha, setFecha] = useState('')
+  const [precio, setPrecio] = useState('')
+  const [descripcion, setDescripcion] = useState('')
+  const [direccion, setDireccion] = useState('')
+  const [horario, setHorario] = useState('')
+  const [imgPreview, setImgPreview] = useState<string|null>(null)
 
-  const [tipoAlimento, setTipoAlimento] = useState('');
-  const [cantidad, setCantidad] = useState('');
-  const [fechaExpiracion, setFechaExpiracion] = useState('');
-  const [modalidad, setModalidad] = useState('DONACION');
-  const [direccion, setDireccion] = useState('');
-  const [instrucciones, setInstrucciones] = useState('');
-  const [imagenPreview, setImagenPreview] = useState<string | null>(null);
+  const handleImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) { const r = new FileReader(); r.onloadend = () => setImgPreview(r.result as string); r.readAsDataURL(file) }
+  }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagenPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate('/dashboard');
-  };
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); navigate('/dashboard') }
 
   return (
-    <div style={{ padding: '40px', backgroundColor: '#FAF7F0', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', color: '#2C3E35' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto 24px auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '13px', color: '#667A70', fontWeight: 500 }}>Mis Lotes &gt; Nuevo Lote</span>
-        <button 
-          type="button" 
-          onClick={() => navigate('/dashboard')} 
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', backgroundColor: '#FFFFFF', color: '#1F4D3C', border: '1px solid #D6D0C4', borderRadius: '8px', fontWeight: 600, fontSize: '13px', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-          Regresar al Panel
-        </button>
-      </div>
-
-      <header style={{ maxWidth: '1000px', margin: '0 auto 32px auto' }}>
-        <h1 style={{ fontSize: '32px', color: '#1F4D3C', margin: '0 0 8px 0', fontWeight: 800, letterSpacing: '-0.5px' }}>Rescatar Alimento</h1>
-        <p style={{ color: '#4F6359', fontSize: '15px', margin: 0, lineHeight: '1.5' }}>Comparte el excedente de tu negocio con dignidad. Cada lote publicado ayuda a reducir el desperdicio en Quito.</p>
-      </header>
-
-      <form onSubmit={handleSubmit} style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '24px' }}>
-        <div style={{ backgroundColor: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid #EBE7DF', boxShadow: '0 4px 12px rgba(31, 77, 60, 0.04)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-            <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#FAF7F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B5502E' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
-            </div>
-            <h3 style={{ margin: 0, color: '#1F4D3C', fontSize: '18px', fontWeight: 700 }}>Detalles del Alimento</h3>
-          </div>
-          <p style={{ margin: '0 0 24px 0', fontSize: '13px', color: '#667A70', paddingLeft: '42px' }}>Describe qué estás rescatando hoy.</p>
-
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px', color: '#2C3E35' }}>Tipo de Alimento</label>
-            <select value={tipoAlimento} onChange={(e) => setTipoAlimento(e.target.value)} required style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid #D6D0C4', backgroundColor: '#FAF7F0', fontSize: '14px', color: '#2C3E35', outline: 'none', cursor: 'pointer' }}>
-              <option value="">Selecciona una categoría</option>
-              <option value="panadería">Panadería y bollería</option>
-              <option value="frutas">Frutas y verduras</option>
-              <option value="preparados">Alimentos preparados</option>
-            </select>
-          </div>
-
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px', color: '#2C3E35' }}>Cantidad / Peso Aprox.</label>
-            <input type="text" placeholder="Ej: 10 kg o 5 raciones" value={cantidad} onChange={(e) => setCantidad(e.target.value)} required style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid #D6D0C4', backgroundColor: '#FAF7F0', fontSize: '14px', color: '#2C3E35', boxSizing: 'border-box', outline: 'none' }} />
-          </div>
-
-          <div style={{ marginBottom: '8px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px', color: '#2C3E35' }}>Fecha de Expiración / Consumo Preferente</label>
-            <input type="date" value={fechaExpiracion} onChange={(e) => setFechaExpiracion(e.target.value)} required style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid #D6D0C4', backgroundColor: '#FAF7F0', fontSize: '14px', color: '#2C3E35', boxSizing: 'border-box', outline: 'none' }} />
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div style={{ backgroundColor: '#FFFFFF', border: '2px dashed #C8C2B4', borderRadius: '16px', padding: '20px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '145px', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
-            <input type="file" accept="image/*" onChange={handleImageChange} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', zIndex: 2 }} />
-            {imagenPreview ? (
-              <img src={imagenPreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, borderRadius: '14px' }} />
-            ) : (
-              <div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#667A70" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 6px auto' }}><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                <strong style={{ display: 'block', color: '#1F4D3C', fontSize: '14px', marginBottom: '2px' }}>Sube una foto real</strong>
-                <small style={{ color: '#667A70', fontSize: '12px' }}>Ayuda a los receptores a ver la calidad del lote.</small>
-              </div>
-            )}
-          </div>
-
-          <div style={{ backgroundColor: '#FFFFFF', padding: '24px', borderRadius: '16px', border: '1px solid #EBE7DF', boxShadow: '0 4px 12px rgba(31, 77, 60, 0.04)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#FAF7F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B5502E' }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-              </div>
-              <h3 style={{ margin: 0, color: '#1F4D3C', fontSize: '18px', fontWeight: 700 }}>Modalidad</h3>
-            </div>
-            <p style={{ margin: '0 0 16px 0', fontSize: '13px', color: '#667A70', paddingLeft: '42px' }}>¿Cómo quieres entregar este lote?</p>
-            
-            <label style={{ display: 'flex', gap: '12px', padding: '12px', borderRadius: '10px', border: `1px solid ${modalidad === 'DONACION' ? '#1F4D3C' : '#EBE7DF'}`, backgroundColor: modalidad === 'DONACION' ? '#FAF7F0' : '#FFFFFF', marginBottom: '10px', cursor: 'pointer', alignItems: 'center' }}>
-              <input type="radio" name="modalidad" value="DONACION" checked={modalidad === 'DONACION'} onChange={() => setModalidad('DONACION')} style={{ accentColor: '#1F4D3C' }} />
-              <div>
-                <strong style={{ fontSize: '13px', color: '#1F4D3C', display: 'block' }}>Donación Gratuita</strong>
-                <span style={{ fontSize: '11px', color: '#667A70' }}>Impacto social inmediato.</span>
-              </div>
-            </label>
-
-            <label style={{ display: 'flex', gap: '12px', padding: '12px', borderRadius: '10px', border: `1px solid ${modalidad === 'RESCATE' ? '#1F4D3C' : '#EBE7DF'}`, backgroundColor: modalidad === 'RESCATE' ? '#FAF7F0' : '#FFFFFF', cursor: 'pointer', alignItems: 'center' }}>
-              <input type="radio" name="modalidad" value="RESCATE" checked={modalidad === 'RESCATE'} onChange={() => setModalidad('RESCATE')} style={{ accentColor: '#1F4D3C' }} />
-              <div>
-                <strong style={{ fontSize: '13px', color: '#1F4D3C', display: 'block' }}>Bajo Costo (Rescate)</strong>
-                <span style={{ fontSize: '11px', color: '#667A70' }}>Recupera inversión.</span>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <div style={{ gridColumn: '1 / -1', backgroundColor: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid #EBE7DF', boxShadow: '0 4px 12px rgba(31, 77, 60, 0.04)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-            <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#FAF7F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B5502E' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            </div>
-            <h3 style={{ margin: 0, color: '#1F4D3C', fontSize: '18px', fontWeight: 700 }}>Punto de Retiro</h3>
-          </div>
-          <p style={{ margin: '0 0 24px 0', fontSize: '13px', color: '#667A70', paddingLeft: '42px' }}>Indica dónde deben recoger el lote en Quito.</p>
-          
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px', color: '#2C3E35' }}>Dirección Exacta</label>
-            <input type="text" placeholder="Ej: Av. González Suárez y Muros, Quito" value={direccion} onChange={(e) => setDireccion(e.target.value)} required style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid #D6D0C4', backgroundColor: '#FAF7F0', fontSize: '14px', color: '#2C3E35', boxSizing: 'border-box', outline: 'none' }} />
-          </div>
-          
+    <ComercioLayout>
+      <div className={styles.page}>
+        <div className={styles.pageHeader}>
           <div>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px', color: '#2C3E35' }}>Instrucciones de Retiro (Opcional)</label>
-            <textarea placeholder="Ej: Preguntar por el administrador en la puerta lateral." value={instrucciones} onChange={(e) => setInstrucciones(e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid #D6D0C4', backgroundColor: '#FAF7F0', fontSize: '14px', color: '#2C3E35', boxSizing: 'border-box', minHeight: '90px', outline: 'none' }} />
+            <h1 className={styles.titulo}>Publicar Nuevo Lote</h1>
+            <p className={styles.subtitulo}>Completa la información para publicar tus excedentes en FoodLink.</p>
           </div>
         </div>
 
-        <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'flex-end', gap: '14px', marginTop: '10px' }}>
-          <button type="button" onClick={() => navigate('/dashboard')} style={{ padding: '14px 22px', backgroundColor: '#EBE7DF', color: '#4F6359', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}>Guardar Borrador</button>
-          <button type="submit" style={{ padding: '14px 28px', backgroundColor: '#B5502E', color: '#FFFFFF', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '14px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(181, 80, 46, 0.2)' }}>Publicar Lote Ahora &gt;</button>
-        </div>
-      </form>
-    </div>
-  );
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.grid}>
+
+            {/* Columna principal */}
+            <div className={styles.colMain}>
+
+              <section className={styles.seccion}>
+                <h2 className={styles.seccionTitulo}>Información del lote</h2>
+                <div className={styles.campos}>
+                  <div className={styles.campo}>
+                    <label className={styles.label}>Nombre del producto / lote *</label>
+                    <input type="text" placeholder="Ej: Mix Frutas Tropicales" className={styles.input} required />
+                  </div>
+                  <div className={styles.campo}>
+                    <label className={styles.label}>Categoría *</label>
+                    <select className={styles.input} value={categoria} onChange={e => setCategoria(e.target.value)} required>
+                      <option value="">Selecciona una categoría</option>
+                      {CATEGORIAS.map(c => <option key={c}>{c}</option>)}
+                    </select>
+                  </div>
+                  <div className={styles.campo}>
+                    <label className={styles.label}>Descripción</label>
+                    <textarea className={`${styles.input} ${styles.textarea}`} rows={3} placeholder="Describe el contenido, calidad y características del lote..." value={descripcion} onChange={e => setDescripcion(e.target.value)}/>
+                  </div>
+                  <div className={styles.campoRow}>
+                    <div className={styles.campo}>
+                      <label className={styles.label}>Cantidad *</label>
+                      <input type="number" min="0" step="0.1" placeholder="0" className={styles.input} value={cantidad} onChange={e => setCantidad(e.target.value)} required/>
+                    </div>
+                    <div className={styles.campo}>
+                      <label className={styles.label}>Unidad</label>
+                      <select className={styles.input} value={unidad} onChange={e => setUnidad(e.target.value)}>
+                        {['kg', 'g', 'litros', 'unidades', 'raciones', 'cajas'].map(u => <option key={u}>{u}</option>)}
+                      </select>
+                    </div>
+                    <div className={styles.campo}>
+                      <label className={styles.label}>Fecha de caducidad *</label>
+                      <input type="datetime-local" className={styles.input} value={fecha} onChange={e => setFecha(e.target.value)} required/>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section className={styles.seccion}>
+                <h2 className={styles.seccionTitulo}>Modalidad y precio</h2>
+                <div className={styles.modalidades}>
+                  {[{val:'DONACION',label:'Donación',sub:'Gratis para beneficiarios'},{val:'VENTA',label:'Venta',sub:'A precio de rescate'},{val:'RETIRO',label:'Retiro',sub:'Recojo sin costo'}].map(m => (
+                    <button type="button" key={m.val} onClick={() => setModalidad(m.val)} className={`${styles.modalidadBtn} ${modalidad === m.val ? styles.modalidadActiva : ''}`}>
+                      <span className={styles.modalidadLabel}>{m.label}</span>
+                      <span className={styles.modalidadSub}>{m.sub}</span>
+                    </button>
+                  ))}
+                </div>
+                {modalidad === 'VENTA' && (
+                  <div className={styles.campo} style={{marginTop:'1rem'}}>
+                    <label className={styles.label}>Precio de rescate ($) *</label>
+                    <input type="number" min="0" step="0.01" placeholder="0.00" className={styles.input} value={precio} onChange={e => setPrecio(e.target.value)} required/>
+                  </div>
+                )}
+              </section>
+
+              <section className={styles.seccion}>
+                <h2 className={styles.seccionTitulo}>Punto de retiro</h2>
+                <div className={styles.campos}>
+                  <div className={styles.campo}>
+                    <label className={styles.label}>Dirección *</label>
+                    <input type="text" placeholder="Av. González Suárez y Muros, Quito" className={styles.input} value={direccion} onChange={e => setDireccion(e.target.value)} required/>
+                  </div>
+                  <div className={styles.campo}>
+                    <label className={styles.label}>Horario de retiro *</label>
+                    <input type="text" placeholder="Ej: Hoy, 16:00 – 19:00" className={styles.input} value={horario} onChange={e => setHorario(e.target.value)} required/>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            {/* Columna lateral */}
+            <div className={styles.colSide}>
+              <section className={styles.seccion}>
+                <h2 className={styles.seccionTitulo}>Imagen del lote</h2>
+                <label className={styles.imgUpload}>
+                  {imgPreview
+                    ? <img src={imgPreview} alt="Preview" className={styles.imgPreview}/>
+                    : <div className={styles.imgPlaceholder}>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        <span>Haz clic para subir una foto</span>
+                        <span className={styles.imgHint}>JPG, PNG — máx. 5 MB</span>
+                      </div>
+                  }
+                  <input type="file" accept="image/*" onChange={handleImg} className={styles.imgInput}/>
+                </label>
+              </section>
+
+              <div className={styles.infoCard}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <div>
+                  <p className={styles.infoTitulo}>Consejos para un buen lote</p>
+                  <ul className={styles.infoList}>
+                    <li>Incluye una foto clara del producto</li>
+                    <li>Describe el estado y calidad del alimento</li>
+                    <li>Especifica el horario de retiro con precisión</li>
+                    <li>Mantén actualizada la cantidad disponible</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.acciones}>
+            <button type="submit" className={styles.btnPublicar}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Publicar lote
+            </button>
+            <button type="button" className={styles.btnBorrador} onClick={() => navigate('/dashboard/comercio/mis-lotes')}>Guardar borrador</button>
+            <button type="button" className={styles.btnCancelar} onClick={() => navigate(-1)}>Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </ComercioLayout>
+  )
 }
