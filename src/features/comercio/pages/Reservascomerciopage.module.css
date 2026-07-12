@@ -16,7 +16,6 @@
 
 .subtitulo { font-size: 0.85rem; color: var(--fl-ink-soft); margin: 0; }
 
-/* Métricas */
 .metricasRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
