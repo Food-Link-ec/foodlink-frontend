@@ -11,6 +11,7 @@ import MisLotesPage from '../features/comercio/pages/MisLotesPage';
 import ImpactoComercioPage from '../features/comercio/pages/ImpactoComercioPage';
 import ConfiguracionComercioPage from '../features/comercio/pages/ConfiguracionComercioPage';
 import NotificacionesComercioPage from '../features/comercio/pages/NotificacionesComercioPage';
+import PerfilComercioPage from '../features/comercio/pages/Perfilcomerciopage';
 // Comprador
 import ExplorarLotesPage from '../features/comprador/pages/ExplorarLotesPage';
 import DetalleLotePage from '../features/comprador/pages/DetalleLotePage';
@@ -47,6 +48,7 @@ export default function AppRouter() {
       <Route path="/dashboard/comercio/impacto" element={<RutaProtegida><ImpactoComercioPage /></RutaProtegida>} />
       <Route path="/dashboard/comercio/configuracion" element={<RutaProtegida><ConfiguracionComercioPage /></RutaProtegida>} />
       <Route path="/dashboard/comercio/notificaciones" element={<RutaProtegida><NotificacionesComercioPage /></RutaProtegida>} />
+      <Route path="/dashboard/comercio/perfil" element={<RutaProtegida><PerfilComercioPage /></RutaProtegida>} />
 
       {/* Comprador */}
       <Route path="/dashboard/comprador" element={<RutaProtegida><ExplorarLotesPage /></RutaProtegida>} />
