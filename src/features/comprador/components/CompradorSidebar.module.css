@@ -1,0 +1,136 @@
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background-color: var(--fl-surface);
+  border-right: 1px solid var(--fl-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1.25rem;
+  overflow-y: auto;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.logoLink {
+  text-decoration: none;
+  display: inline-flex;
+  margin-bottom: 1.75rem;
+}
+
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: var(--fl-bg);
+  border-radius: var(--fl-radius-md);
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--fl-border);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  background: var(--fl-verde-bosque);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fl-font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.userName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--fl-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userRole {
+  font-size: 0.7rem;
+  color: var(--fl-ink-faint);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.875rem;
+  border-radius: var(--fl-radius-sm);
+  text-decoration: none;
+  color: var(--fl-ink-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.navItem:hover {
+  background-color: var(--fl-bg);
+  color: var(--fl-ink);
+}
+
+.active {
+  background-color: var(--fl-verde-suave);
+  color: var(--fl-verde-bosque);
+  font-weight: 700;
+}
+
+.active:hover {
+  background-color: var(--fl-verde-suave);
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.75rem 0.875rem;
+  background: transparent;
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-sm);
+  color: var(--fl-coral);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.logoutBtn:hover {
+  background-color: var(--fl-coral-suave);
+  border-color: var(--fl-coral);
+}
+
+/* Mobile — sidebar se oculta */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}

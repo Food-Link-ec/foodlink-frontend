@@ -1,0 +1,54 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--fl-bg);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+/* Mobile header — oculto en desktop */
+.mobileHeader {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .mobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: var(--fl-surface);
+    border-bottom: 1px solid var(--fl-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .mobileLogoLink {
+    text-decoration: none;
+    display: inline-flex;
+  }
+
+  .mobileLogout {
+    background: none;
+    border: none;
+    color: var(--fl-coral);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    border-radius: var(--fl-radius-sm);
+  }
+
+  .mobileLogout:hover {
+    background: var(--fl-coral-suave);
+  }
+}
