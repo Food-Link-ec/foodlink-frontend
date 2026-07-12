@@ -44,9 +44,7 @@
   font-size: 0.95rem;
   transition: color 0.2s;
 }
-.navLinks a:hover {
-  color: #14332A;
-}
+.navLinks a:hover { color: #14332A; }
 .activeNavLink {
   color: #B5502E !important;
   border-bottom: 2px solid #B5502E;
@@ -77,12 +75,12 @@
   transition: background-color 0.2s;
   white-space: nowrap;
 }
-.navPrimaryBtn:hover {
-  background-color: #14332A;
-}
+.navPrimaryBtn:hover { background-color: #14332A; }
+
+/* ===== HERO ===== */
 .heroSection {
   background-color: #EAE3D5;
-  min-height: 92vh;
+  min-height: 88vh;
   display: flex;
   align-items: center;
   padding: 3rem 8%;
@@ -117,7 +115,7 @@
   font-weight: 700;
   line-height: 1.15;
   color: #17241D;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1.25rem 0;
   letter-spacing: -1px;
 }
 .heroSubtitle {
@@ -125,7 +123,7 @@
   font-weight: 600;
   line-height: 1.6;
   color: #111A15;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 .heroButtons {
   display: flex;
@@ -143,9 +141,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.heroPrimaryBtn:hover {
-  background-color: #9A4225;
-}
+.heroPrimaryBtn:hover { background-color: #9A4225; }
 .heroSecondaryBtn {
   background-color: #1F4D3C;
   color: white;
@@ -157,20 +153,20 @@
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.heroSecondaryBtn:hover {
-  background-color: #14332A;
-}
+.heroSecondaryBtn:hover { background-color: #14332A; }
+
+/* ===== STATS ===== */
 .statsSection {
   display: flex;
   justify-content: space-between;
-  padding: 5rem 8%;
+  padding: 3.5rem 8%;
   gap: 2rem;
   background-color: #FAF7F0;
   box-sizing: border-box;
 }
 .statBox {
   background: white;
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 12px;
   flex: 1;
   box-shadow: 0 10px 30px rgba(23, 36, 29, 0.03);
@@ -185,21 +181,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 .statBox h2 {
   font-family: 'Sora', sans-serif;
   color: #17241D;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.35rem 0;
 }
 .statLabel {
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.5px;
   color: #1F4D3C;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.5rem 0;
 }
 .statDesc {
   font-size: 0.85rem;
@@ -207,8 +203,10 @@
   color: #667A70;
   margin: 0;
 }
+
+/* ===== PROCESO ===== */
 .processSection {
-  padding: 5rem 8%;
+  padding: 3.5rem 8%;
   background-color: #FAF7F0;
   box-sizing: border-box;
 }
@@ -216,7 +214,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   gap: 1.5rem;
   flex-wrap: wrap;
 }
@@ -225,7 +223,7 @@
   font-size: 2.25rem;
   font-weight: 700;
   color: #17241D;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.4rem 0;
 }
 .processSectionSub {
   color: #667A70;
@@ -247,10 +245,10 @@
   flex: 1.6;
   background-color: #17241D;
   border-radius: 16px;
-  height: 450px;
+  height: 420px;
   display: flex;
   align-items: flex-end;
-  padding: 3rem;
+  padding: 2.5rem;
   background-size: cover;
   background-position: center 25%;
   position: relative;
@@ -272,7 +270,7 @@
 .processMainContent h3 {
   font-family: 'Sora', sans-serif;
   font-size: 1.5rem;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.6rem 0;
 }
 .processMainContent p {
   font-size: 0.95rem;
@@ -284,12 +282,12 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 .processSideCardGreen, .processSideCardTerracotta {
   flex: 1;
   border-radius: 16px;
-  padding: 2.5rem;
+  padding: 2rem;
   color: white;
   display: flex;
   flex-direction: column;
@@ -301,14 +299,14 @@
 .processSideCardTerracotta { background-color: #9A4225; }
 .sideCardIcon {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
+  top: 1.5rem;
+  right: 1.5rem;
   opacity: 0.25;
 }
 .processSideColumn h3 {
   font-family: 'Sora', sans-serif;
-  font-size: 1.35rem;
-  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  margin: 0 0 0.4rem 0;
 }
 .processSideColumn p {
   font-size: 0.9rem;
@@ -316,8 +314,10 @@
   margin: 0;
   opacity: 0.9;
 }
+
+/* ===== ROLES ===== */
 .rolesSection {
-  padding: 6rem 8%;
+  padding: 3.5rem 8%;
   background-color: #FAF7F0;
   box-sizing: border-box;
 }
@@ -326,7 +326,7 @@
   font-size: 2.25rem;
   text-align: center;
   font-weight: 700;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
 }
 .rolesGrid {
   display: flex;
@@ -344,31 +344,31 @@
   box-sizing: border-box;
 }
 .roleImgPlaceholderOne, .roleImgPlaceholderTwo, .roleImgPlaceholderThree {
-  height: 220px;
+  height: 200px;
   background-color: #EAE3D5;
   border-radius: 12px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   background-size: cover;
   background-position: center;
 }
 .roleCard h3 {
   font-family: 'Sora', sans-serif;
   color: #9A4225;
-  font-size: 1.35rem;
-  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  margin: 0 0 0.6rem 0;
 }
 .roleCard p {
   color: #667A70;
   font-size: 0.9rem;
   line-height: 1.6;
-  margin: 0 0 2rem 0;
-  min-height: 65px;
+  margin: 0 0 1.5rem 0;
+  min-height: 60px;
 }
 .roleCardBtn {
   background-color: #EBE8E0;
   color: #4A5C54;
   border: none;
-  padding: 0.85rem;
+  padding: 0.75rem;
   border-radius: 8px;
   font-weight: 700;
   font-size: 0.9rem;
@@ -381,9 +381,11 @@
   background-color: #1F4D3C;
   color: white;
 }
+
+/* ===== FOOTER ===== */
 .footerSection {
   background-color: #EAE3D5;
-  padding: 4rem 8% 3rem 8%;
+  padding: 3rem 8% 2.5rem 8%;
   border-top: 1px solid #D1CCC1;
   box-sizing: border-box;
 }
@@ -391,7 +393,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid #D1CCC1;
   gap: 1.5rem;
   flex-wrap: wrap;
@@ -435,7 +437,7 @@
   flex-shrink: 0;
 }
 .footerBottom {
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
@@ -446,158 +448,54 @@
 }
 .footerBottom p { margin: 0; }
 
-/* ============ RESPONSIVE ============ */
-
-/* Tablets / small laptops */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
-  .heroTitle {
-    font-size: 2.5rem;
-  }
-  .heroContent {
-    max-width: 100%;
-  }
-  .statsSection {
-    flex-wrap: wrap;
-  }
-  .statBox {
-    flex: 1 1 calc(50% - 1rem);
-    min-width: 220px;
-  }
-  .processGrid {
-    flex-direction: column;
-  }
-  .processMainCard {
-    height: 380px;
-  }
-  .processSideColumn {
-    flex-direction: row;
-  }
-  .rolesGrid {
-    flex-wrap: wrap;
-  }
-  .roleCard {
-    flex: 1 1 calc(50% - 1rem);
-    min-width: 260px;
-  }
+  .heroTitle { font-size: 2.5rem; }
+  .heroContent { max-width: 100%; }
+  .statsSection { flex-wrap: wrap; }
+  .statBox { flex: 1 1 calc(50% - 1rem); min-width: 220px; }
+  .processGrid { flex-direction: column; }
+  .processMainCard { height: 340px; }
+  .processSideColumn { flex-direction: row; }
+  .rolesGrid { flex-wrap: wrap; }
+  .roleCard { flex: 1 1 calc(50% - 1rem); min-width: 260px; }
 }
-
-/* Tablets portrait / large phones */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 1rem 6%;
-  }
-  .navActions {
-    gap: 1rem;
-  }
-  .heroSection {
-    min-height: auto;
-    padding: 2.5rem 6%;
-  }
-  .heroContent {
-    padding: 2rem;
-  }
-  .heroTitle {
-    font-size: 2rem;
-  }
-  .heroSubtitle {
-    font-size: 0.95rem;
-    margin-bottom: 1.75rem;
-  }
-  .heroButtons {
-    flex-direction: column;
-  }
-  .heroPrimaryBtn, .heroSecondaryBtn {
-    width: 100%;
-    text-align: center;
-  }
-  .statsSection {
-    padding: 3rem 6%;
-    flex-direction: column;
-  }
-  .statBox {
-    flex: 1 1 100%;
-    min-width: 0;
-  }
-  .processSection, .rolesSection, .footerSection {
-    padding-left: 6%;
-    padding-right: 6%;
-  }
-  .processHeader {
-    align-items: flex-start;
-  }
-  .processHeader h2 {
-    font-size: 1.75rem;
-  }
-  .processSideColumn {
-    flex-direction: column;
-  }
-  .rolesGrid {
-    flex-direction: column;
-  }
-  .roleCard {
-    flex: 1 1 100%;
-    min-width: 0;
-  }
-  .rolesTitle {
-    font-size: 1.75rem;
-    margin-bottom: 2.5rem;
-  }
-  .footerTop {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-  }
-  .footerLinks {
-    justify-content: flex-start;
-  }
-  .footerLinks a {
-    margin: 0 1rem 0 0;
-  }
-  .footerBottom {
-    flex-direction: column;
-  }
+  .navbar { padding: 1rem 6%; }
+  .navActions { gap: 1rem; }
+  .heroSection { min-height: auto; padding: 2.5rem 6%; }
+  .heroContent { padding: 2rem; }
+  .heroTitle { font-size: 2rem; }
+  .heroSubtitle { font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .heroButtons { flex-direction: column; }
+  .heroPrimaryBtn, .heroSecondaryBtn { width: 100%; text-align: center; }
+  .statsSection { padding: 2.5rem 6%; flex-direction: column; }
+  .statBox { flex: 1 1 100%; min-width: 0; }
+  .processSection, .rolesSection, .footerSection { padding-left: 6%; padding-right: 6%; }
+  .processSection { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .processHeader { align-items: flex-start; }
+  .processHeader h2 { font-size: 1.75rem; }
+  .processSideColumn { flex-direction: column; }
+  .rolesGrid { flex-direction: column; }
+  .roleCard { flex: 1 1 100%; min-width: 0; }
+  .rolesTitle { font-size: 1.75rem; margin-bottom: 2rem; }
+  .rolesSection { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .footerTop { flex-direction: column; align-items: flex-start; }
+  .footerLinks { justify-content: flex-start; }
+  .footerLinks a { margin: 0 1rem 0 0; }
+  .footerBottom { flex-direction: column; }
 }
-
-/* Small phones */
 @media (max-width: 480px) {
-  .navbar {
-    padding: 0.85rem 5%;
-  }
-  .logoText {
-    font-size: 1.15rem;
-  }
-  .navPrimaryBtn {
-    padding: 0.55rem 0.9rem;
-    font-size: 0.8rem;
-  }
-  .loginLink {
-    font-size: 0.85rem;
-  }
-  .heroContent {
-    padding: 1.5rem;
-    border-radius: 12px;
-  }
-  .heroTitle {
-    font-size: 1.6rem;
-    letter-spacing: -0.5px;
-  }
-  .badge {
-    font-size: 0.7rem;
-  }
-  .statBox {
-    padding: 1.75rem;
-  }
-  .statBox h2 {
-    font-size: 2.1rem;
-  }
-  .processMainCard {
-    height: 320px;
-    padding: 1.75rem;
-  }
-  .processSideCardGreen, .processSideCardTerracotta {
-    padding: 1.75rem;
-  }
-  .roleImgPlaceholderOne, .roleImgPlaceholderTwo, .roleImgPlaceholderThree {
-    height: 180px;
-  }
+  .navbar { padding: 0.85rem 5%; }
+  .logoText { font-size: 1.15rem; }
+  .navPrimaryBtn { padding: 0.55rem 0.9rem; font-size: 0.8rem; }
+  .loginLink { font-size: 0.85rem; }
+  .heroContent { padding: 1.5rem; border-radius: 12px; }
+  .heroTitle { font-size: 1.6rem; letter-spacing: -0.5px; }
+  .badge { font-size: 0.7rem; }
+  .statBox { padding: 1.5rem; }
+  .statBox h2 { font-size: 2.1rem; }
+  .processMainCard { height: 300px; padding: 1.75rem; }
+  .processSideCardGreen, .processSideCardTerracotta { padding: 1.75rem; }
+  .roleImgPlaceholderOne, .roleImgPlaceholderTwo, .roleImgPlaceholderThree { height: 170px; }
 }

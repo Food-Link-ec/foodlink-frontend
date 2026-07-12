@@ -73,10 +73,48 @@
 /* --- Área de Login (Formulario) --- */
 .fl-auth__content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: var(--fl-space-6);
+  justify-content: flex-start;
+  padding: var(--fl-space-4) var(--fl-space-6) var(--fl-space-6);
   background: radial-gradient(circle at 85% 10%, rgba(217, 113, 63, 0.05), transparent 40%), var(--fl-bg);
+  min-height: 100vh;
+}
+
+/* Header superior de la columna derecha */
+.fl-auth__form-header {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--fl-space-3) 0 var(--fl-space-4) 0;
+}
+
+.fl-auth__form-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.fl-auth__form-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fl-fs-sm);
+  font-weight: 600;
+  color: var(--fl-ink-soft);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid var(--fl-border-fuerte);
+  border-radius: var(--fl-radius-full);
+  background: var(--fl-surface);
+  transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.fl-auth__form-back:hover {
+  border-color: var(--fl-verde-bosque);
+  color: var(--fl-verde-bosque);
+  box-shadow: 0 2px 8px rgba(31, 77, 60, 0.08);
 }
 
 .fl-auth__card {
@@ -100,10 +138,27 @@
 .fl-auth__login-hint a { font-weight: 700; text-decoration: none; color: var(--fl-verde-bosque); }
 .fl-auth__login-hint a:hover { text-decoration: underline; }
 
+/* --- Logos --- */
+.fl-logo-img {
+  width: 160px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.fl-logo-img--compact {
+  width: 110px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 /* --- Responsividad --- */
 @media (max-width: 860px) {
   .fl-auth { grid-template-columns: 1fr; }
-  .fl-auth__panel { padding: var(--fl-space-5); min-height: 240px; }
-  .fl-auth__panel-body { margin-top: var(--fl-space-5); }
+  .fl-auth__panel { padding: var(--fl-space-5); min-height: 220px; }
+  .fl-auth__panel-body { margin-top: var(--fl-space-4); }
   .fl-auth__stat { display: none; }
+  .fl-auth__content { padding: var(--fl-space-4) var(--fl-space-4) var(--fl-space-5); min-height: unset; }
+  .fl-auth__form-header { max-width: 100%; }
+  .fl-auth__card { max-width: 100%; }
 }
