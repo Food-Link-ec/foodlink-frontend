@@ -1,0 +1,582 @@
+.page {
+  padding: 0 0 5rem;
+  max-width: 1200px;
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 2.5rem;
+  font-size: 0.8rem;
+  color: var(--fl-ink-faint);
+}
+
+.breadcrumbLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: var(--fl-ink-faint);
+  font-weight: 500;
+  transition: color 0.12s;
+}
+
+.breadcrumbLink:hover { color: var(--fl-verde-bosque); }
+
+.breadcrumb svg { opacity: 0.4; flex-shrink: 0; }
+
+.breadcrumbCat { color: var(--fl-ink-soft); }
+.breadcrumbActual { color: var(--fl-ink); font-weight: 600; }
+
+/* ── GRID PRINCIPAL ── */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding: 0 2.5rem;
+  align-items: start;
+}
+
+/* ── COLUMNA IMÁGENES ── */
+.colImg { display: flex; flex-direction: column; gap: 1rem; position: sticky; top: 74px; }
+
+.imgPrincipalWrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: var(--fl-bg);
+}
+
+.imgPrincipal {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--fl-ease);
+}
+
+.imgPrincipalWrap:hover .imgPrincipal { transform: scale(1.02); }
+
+/* Tags sobre imagen */
+.tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--fl-radius-full);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.tag_urgente { background: var(--fl-coral); color: #fff; }
+.tag_verde { background: var(--fl-verde-bosque); color: #fff; }
+.tag_dorado { background: var(--fl-dorado-oscuro); color: #fff; }
+
+.pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  flex-shrink: 0;
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.gratisChip {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--fl-verde-bosque);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: var(--fl-radius-full);
+}
+
+/* Galería miniaturas */
+.galeria {
+  display: flex;
+  gap: 0.625rem;
+}
+
+.thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+  padding: 0;
+  flex-shrink: 0;
+  background: var(--fl-bg);
+}
+
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb:hover { border-color: var(--fl-verde-linea); transform: translateY(-1px); }
+.thumbActivo { border-color: var(--fl-verde-bosque) !important; }
+
+/* Card comercio */
+.comercioCard {
+  background: var(--fl-surface);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-md);
+  padding: 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.comercioHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.comercioAvatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--fl-verde-bosque), var(--fl-verde-musgo));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fl-font-display);
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.comercioNombre {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--fl-ink);
+  margin: 0 0 4px;
+}
+
+.comercioRating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.comercioRatingNum {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--fl-ink);
+  margin-left: 4px;
+}
+
+.comercioRatingTotal {
+  font-size: 0.72rem;
+  color: var(--fl-ink-faint);
+}
+
+.comercioDatos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--fl-border);
+}
+
+.comercioDatos span {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 0.78rem;
+  color: var(--fl-ink-soft);
+  line-height: 1.4;
+}
+
+.comercioDatos svg { flex-shrink: 0; margin-top: 1px; color: var(--fl-ink-faint); }
+
+/* ── COLUMNA INFO ── */
+.colInfo { display: flex; flex-direction: column; gap: 1.5rem; padding-top: 0.25rem; }
+
+/* Header lote */
+.loteHeader { display: flex; flex-direction: column; gap: 0.625rem; }
+
+.loteMeta { display: flex; align-items: center; gap: 0.5rem; }
+
+.loteCategoria {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fl-ink-faint);
+}
+
+.loteModalidad {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--fl-radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mod_venta { background: var(--fl-dorado-suave); color: var(--fl-dorado-oscuro); }
+.mod_donación { background: var(--fl-verde-suave); color: var(--fl-verde-bosque); }
+.mod_retiro { background: var(--fl-surface-sunken); color: var(--fl-ink-soft); }
+
+.loteNombre {
+  font-family: var(--fl-font-display);
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--fl-ink);
+  margin: 0;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.loteDescripcion {
+  font-size: 0.9rem;
+  color: var(--fl-ink-soft);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Datos clave */
+.datosGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.datoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem;
+  background: var(--fl-surface);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-md);
+}
+
+.datoIcon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 8px;
+  background: var(--fl-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fl-verde-bosque);
+}
+
+.datoLabel {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--fl-ink-faint);
+  margin-bottom: 2px;
+}
+
+.datoVal {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--fl-ink);
+}
+
+.datoUrgente { color: var(--fl-coral) !important; }
+
+/* Contenido */
+.contenidoSection { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.seccionTitulo {
+  font-family: var(--fl-font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--fl-ink);
+  margin: 0;
+}
+
+.contenidoList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contenidoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  color: var(--fl-ink-soft);
+  padding: 0.5rem 0.75rem;
+  background: var(--fl-surface);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-sm);
+}
+
+.contenidoItem svg { color: var(--fl-verde-bosque); flex-shrink: 0; }
+
+/* Card de pago */
+.pagoCard {
+  background: var(--fl-surface);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-lg);
+  padding: 1.375rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pagoPrecios {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.pagoLeft { display: flex; flex-direction: column; gap: 3px; }
+
+.pagoAntes {
+  font-size: 0.78rem;
+  color: var(--fl-ink-faint);
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.pagoOferta {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.pagoPrecio {
+  font-family: var(--fl-font-display);
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: var(--fl-verde-bosque);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.pagoGratis {
+  font-family: var(--fl-font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--fl-verde-bosque);
+  line-height: 1;
+}
+
+.pagoUnidad {
+  font-size: 0.82rem;
+  color: var(--fl-ink-faint);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.pagoAhorroBadge {
+  background: var(--fl-coral-suave);
+  color: var(--fl-coral-oscuro);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: var(--fl-radius-sm);
+  align-self: flex-start;
+}
+
+/* Cantidad */
+.cantidadWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--fl-border);
+  border-bottom: 1px solid var(--fl-border);
+}
+
+.cantidadLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--fl-ink-soft);
+}
+
+.cantidadCtrl {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-sm);
+  overflow: hidden;
+}
+
+.cantidadBtn {
+  width: 36px;
+  height: 36px;
+  background: var(--fl-bg);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fl-ink-soft);
+  transition: background 0.12s, color 0.12s;
+}
+
+.cantidadBtn:hover:not(:disabled) { background: var(--fl-border); color: var(--fl-ink); }
+.cantidadBtn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.cantidadNum {
+  min-width: 40px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--fl-ink);
+  border-left: 1px solid var(--fl-border);
+  border-right: 1px solid var(--fl-border);
+  padding: 0 0.5rem;
+  line-height: 36px;
+}
+
+/* Resumen pago */
+.pagoResumen {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--fl-ink-soft);
+}
+
+.pagoResumen strong {
+  font-family: var(--fl-font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--fl-ink);
+}
+
+.pagoAhorroTotal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--fl-success);
+  background: var(--fl-success-suave);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--fl-radius-sm);
+}
+
+.btnReservar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.95rem;
+  background: var(--fl-coral);
+  color: #fff;
+  border: none;
+  border-radius: var(--fl-radius-md);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.btnReservar:hover { background: var(--fl-coral-oscuro); }
+.btnReservar:active { transform: scale(0.99); }
+
+.pagoNota {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--fl-ink-faint);
+  text-align: center;
+  justify-content: center;
+  margin: 0;
+}
+
+/* Impacto ambiental */
+.impactoCard {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  background: var(--fl-verde-suave);
+  border: 1px solid var(--fl-verde-linea);
+  border-radius: var(--fl-radius-md);
+  color: var(--fl-verde-bosque);
+}
+
+.impactoTitulo {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--fl-verde-bosque);
+  margin-bottom: 2px;
+}
+
+.impactoSub {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--fl-ink-soft);
+}
+
+/* No encontrado */
+.noEncontrado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+  color: var(--fl-ink-faint);
+}
+
+.noEncontrado h2 { font-size: 1.25rem; color: var(--fl-ink); margin: 0; }
+.noEncontrado p { font-size: 0.9rem; margin: 0; }
+
+.btnVolver {
+  padding: 0.75rem 2rem;
+  background: var(--fl-verde-bosque);
+  color: #fff;
+  border: none;
+  border-radius: var(--fl-radius-full);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1.5rem;
+  }
+  .colImg { position: static; }
+  .breadcrumb { padding: 1rem 1.5rem; }
+  .loteNombre { font-size: 1.5rem; }
+}
+
+@media (max-width: 600px) {
+  .mainGrid { padding: 0 1.25rem; }
+  .datosGrid { grid-template-columns: 1fr; }
+  .breadcrumb { padding: 1rem 1.25rem; }
+  .loteNombre { font-size: 1.25rem; }
+  .pagoPrecio { font-size: 1.875rem; }
+}
