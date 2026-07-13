@@ -72,8 +72,13 @@ export default function AdminDashboardPage() {
 
   const totalPendientes = comerciosPendientes.length + beneficiariosPendientes.length
 
+  const badges = {
+    comercios: comerciosPendientes.length,
+    beneficiarios: beneficiariosPendientes.length,
+  }
+
   return (
-    <AdminLayout>
+    <AdminLayout activeTab={tab} onTabChange={setTab} badges={badges}>
       <div className={styles.page}>
 
         {/* ── Header ── */}
