@@ -7,7 +7,7 @@ export const registrarComprador = async (datos: DatosRegistroComprador): Promise
     // Excluimos confirmarClave antes de enviar el payload al servidor
     const { confirmarClave, ...payload } = datos;
 
-    const response = await api.post<CompradorRegistrado>('/api/v1/compradores', payload);
+    const response = await api.post<CompradorRegistrado>('/compradores', payload);
     return response.data;
   } catch (error) {
     console.error("Error al registrar comprador:", error);

@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
 import CompradorLayout from '../components/CompradorLayout'
+import { getMisEstadisticas } from '../../perfil/services/perfilService'
+import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService'
 import styles from './ImpactoPersonalPage.module.css'
 
 const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul']
@@ -15,6 +18,14 @@ const LOGROS = [
 ]
 
 export default function ImpactoPersonalPage() {
+  const [stats, setStats] = useState<EstadisticasCompradorResponse | null>(null)
+
+  useEffect(() => {
+    let cancelado = false
+    getMisEstadisticas().then((data) => { if (!cancelado) setStats(data) }).catch(() => {})
+    return () => { cancelado = true }
+  }, [])
+
   return (
     <CompradorLayout>
       <div className={styles.page}>
@@ -31,16 +42,16 @@ export default function ImpactoPersonalPage() {
           </div>
         </div>
 
-        {/* Stats principales */}
+        {/* Stats principales — ahorro y lotes son datos reales de /compradores/mis-estadisticas */}
         <div className={styles.statsGrid}>
           <div className={`${styles.statCard} ${styles.statDestacado}`}>
             <div className={styles.statIcon}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
             <div>
-              <span className={styles.statNum}>$165</span>
+              <span className={styles.statNum}>${stats ? stats.ahorroEstimado.toFixed(2) : '—'}</span>
               <span className={styles.statLabel}>Ahorro acumulado</span>
-              <span className={styles.statSub}>Desde que te uniste</span>
+              <span className={styles.statSub}>{stats?.mensajeAhorro ?? 'Desde que te uniste'}</span>
             </div>
           </div>
           <div className={styles.statCard}>
@@ -48,9 +59,9 @@ export default function ImpactoPersonalPage() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
             </div>
             <div>
-              <span className={styles.statNum}>18 kg</span>
-              <span className={styles.statLabel}>CO₂ evitado</span>
-              <span className={styles.statSub}>= 3 árboles plantados</span>
+              <span className={styles.statNum}>{stats ? stats.totalKgAdquiridos.toFixed(1) : '—'} kg</span>
+              <span className={styles.statLabel}>Alimento rescatado</span>
+              <span className={styles.statSub}>Peso total adquirido</span>
             </div>
           </div>
           <div className={styles.statCard}>
@@ -58,19 +69,9 @@ export default function ImpactoPersonalPage() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             </div>
             <div>
-              <span className={styles.statNum}>7</span>
+              <span className={styles.statNum}>{stats ? stats.totalLotesComprados : '—'}</span>
               <span className={styles.statLabel}>Lotes rescatados</span>
-              <span className={styles.statSub}>De 4 comercios distintos</span>
-            </div>
-          </div>
-          <div className={styles.statCard}>
-            <div className={styles.statIcon}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <div>
-              <span className={styles.statNum}>63%</span>
-              <span className={styles.statLabel}>Descuento Promedio</span>
-              <span className={styles.statSub}>A través de compras</span>
+              <span className={styles.statSub}>Total de compras</span>
             </div>
           </div>
         </div>

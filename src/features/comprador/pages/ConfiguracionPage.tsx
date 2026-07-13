@@ -1,11 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CompradorLayout from '../components/CompradorLayout'
+import { getMisEstadisticas } from '../../perfil/services/perfilService'
+import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService'
 import styles from './ConfiguracionPage.module.css'
 
 export default function ConfiguracionPage() {
   const nombre = localStorage.getItem('nombreUsuario') || 'Comprador'
   const email = localStorage.getItem('email') || 'usuario@email.com'
   const inicial = nombre.charAt(0).toUpperCase()
+  const [estadisticas, setEstadisticas] = useState<EstadisticasCompradorResponse | null>(null)
+
+  useEffect(() => {
+    const tipoUsuario = localStorage.getItem('tipoUsuario')
+    if (tipoUsuario !== 'COMPRADOR') return
+    getMisEstadisticas().then(setEstadisticas).catch(() => {})
+  }, [])
 
   const [notifPedidos, setNotifPedidos] = useState(true)
   const [notifNuevos, setNotifNuevos] = useState(true)
@@ -73,6 +82,35 @@ export default function ConfiguracionPage() {
               </div>
             </div>
           </section>
+
+          {/* Mis compras */}
+          {estadisticas && (
+            <section className={styles.seccion}>
+              <h2 className={styles.seccionTitulo}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                Mis compras
+              </h2>
+              <div className={styles.campos}>
+                <div className={styles.campoGrupo}>
+                  <label className={styles.campoLabel}>Lotes comprados</label>
+                  <p className={styles.perfilNombre}>{estadisticas.totalLotesComprados}</p>
+                </div>
+                <div className={styles.campoGrupo}>
+                  <label className={styles.campoLabel}>Total pagado</label>
+                  <p className={styles.perfilNombre}>${estadisticas.totalPagado.toFixed(2)}</p>
+                </div>
+                <div className={styles.campoGrupo}>
+                  <label className={styles.campoLabel}>Kg adquiridos</label>
+                  <p className={styles.perfilNombre}>{estadisticas.totalKgAdquiridos} kg</p>
+                </div>
+                <div className={styles.campoGrupo}>
+                  <label className={styles.campoLabel}>Ahorro estimado</label>
+                  <p className={styles.perfilNombre}>${estadisticas.ahorroEstimado.toFixed(2)}</p>
+                </div>
+              </div>
+              <p className={styles.toggleSub}>{estadisticas.mensajeAhorro}</p>
+            </section>
+          )}
 
           {/* Notificaciones */}
           <section className={styles.seccion}>
