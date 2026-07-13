@@ -1,0 +1,40 @@
+.page { padding: 2rem 2.5rem 5rem; max-width: 860px; }
+.pageHeader { margin-bottom: 1.75rem; }
+.titulo { font-family: var(--fl-font-display); font-size: 1.625rem; font-weight: 800; color: var(--fl-verde-musgo); margin: 0 0 0.25rem; letter-spacing: -0.03em; }
+.subtitulo { font-size: 0.85rem; color: var(--fl-ink-soft); margin: 0; }
+.statsRow { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.75rem; }
+.statCard { background: var(--fl-surface); border: 1px solid var(--fl-border); border-radius: var(--fl-radius-md); padding: 1rem 1.125rem; display: flex; flex-direction: column; gap: 3px; }
+.statVal { font-family: var(--fl-font-display); font-size: 1.625rem; font-weight: 900; line-height: 1; }
+.statLabel { font-size: 0.75rem; font-weight: 600; color: var(--fl-ink-soft); }
+.filtros { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.pill { padding: 0.4rem 0.875rem; border-radius: var(--fl-radius-full); border: 1px solid var(--fl-border-fuerte); background: var(--fl-surface); color: var(--fl-ink-soft); font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.12s; }
+.pill:hover { border-color: var(--fl-verde-bosque); color: var(--fl-verde-bosque); }
+.pillActivo { background: var(--fl-verde-bosque); border-color: var(--fl-verde-bosque); color: #fff; font-weight: 700; }
+.lista { display: flex; flex-direction: column; gap: 0.75rem; }
+.cardWrap { border-radius: var(--fl-radius-md); border: 1px solid var(--fl-border); overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
+.cardWrap:hover, .cardWrapAbierto { border-color: var(--fl-verde-linea); box-shadow: 0 4px 16px rgba(31,77,60,0.07); }
+.card { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.125rem; cursor: pointer; }
+.cardLeft { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cardId { font-family: var(--fl-font-mono); font-size: 0.65rem; color: var(--fl-ink-faint); }
+.cardLote { font-family: var(--fl-font-display); font-size: 0.95rem; font-weight: 700; color: var(--fl-ink); margin: 0; }
+.cardComercio { font-size: 0.75rem; color: var(--fl-ink-faint); margin: 0; }
+.cardRight { display: flex; align-items: center; gap: 0.875rem; flex-shrink: 0; }
+.cardEst { display: inline-flex; align-items: center; gap: 5px; font-size: 0.68rem; font-weight: 800; padding: 3px 9px; border-radius: var(--fl-radius-full); text-transform: uppercase; letter-spacing: 0.05em; }
+.estDot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.estPendiente  { background: #FCEACB; color: #C98418; }
+.estConfirmada { background: var(--fl-verde-suave); color: var(--fl-verde-bosque); }
+.estRetirada   { background: var(--fl-bg); color: var(--fl-ink-faint); border: 1px solid var(--fl-border); }
+.estCancelada  { background: var(--fl-coral-suave); color: var(--fl-coral); }
+.cardFecha { font-size: 0.72rem; color: var(--fl-ink-faint); font-weight: 500; white-space: nowrap; }
+.chevron { color: var(--fl-ink-faint); transition: transform 0.2s; }
+.chevronUp { transform: rotate(180deg); }
+.detalle { border-top: 1px solid var(--fl-border); background: var(--fl-bg); padding: 1.125rem; }
+.detalleGrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.125rem; }
+.detalleDato { display: flex; flex-direction: column; gap: 4px; }
+.detalleLabel { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fl-ink-faint); }
+.detalleVal { font-size: 0.82rem; font-weight: 600; color: var(--fl-ink-soft); }
+.codigoWrap { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--fl-surface); border: 1px dashed var(--fl-border-fuerte); border-radius: var(--fl-radius-sm); padding: 0.4rem 0.625rem; }
+.codigoTexto { font-family: var(--fl-font-mono); font-size: 0.84rem; font-weight: 700; color: var(--fl-ink); letter-spacing: 0.06em; }
+.copiBtn { background: none; border: none; cursor: pointer; color: var(--fl-ink-faint); display: flex; align-items: center; transition: color 0.12s; }
+.copiBtn:hover { color: var(--fl-verde-bosque); }
+@media (max-width: 768px) { .page { padding: 1.5rem 1.25rem 4rem; } .statsRow { grid-template-columns: repeat(2,1fr); } .detalleGrid { grid-template-columns: 1fr; } }
