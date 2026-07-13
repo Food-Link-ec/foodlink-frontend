@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import DashboardComercioPage from '../../comercio/pages/DashboardComercioPage';
-import DashboardBeneficiarioPage from '../../beneficiario/pages/DashboardBeneficiario';
+import DashboardBeneficiario from '../../beneficiario/pages/DashboardBeneficiario';
 import ExplorarLotesPage from '../../comprador/pages/ExplorarLotesPage';
 
 export const DashboardPage = () => {
@@ -10,7 +10,7 @@ export const DashboardPage = () => {
     case 'COMERCIO':
       return <DashboardComercioPage />;
     case 'BENEFICIARIO':
-      return <DashboardBeneficiarioPage />;
+      return <DashboardBeneficiario />;
     case 'COMPRADOR':
       return <ExplorarLotesPage />;
     default:
