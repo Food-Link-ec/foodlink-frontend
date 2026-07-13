@@ -1,67 +1,152 @@
-import { useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CompradorLayout from '../components/CompradorLayout'
-import { LOTES } from '../data/lotes'
+import { getLotes, buscarLotes } from '../../lotes/services/loteService'
+import { MapaLotes } from '../../lotes/components/MapaLotes'
+import type { LoteResponse } from '../../lotes/types/lote.types'
+import { getMisEstadisticas } from '../../perfil/services/perfilService'
+import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService'
 import styles from './ExplorarLotesPage.module.css'
 
-const CATEGORIAS = ['Todos', 'Panadería', 'Frutas y Verduras', 'Lácteos', 'Preparados']
+const MODALIDAD_LABEL: Record<string, string> = {
+  VENTA: 'Venta',
+  DONACION: 'Donación',
+  RETIRO_DIRECTO: 'Retiro',
+}
+
+const TAMANIO_PAGINA = 10
+
+const formatModalidad = (modalidad: string) => MODALIDAD_LABEL[modalidad] ?? modalidad
+
+const formatFechaCaducidad = (iso: string) => {
+  const fecha = new Date(iso)
+  if (Number.isNaN(fecha.getTime())) return iso
+  return fecha.toLocaleDateString('es-EC', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+}
 
 export default function ExplorarLotesPage() {
+  const [lotes, setLotes] = useState<LoteResponse[]>([])
+  const [pagina, setPagina] = useState(0)
+  const [totalPaginas, setTotalPaginas] = useState(0)
+  const [totalElementos, setTotalElementos] = useState(0)
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [categorias, setCategorias] = useState<string[]>([])
   const [categoriaActiva, setCategoriaActiva] = useState('Todos')
   const [busqueda, setBusqueda] = useState('')
+  const [busquedaAplicada, setBusquedaAplicada] = useState('')
+  const [vista, setVista] = useState<'lista' | 'mapa'>('lista')
+  const [ubicacion, setUbicacion] = useState<{ lat: number; lng: number } | null>(null)
+  const [buscandoUbicacion, setBuscandoUbicacion] = useState(false)
+  const [estadisticas, setEstadisticas] = useState<EstadisticasCompradorResponse | null>(null)
   const navigate = useNavigate()
 
-  const lotesFiltrados = useMemo(() =>
-    LOTES.filter(l => {
-      const cat = categoriaActiva === 'Todos' || l.categoria === categoriaActiva
-      const q = busqueda === '' || l.nombre.toLowerCase().includes(busqueda.toLowerCase()) || l.comercio.toLowerCase().includes(busqueda.toLowerCase())
-      return cat && q
-    }),
-  [categoriaActiva, busqueda])
+  useEffect(() => {
+    getLotes()
+      .then((data) => {
+        const unicas = Array.from(new Set(data.map((l) => l.categoriaProducto).filter(Boolean))) as string[]
+        setCategorias(unicas)
+      })
+      .catch(() => {})
+    getMisEstadisticas()
+      .then(setEstadisticas)
+      .catch(() => { /* el comprador puede no tener estadísticas aún */ })
+  }, [])
+
+  useEffect(() => {
+    let cancelado = false
+    setCargando(true)
+    setError(null)
+    buscarLotes({
+      q: busquedaAplicada || undefined,
+      categoria: categoriaActiva === 'Todos' ? undefined : categoriaActiva,
+      lat: ubicacion?.lat,
+      lng: ubicacion?.lng,
+      radioKm: ubicacion ? 5 : undefined,
+      page: pagina,
+      size: TAMANIO_PAGINA,
+    })
+      .then((res) => {
+        if (cancelado) return
+        setLotes(res.contenido)
+        setTotalPaginas(res.totalPaginas)
+        setTotalElementos(res.totalElementos)
+      })
+      .catch(() => { if (!cancelado) setError('No se pudo cargar el catálogo de lotes.') })
+      .finally(() => { if (!cancelado) setCargando(false) })
+    return () => { cancelado = true }
+  }, [busquedaAplicada, categoriaActiva, ubicacion, pagina])
+
+  const buscarCercanos = () => {
+    setError(null)
+    setBuscandoUbicacion(true)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUbicacion({ lat: position.coords.latitude, lng: position.coords.longitude })
+        setPagina(0)
+        setBuscandoUbicacion(false)
+      },
+      () => {
+        setError('No se pudo obtener tu ubicación.')
+        setBuscandoUbicacion(false)
+      }
+    )
+  }
+
+  const limpiarUbicacion = () => {
+    setUbicacion(null)
+    setPagina(0)
+  }
+
+  const handleBuscar = () => {
+    setBusquedaAplicada(busqueda)
+    setPagina(0)
+  }
+
+  const centroMapa = useMemo<[number, number] | undefined>(
+    () => (ubicacion ? [ubicacion.lat, ubicacion.lng] : undefined),
+    [ubicacion]
+  )
 
   return (
     <CompradorLayout>
       <div className={styles.page}>
 
         {/* HERO STATS */}
-        <section className={styles.heroStats}>
-          {/* Lado izquierdo — ahorro */}
-          <div className={styles.heroMain}>
-            <p className={styles.heroEyebrow}>
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-              Tu ahorro total este mes
-            </p>
-            <div className={styles.heroMonto}>
-              <span className={styles.heroCurrency}>$</span>42<span className={styles.heroDecimal}>.50</span>
+        {estadisticas && (
+          <section className={styles.heroStats}>
+            <div className={styles.heroMain}>
+              <p className={styles.heroEyebrow}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                Tu ahorro total acumulado
+              </p>
+              <div className={styles.heroMonto}>
+                <span className={styles.heroCurrency}>$</span>
+                {estadisticas.ahorroEstimado.toFixed(2)}
+              </div>
+              <p className={styles.heroSub}>{estadisticas.mensajeAhorro}</p>
             </div>
-            <p className={styles.heroSub}>
-              Dinero conservado en tu economía
-              <span className={styles.heroSubDot}>·</span>
-              <strong>18 kg de CO₂ evitados</strong> 
-            </p>
-          </div>
 
-          {/* Divider vertical */}
-          <div className={styles.heroDividerV}/>
+            <div className={styles.heroDividerV}/>
 
-          {/* Lado derecho — 3 stats */}
-          <div className={styles.heroStats3}>
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatNum}>7</span>
-              <span className={styles.heroStatLabel}>Pedidos realizados</span>
+            <div className={styles.heroStats3}>
+              <div className={styles.heroStat}>
+                <span className={styles.heroStatNum}>{estadisticas.totalLotesComprados}</span>
+                <span className={styles.heroStatLabel}>Lotes rescatados</span>
+              </div>
+              <div className={styles.heroStatDiv}/>
+              <div className={styles.heroStat}>
+                <span className={styles.heroStatNum}>{estadisticas.totalKgAdquiridos.toFixed(1)} kg</span>
+                <span className={styles.heroStatLabel}>Alimento rescatado</span>
+              </div>
+              <div className={styles.heroStatDiv}/>
+              <div className={styles.heroStat}>
+                <span className={styles.heroStatNum}>{totalElementos}</span>
+                <span className={styles.heroStatLabel}>Lotes disponibles hoy</span>
+              </div>
             </div>
-            <div className={styles.heroStatDiv}/>
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatNum}>63%</span>
-              <span className={styles.heroStatLabel}>Descuento promedio</span>
-            </div>
-            <div className={styles.heroStatDiv}/>
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatNum}>45</span>
-              <span className={styles.heroStatLabel}>Productos activos hoy</span>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* TOOLBAR */}
         <div className={styles.toolbar}>
@@ -78,13 +163,14 @@ export default function ExplorarLotesPage() {
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input
                 type="text"
-                placeholder="Buscar producto o comercio..."
+                placeholder="Buscar por descripción..."
                 value={busqueda}
                 onChange={e => setBusqueda(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleBuscar()}
                 className={styles.searchInput}
               />
               {busqueda && (
-                <button className={styles.clearSearch} onClick={() => setBusqueda('')}>
+                <button className={styles.clearSearch} onClick={() => { setBusqueda(''); setBusquedaAplicada(''); setPagina(0) }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               )}
@@ -94,98 +180,123 @@ export default function ExplorarLotesPage() {
 
         {/* PILLS */}
         <div className={styles.pills}>
-          {CATEGORIAS.map(cat => (
+          {['Todos', ...categorias].map(cat => (
             <button
               key={cat}
-              onClick={() => setCategoriaActiva(cat)}
+              onClick={() => { setCategoriaActiva(cat); setPagina(0) }}
               className={`${styles.pill} ${categoriaActiva === cat ? styles.pillActivo : ''}`}
             >
               {cat}
-              {cat !== 'Todos' && (
-                <span className={styles.pillCount}>
-                  {LOTES.filter(l => l.categoria === cat).length}
-                </span>
-              )}
             </button>
           ))}
-          <span className={styles.pillResultado}>{lotesFiltrados.length} lotes disponibles</span>
+          <span className={styles.pillResultado}>{totalElementos} lotes disponibles</span>
         </div>
 
+        {/* ACCIONES: cerca de mí + vista lista/mapa */}
+        <div className={styles.pills} style={{ marginTop: '-0.5rem' }}>
+          <button className={styles.pill} onClick={ubicacion ? limpiarUbicacion : buscarCercanos} disabled={buscandoUbicacion}>
+            📍 {buscandoUbicacion ? 'Buscando ubicación…' : ubicacion ? 'Quitar filtro de cercanía' : 'Lotes cerca de mí'}
+          </button>
+          <button className={`${styles.pill} ${vista === 'lista' ? styles.pillActivo : ''}`} onClick={() => setVista('lista')}>Lista</button>
+          <button className={`${styles.pill} ${vista === 'mapa' ? styles.pillActivo : ''}`} onClick={() => setVista('mapa')}>Mapa</button>
+        </div>
+
+        {/* ESTADOS DE CARGA */}
+        {cargando && <p className={styles.subtitulo}>Cargando catálogo…</p>}
+        {error && <p className={styles.subtitulo} style={{ color: '#B3452C' }}>{error}</p>}
+
+        {vista === 'mapa' && !cargando && !error && (
+          <MapaLotes lotes={lotes} centro={centroMapa} onLoteClick={(id) => navigate(`/dashboard/comprador/lote/${id}`)} />
+        )}
+
         {/* GRID */}
-        {lotesFiltrados.length === 0 ? (
-          <div className={styles.vacio}>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <p>No hay lotes para esta búsqueda.</p>
-            <button className={styles.vacioBtn} onClick={() => { setCategoriaActiva('Todos'); setBusqueda('') }}>Ver todos</button>
-          </div>
-        ) : (
-          <div className={styles.grid}>
-            {lotesFiltrados.map(lote => (
-              <article
-                key={lote.id}
-                className={styles.card}
-                onClick={() => navigate(`/dashboard/comprador/lote/${lote.id}`)}
-              >
-                {/* Imagen */}
-                <div className={styles.cardImgWrap}>
-                  <img src={lote.img} alt={lote.nombre} className={styles.cardImg} loading="lazy" />
-                  <div className={styles.cardImgOverlay}/>
-                  <span className={`${styles.tag} ${styles[`tag_${lote.tagVariant}`]}`}>
-                    {lote.tagVariant === 'urgente' && <span className={styles.pulse}/>}
-                    {lote.tag}
-                  </span>
-                  {lote.modalidad === 'Donación' ? (
-                    <span className={styles.modalidadBadge} data-tipo="donacion">GRATIS</span>
-                  ) : (
-                    <span className={styles.disponibles}>{lote.disponibles} disp.</span>
-                  )}
+        {vista === 'lista' && !cargando && !error && (
+          lotes.length === 0 ? (
+            <div className={styles.vacio}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <p>No hay lotes para esta búsqueda.</p>
+              <button className={styles.vacioBtn} onClick={() => { setCategoriaActiva('Todos'); setBusqueda(''); setBusquedaAplicada(''); limpiarUbicacion() }}>Ver todos</button>
+            </div>
+          ) : (
+            <>
+              <div className={styles.grid}>
+                {lotes.map(lote => {
+                  const gratis = lote.modalidad === 'DONACION' || !lote.precioReducido
+                  const ahorro = lote.precioNormal && lote.precioReducido
+                    ? Math.round(100 - (lote.precioReducido / lote.precioNormal) * 100)
+                    : null
+                  return (
+                    <article
+                      key={lote.id}
+                      className={styles.card}
+                      onClick={() => navigate(`/dashboard/comprador/lote/${lote.id}`)}
+                    >
+                      <div className={styles.cardImgWrap}>
+                        {lote.fotosUrl?.[0] && (
+                          <img src={lote.fotosUrl[0]} alt={lote.descripcion} className={styles.cardImg} loading="lazy" />
+                        )}
+                        <div className={styles.cardImgOverlay}/>
+                        {gratis ? (
+                          <span className={styles.modalidadBadge} data-tipo="donacion">GRATIS</span>
+                        ) : ahorro !== null && (
+                          <span className={styles.badgeAhorro}>-{ahorro}%</span>
+                        )}
+                      </div>
+
+                      <div className={styles.cardBody}>
+                        <div className={styles.cardMeta}>
+                          {lote.categoriaProducto && <span className={styles.cardCat}>{lote.categoriaProducto}</span>}
+                          <span className={`${styles.cardMod} ${styles[`mod_${formatModalidad(lote.modalidad).toLowerCase()}`] ?? ''}`}>
+                            {formatModalidad(lote.modalidad)}
+                          </span>
+                        </div>
+
+                        <h3 className={styles.cardNombre}>{lote.descripcion}</h3>
+
+                        <div className={styles.cardDetalle}>
+                          <span>
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                            {lote.cantidadKg} kg
+                          </span>
+                          <span>
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            {formatFechaCaducidad(lote.fechaCaducidad)}
+                          </span>
+                          <span>{lote.estado}</span>
+                        </div>
+
+                        <div className={styles.cardFooter}>
+                          <div>
+                            {lote.precioNormal != null && (
+                              <span className={styles.precioAntes}>${lote.precioNormal.toFixed(2)}</span>
+                            )}
+                            <span className={styles.precioOferta}>
+                              {gratis ? 'Gratis' : `$${lote.precioReducido!.toFixed(2)}`}
+                            </span>
+                          </div>
+                        </div>
+
+                        <button
+                          className={styles.btnReservar}
+                          onClick={e => { e.stopPropagation(); navigate(`/dashboard/comprador/lote/${lote.id}`) }}
+                        >
+                          Ver detalle y reservar
+                        </button>
+                      </div>
+                    </article>
+                  )
+                })}
+              </div>
+
+              {totalPaginas > 1 && (
+                <div className={styles.pills} style={{ justifyContent: 'center' }}>
+                  <button className={styles.pill} disabled={pagina === 0} onClick={() => setPagina(p => p - 1)}>Anterior</button>
+                  <span className={styles.pillResultado}>Página {pagina + 1} de {totalPaginas}</span>
+                  <button className={styles.pill} disabled={pagina >= totalPaginas - 1} onClick={() => setPagina(p => p + 1)}>Siguiente</button>
                 </div>
-
-                {/* Contenido */}
-                <div className={styles.cardBody}>
-                  <div className={styles.cardMeta}>
-                    <span className={styles.cardCat}>{lote.categoria}</span>
-                    <span className={`${styles.cardMod} ${styles[`mod_${lote.modalidad.toLowerCase()}`]}`}>{lote.modalidad}</span>
-                  </div>
-
-                  <h3 className={styles.cardNombre}>{lote.nombre}</h3>
-
-                  <p className={styles.cardComercio}>
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    {lote.comercio} · {lote.zona}
-                  </p>
-
-                  <div className={styles.cardDetalle}>
-                    <span>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-                      {lote.cantidad}
-                    </span>
-                    <span>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                      {lote.caduca}
-                    </span>
-                  </div>
-
-                  <div className={styles.cardFooter}>
-                    <div>
-                      <span className={styles.precioAntes}>${lote.precioNormal.toFixed(2)}</span>
-                      <span className={styles.precioOferta}>
-                        {lote.precio === 0 ? 'Gratis' : `$${lote.precio.toFixed(2)}`}
-                      </span>
-                    </div>
-                    <span className={styles.badgeAhorro}>-{lote.ahorro}%</span>
-                  </div>
-
-                  <button
-                    className={styles.btnReservar}
-                    onClick={e => { e.stopPropagation(); navigate(`/dashboard/comprador/lote/${lote.id}`) }}
-                  >
-                    Reservar y Pagar
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+              )}
+            </>
+          )
         )}
       </div>
     </CompradorLayout>
