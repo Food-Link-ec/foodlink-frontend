@@ -20,7 +20,7 @@ export const registrarBeneficiario = async (datos: DatosRegistroBeneficiario): P
       formData.append('documento', datos.archivoDocumento);
     }
 
-    const response = await api.post<BeneficiarioRegistrado>('/api/v1/beneficiarios', formData, {
+    const response = await api.post<BeneficiarioRegistrado>('/beneficiarios', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

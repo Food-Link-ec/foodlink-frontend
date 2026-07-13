@@ -1,18 +1,32 @@
+import api from '../../../api/foodLinkApi'
 import type { LoginRequest, AuthResponse } from '../types/auth.types'
 
-const API_BASE_URL = import.meta.env?.VITE_API_URL ?? 'http://localhost:8080/api/v1'
+export const iniciarSesion = async (credenciales: LoginRequest): Promise<AuthResponse> => {
+  try {
+    const response = await api.post<AuthResponse>('/auth/login', credenciales)
 
-export async function iniciarSesion(credenciales: LoginRequest): Promise<AuthResponse> {
-  const respuesta = await fetch(`${API_BASE_URL}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credenciales),
-  })
+    localStorage.setItem('accessToken', response.data.accessToken)
+    localStorage.setItem('refreshToken', response.data.refreshToken)
+    localStorage.setItem('usuarioId', response.data.usuarioId)
+    localStorage.setItem('tipoUsuario', response.data.tipoUsuario)
+    localStorage.setItem('email', response.data.email)
 
-  if (!respuesta.ok) {
-    const cuerpo = await respuesta.json().catch(() => ({}))
-    throw new Error(cuerpo.mensaje || 'Correo o contraseña incorrectos.')
+    return response.data
+  } catch (error: any) {
+    const mensajeError = error.response?.data?.mensaje || error.response?.data?.message || 'Correo o contraseña incorrectos'
+    throw new Error(mensajeError)
   }
+}
 
-  return respuesta.json()
+export const cerrarSesion = async (): Promise<void> => {
+  const refreshToken = localStorage.getItem('refreshToken')
+  if (refreshToken) {
+    await api.post('/auth/logout', { refreshToken }).catch(() => undefined)
+  }
+  localStorage.clear()
+}
+
+export const getMiPerfil = async () => {
+  const response = await api.get('/auth/me')
+  return response.data
 }

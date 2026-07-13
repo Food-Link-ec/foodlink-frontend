@@ -19,7 +19,7 @@ export const registrarComercio = async (datos: DatosRegistroComercio): Promise<C
       password: rest.password, // Ajustado a la nueva interfaz
     };
 
-    const response = await api.post<ComercioRegistrado>('/api/v1/comercios', payload);
+    const response = await api.post<ComercioRegistrado>('/comercios', payload);
     return response.data;
   } catch (error) {
     console.error("Error al registrar comercio:", error);

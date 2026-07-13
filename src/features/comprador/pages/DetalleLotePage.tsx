@@ -1,15 +1,80 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import CompradorLayout from '../components/CompradorLayout'
-import { getLoteById } from '../data/lotes'
+import { getLoteById } from '../../lotes/services/loteService'
+import { reservarLote } from '../../lotes/services/redistribucionService'
+import { getValoracionesComercio } from '../../valoraciones/services/valoracionService'
+import type { ResumenValoracionesResponse } from '../../valoraciones/services/valoracionService'
+import { getImpactoComercio } from '../../impacto/services/impactoService'
+import type { ImpactoComercioResponse } from '../../impacto/services/impactoService'
+import type { LoteResponse } from '../../lotes/types/lote.types'
 import styles from './DetalleLotePage.module.css'
+
+const EstrellasBadge = ({ promedio, total }: { promedio: number; total: number }) => (
+  <div className={styles.comercioRating}>
+    <span style={{ color: '#F0A93A', letterSpacing: '1px' }}>
+      {'★'.repeat(Math.round(promedio))}{'☆'.repeat(5 - Math.round(promedio))}
+    </span>
+    <span className={styles.comercioRatingNum}>{promedio.toFixed(1)}</span>
+    <span className={styles.comercioRatingTotal}>({total} reseñas)</span>
+  </div>
+)
+
+const MODALIDAD_LABEL: Record<string, string> = {
+  VENTA: 'Venta',
+  DONACION: 'Donación',
+  RETIRO_DIRECTO: 'Retiro',
+}
+
+const formatModalidad = (modalidad: string) => MODALIDAD_LABEL[modalidad] ?? modalidad
+
+const formatFecha = (iso: string) => {
+  const fecha = new Date(iso)
+  if (Number.isNaN(fecha.getTime())) return iso
+  return fecha.toLocaleDateString('es-EC', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
+}
 
 export default function DetalleLotePage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const lote = getLoteById(id ?? '')
+  const [lote, setLote] = useState<LoteResponse | null>(null)
+  const [cargando, setCargando] = useState(true)
   const [imgActiva, setImgActiva] = useState(0)
-  const [cantidad, setCantidad] = useState(1)
+  const [reservando, setReservando] = useState(false)
+  const [errorReserva, setErrorReserva] = useState<string | null>(null)
+  const [valoraciones, setValoraciones] = useState<ResumenValoracionesResponse | null>(null)
+  const [impactoComercio, setImpactoComercio] = useState<ImpactoComercioResponse | null>(null)
+
+  useEffect(() => {
+    if (!id) return
+    let cancelado = false
+    setCargando(true)
+    getLoteById(id)
+      .then((data) => { if (!cancelado) setLote(data) })
+      .catch(() => { if (!cancelado) setLote(null) })
+      .finally(() => { if (!cancelado) setCargando(false) })
+    return () => { cancelado = true }
+  }, [id])
+
+  useEffect(() => {
+    if (!lote?.comercioId) return
+    let cancelado = false
+    getValoracionesComercio(lote.comercioId)
+      .then((data) => { if (!cancelado) setValoraciones(data) })
+      .catch(() => {})
+    getImpactoComercio(lote.comercioId)
+      .then((data) => { if (!cancelado) setImpactoComercio(data) })
+      .catch(() => {})
+    return () => { cancelado = true }
+  }, [lote?.comercioId])
+
+  if (cargando) {
+    return (
+      <CompradorLayout>
+        <div className={styles.page}><p>Cargando lote…</p></div>
+      </CompradorLayout>
+    )
+  }
 
   if (!lote) {
     return (
@@ -26,13 +91,27 @@ export default function DetalleLotePage() {
     )
   }
 
-  const precioTotal = lote.precio * cantidad
-  const ahorroTotal = (lote.precioNormal - lote.precio) * cantidad
+  const gratis = lote.modalidad === 'DONACION' || !lote.precioReducido
+  const ahorro = lote.precioNormal && lote.precioReducido
+    ? Math.round(100 - (lote.precioReducido / lote.precioNormal) * 100)
+    : null
+  const galeria = lote.fotosUrl?.length ? lote.fotosUrl : []
 
-  const handleReservar = () => {
-    navigate(`/dashboard/comprador/confirmacion/${lote.id}`, {
-      state: { lote, cantidad, precioTotal }
-    })
+  const handleReservar = async () => {
+    setErrorReserva(null)
+    setReservando(true)
+    try {
+      const loteReservado = await reservarLote(lote.id)
+      navigate(`/dashboard/comprador/confirmacion/${lote.id}`, { state: { lote: loteReservado } })
+    } catch (err: any) {
+      if (err.response?.status === 409) {
+        setErrorReserva('Este lote ya fue reservado por otra persona. Explora otras opciones disponibles.')
+      } else {
+        setErrorReserva(err.response?.data?.mensaje || 'No se pudo completar la reserva. Intenta nuevamente.')
+      }
+    } finally {
+      setReservando(false)
+    }
   }
 
   return (
@@ -46,9 +125,7 @@ export default function DetalleLotePage() {
             Explorar
           </Link>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-          <span className={styles.breadcrumbCat}>{lote.categoria}</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-          <span className={styles.breadcrumbActual}>{lote.nombre}</span>
+          <span className={styles.breadcrumbCat}>{lote.categoriaProducto ?? 'Lote'}</span>
         </nav>
 
         {/* GRID PRINCIPAL */}
@@ -57,24 +134,15 @@ export default function DetalleLotePage() {
           {/* ── COLUMNA IZQUIERDA: Imágenes ── */}
           <div className={styles.colImg}>
             <div className={styles.imgPrincipalWrap}>
-              <img
-                src={lote.imgGaleria[imgActiva]}
-                alt={lote.nombre}
-                className={styles.imgPrincipal}
-              />
-              <span className={`${styles.tag} ${styles[`tag_${lote.tagVariant}`]}`}>
-                {lote.tagVariant === 'urgente' && <span className={styles.pulse}/>}
-                {lote.tag}
-              </span>
-              {lote.modalidad === 'Donación' && (
-                <span className={styles.gratisChip}>GRATIS</span>
+              {galeria[imgActiva] && (
+                <img src={galeria[imgActiva]} alt={lote.descripcion} className={styles.imgPrincipal} />
               )}
+              {gratis && <span className={styles.gratisChip}>GRATIS</span>}
             </div>
 
-            {/* Miniaturas */}
-            {lote.imgGaleria.length > 1 && (
+            {galeria.length > 1 && (
               <div className={styles.galeria}>
-                {lote.imgGaleria.map((src, i) => (
+                {galeria.map((src, i) => (
                   <button
                     key={i}
                     className={`${styles.thumb} ${imgActiva === i ? styles.thumbActivo : ''}`}
@@ -86,53 +154,36 @@ export default function DetalleLotePage() {
               </div>
             )}
 
-            {/* Info del comercio */}
-            <div className={styles.comercioCard}>
-              <div className={styles.comercioHeader}>
-                <div className={styles.comercioAvatar}>
-                  {lote.comercio.charAt(0)}
-                </div>
-                <div>
-                  <p className={styles.comercioNombre}>{lote.comercio}</p>
-                  <div className={styles.comercioRating}>
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} width="12" height="12" viewBox="0 0 24 24"
-                        fill={i < Math.floor(lote.calificacion) ? '#F0A93A' : 'none'}
-                        stroke="#F0A93A" strokeWidth="2">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                      </svg>
-                    ))}
-                    <span className={styles.comercioRatingNum}>{lote.calificacion}</span>
-                    <span className={styles.comercioRatingTotal}>({lote.totalReseñas} reseñas)</span>
+            {(valoraciones && valoraciones.totalValoraciones > 0) || impactoComercio ? (
+              <div className={styles.comercioCard}>
+                <div className={styles.comercioHeader}>
+                  <div>
+                    <p className={styles.comercioNombre}>{impactoComercio?.nombreComercio ?? valoraciones?.nombreComercio}</p>
+                    {valoraciones && valoraciones.totalValoraciones > 0 && (
+                      <EstrellasBadge promedio={valoraciones.promedioEstrellas} total={valoraciones.totalValoraciones} />
+                    )}
                   </div>
                 </div>
+                {impactoComercio && (
+                  <div className={styles.comercioDatos}>
+                    <span>{impactoComercio.totalKgRescatados.toFixed(1)} kg rescatados</span>
+                    <span>{impactoComercio.tituloLogro}</span>
+                  </div>
+                )}
               </div>
-              <div className={styles.comercioDatos}>
-                <span>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  {lote.direccionCompleta}
-                </span>
-                <span>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  {lote.telefono}
-                </span>
-              </div>
-            </div>
+            ) : null}
           </div>
 
-          {/* ── COLUMNA DERECHA: Info + Compra ── */}
+          {/* ── COLUMNA DERECHA: Info + Reserva ── */}
           <div className={styles.colInfo}>
 
-            {/* Header del lote */}
             <div className={styles.loteHeader}>
               <div className={styles.loteMeta}>
-                <span className={styles.loteCategoria}>{lote.categoria}</span>
-                <span className={`${styles.loteModalidad} ${styles[`mod_${lote.modalidad.toLowerCase()}`]}`}>
-                  {lote.modalidad}
-                </span>
+                {lote.categoriaProducto && <span className={styles.loteCategoria}>{lote.categoriaProducto}</span>}
+                <span className={styles.loteModalidad}>{formatModalidad(lote.modalidad)}</span>
+                <span className={styles.loteModalidad}>{lote.estado}</span>
               </div>
-              <h1 className={styles.loteNombre}>{lote.nombre}</h1>
-              <p className={styles.loteDescripcion}>{lote.descripcion}</p>
+              <h1 className={styles.loteNombre}>{lote.descripcion}</h1>
             </div>
 
             {/* Datos clave */}
@@ -143,7 +194,7 @@ export default function DetalleLotePage() {
                 </div>
                 <div>
                   <span className={styles.datoLabel}>Cantidad</span>
-                  <span className={styles.datoVal}>{lote.cantidad}</span>
+                  <span className={styles.datoVal}>{lote.cantidadKg} kg</span>
                 </div>
               </div>
               <div className={styles.datoItem}>
@@ -152,113 +203,51 @@ export default function DetalleLotePage() {
                 </div>
                 <div>
                   <span className={styles.datoLabel}>Caduca</span>
-                  <span className={`${styles.datoVal} ${lote.tagVariant === 'urgente' ? styles.datoUrgente : ''}`}>{lote.caduca}</span>
-                </div>
-              </div>
-              <div className={styles.datoItem}>
-                <div className={styles.datoIcon}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                </div>
-                <div>
-                  <span className={styles.datoLabel}>Retiro</span>
-                  <span className={styles.datoVal}>{lote.horarioRetiro}</span>
-                </div>
-              </div>
-              <div className={styles.datoItem}>
-                <div className={styles.datoIcon}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                </div>
-                <div>
-                  <span className={styles.datoLabel}>Disponibles</span>
-                  <span className={styles.datoVal}>{lote.disponibles} lotes</span>
+                  <span className={styles.datoVal}>{formatFecha(lote.fechaCaducidad)}</span>
                 </div>
               </div>
             </div>
 
-            {/* Contenido del lote */}
-            <div className={styles.contenidoSection}>
-              <h3 className={styles.seccionTitulo}>Qué incluye este lote</h3>
-              <ul className={styles.contenidoList}>
-                {lote.contenido.map((item, i) => (
-                  <li key={i} className={styles.contenidoItem}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Card de pago */}
+            {/* Card de reserva */}
             <div className={styles.pagoCard}>
               <div className={styles.pagoPrecios}>
                 <div className={styles.pagoLeft}>
-                  <span className={styles.pagoAntes}>${lote.precioNormal.toFixed(2)} precio normal</span>
+                  {lote.precioNormal != null && (
+                    <span className={styles.pagoAntes}>${lote.precioNormal.toFixed(2)} precio normal</span>
+                  )}
                   <div className={styles.pagoOferta}>
-                    {lote.precio === 0
+                    {gratis
                       ? <span className={styles.pagoGratis}>Gratis</span>
-                      : <span className={styles.pagoPrecio}>${lote.precio.toFixed(2)}</span>
+                      : <span className={styles.pagoPrecio}>${lote.precioReducido!.toFixed(2)}</span>
                     }
-                    <span className={styles.pagoUnidad}>/ lote</span>
                   </div>
                 </div>
-                <span className={styles.pagoAhorroBadge}>-{lote.ahorro}%</span>
+                {ahorro !== null && <span className={styles.pagoAhorroBadge}>-{ahorro}%</span>}
               </div>
 
-              {lote.modalidad === 'Venta' && (
-                <div className={styles.cantidadWrap}>
-                  <span className={styles.cantidadLabel}>Cantidad</span>
-                  <div className={styles.cantidadCtrl}>
-                    <button
-                      className={styles.cantidadBtn}
-                      onClick={() => setCantidad(c => Math.max(1, c - 1))}
-                      disabled={cantidad <= 1}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </button>
-                    <span className={styles.cantidadNum}>{cantidad}</span>
-                    <button
-                      className={styles.cantidadBtn}
-                      onClick={() => setCantidad(c => Math.min(lote.disponibles, c + 1))}
-                      disabled={cantidad >= lote.disponibles}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </button>
-                  </div>
-                </div>
+              {errorReserva && (
+                <p className={styles.pagoNota} style={{ color: '#B3452C' }}>{errorReserva}</p>
               )}
 
-              {lote.modalidad === 'Venta' && cantidad > 1 && (
-                <div className={styles.pagoResumen}>
-                  <span>Total ({cantidad} lotes)</span>
-                  <strong>${precioTotal.toFixed(2)}</strong>
-                </div>
-              )}
-
-              {lote.modalidad === 'Venta' && cantidad > 1 && (
-                <div className={styles.pagoAhorroTotal}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-                  Ahorras ${ahorroTotal.toFixed(2)} respecto al precio normal
-                </div>
-              )}
-
-              <button className={styles.btnReservar} onClick={handleReservar}>
+              <button className={styles.btnReservar} onClick={handleReservar} disabled={reservando || lote.estado !== 'DISPONIBLE'}>
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                {lote.modalidad === 'Donación' ? 'Reservar Donación' : `Reservar y Pagar · $${precioTotal.toFixed(2)}`}
+                {reservando
+                  ? 'Reservando…'
+                  : lote.estado !== 'DISPONIBLE'
+                    ? 'No disponible'
+                    : lote.modalidad === 'DONACION' ? 'Reservar Donación' : `Reservar · $${gratis ? '0.00' : lote.precioReducido!.toFixed(2)}`
+                }
               </button>
 
               <p className={styles.pagoNota}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Recibirás un código QR para retirar en {lote.comercio}
+                Al reservar recibirás un PIN y código QR para retirar el lote.
               </p>
             </div>
 
-            {/* Impacto ambiental */}
-            <div className={styles.impactoCard}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-              <div>
-                <span className={styles.impactoTitulo}>Tu impacto al reservar</span>
-                <span className={styles.impactoSub}>Evitas ~1.2 kg de CO₂ · Rescatas {lote.cantidad} de desperdicio</span>
-              </div>
+            <div className={styles.contenidoSection}>
+              <h3 className={styles.seccionTitulo}>Descripción</h3>
+              <p className={styles.loteDescripcion}>{lote.descripcion}</p>
             </div>
           </div>
         </div>

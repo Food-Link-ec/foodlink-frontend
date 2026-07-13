@@ -10,7 +10,8 @@ export interface AuthResponse {
   usuarioId: string
   email: string
   rol: string
-  expiraEnMs: number
+  nombre: string
+  expiresIn: number
 }
 
 export interface RefreshTokenRequest {
