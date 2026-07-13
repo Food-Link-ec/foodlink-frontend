@@ -38,32 +38,24 @@ const SIDE_NAV = [
 export default function AdminLayout({ children }: Props) {
   const location = useLocation()
   const navigate = useNavigate()
-  
   const nombre = localStorage.getItem('nombreUsuario') || 'Admin'
   const inicial = nombre.charAt(0).toUpperCase()
-  
   const [perfilOpen, setPerfilOpen] = useState(false)
   const perfilRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (perfilRef.current && !perfilRef.current.contains(e.target as Node)) {
-        setPerfilOpen(false)
-      }
+      if (perfilRef.current && !perfilRef.current.contains(e.target as Node)) setPerfilOpen(false)
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const handleLogout = () => { 
-    localStorage.clear()
-    navigate('/') 
-  }
+  const handleLogout = () => { localStorage.clear(); navigate('/') }
 
   return (
     <div className={styles.shell}>
       <header className={styles.header}>
-        {/* ... (Tu contenido del header permanece igual) ... */}
         <div className={styles.headerLeft}>
           <Link to="/" className={styles.logoLink}>
             <img src={logoImg} alt="FoodLink" className={styles.logoImg} />
@@ -74,7 +66,61 @@ export default function AdminLayout({ children }: Props) {
             Panel Admin
           </span>
         </div>
-        {/* ... resto del header ... */}
+
+        <div className={styles.headerRight}>
+          <button className={styles.notifBtn}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span className={styles.notifDot}/>
+          </button>
+
+          <div className={styles.panelAnchor} ref={perfilRef}>
+            <button
+              className={`${styles.avatarBtn} ${perfilOpen ? styles.avatarBtnActivo : ''}`}
+              onClick={() => setPerfilOpen(o => !o)}
+            >
+              <div className={styles.avatarCircle}>{inicial}</div>
+              <span className={styles.avatarName}>{nombre.split(' ')[0]}</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                style={{ color: 'var(--fl-ink-faint)', transition: 'transform 0.2s', transform: perfilOpen ? 'rotate(180deg)' : 'none' }}>
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            {perfilOpen && (
+              <div className={styles.perfilDropdown}>
+                <div className={styles.perfilDropHeader}>
+                  <div className={styles.perfilDropAvatar}>{inicial}</div>
+                  <div>
+                    <p className={styles.perfilDropNombre}>{nombre}</p>
+                    <span className={styles.perfilDropRol}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      Super Administrador
+                    </span>
+                  </div>
+                </div>
+                <nav className={styles.perfilDropMenu}>
+                  {[
+                    { to: '/dashboard/admin/configuracion', label: 'Configuración del sistema', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> },
+                    { to: '/dashboard/admin/reportes', label: 'Ver reportes', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> },
+                  ].map(item => (
+                    <Link key={item.to} to={item.to} className={styles.perfilDropItem} onClick={() => setPerfilOpen(false)}>
+                      <span className={styles.perfilDropItemIcon}>{item.icon}</span>
+                      {item.label}
+                      <svg className={styles.perfilDropChevron} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    </Link>
+                  ))}
+                </nav>
+                <button className={styles.perfilDropLogout} onClick={handleLogout}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </header>
 
       <div className={styles.body}>
@@ -101,7 +147,6 @@ export default function AdminLayout({ children }: Props) {
             })}
           </nav>
 
-          {/* ESTA ES LA PARTE CORREGIDA: Incluido dentro del <aside> */}
           <div className={styles.sideBottom}>
             <div className={styles.sideSystemInfo}>
               <span className={styles.sideSystemDot}/>
@@ -114,6 +159,9 @@ export default function AdminLayout({ children }: Props) {
                 <span className={styles.sidePerfilNombre}>{nombre}</span>
                 <span className={styles.sidePerfilRol}>Super Admin</span>
               </div>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.sidePerfilChevron}>
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
             </Link>
 
             <button className={styles.logoutBtn} onClick={handleLogout}>
