@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
 import ComercioLayout from '../components/ComercioLayout'
+import { getMiImpacto, descargarReportePDF } from '../../impacto/services/impactoService'
+import type { ImpactoComercioResponse } from '../../impacto/services/impactoService'
 import styles from './ImpactoComercioPage.module.css'
 
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul']
@@ -18,21 +21,56 @@ const EST_CFG: Record<string, { label: string; cls: string }> = {
 }
 
 export default function ImpactoComercioPage() {
+  const [impacto, setImpacto] = useState<ImpactoComercioResponse | null>(null)
+  const [descargando, setDescargando] = useState(false)
+  const [errorPdf, setErrorPdf] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelado = false
+    getMiImpacto().then((data) => { if (!cancelado) setImpacto(data) }).catch(() => {})
+    return () => { cancelado = true }
+  }, [])
+
+  const handleDescargarPdf = async () => {
+    setErrorPdf(null)
+    setDescargando(true)
+    try {
+      await descargarReportePDF()
+    } catch {
+      setErrorPdf('Error al descargar el reporte')
+    } finally {
+      setDescargando(false)
+    }
+  }
+
+  const stats = impacto ? [
+    { num: impacto.totalKgRescatados.toLocaleString('es-EC'), unit: 'kg', label: 'Total rescatado', sub: `${impacto.kgRescatadosMesActual.toFixed(1)} kg este mes`, color: styles.statVerde },
+    { num: impacto.totalPersonasBeneficiadas.toLocaleString('es-EC'), unit: 'personas', label: 'Beneficiarios', sub: impacto.tituloLogro, color: styles.statDorado },
+    { num: impacto.totalLotesEntregados.toLocaleString('es-EC'), unit: 'lotes', label: 'Lotes entregados', sub: impacto.descripcionLogro, color: styles.statCoral },
+    { num: impacto.totalCo2EvitadoKg.toLocaleString('es-EC'), unit: 'kg CO₂', label: 'Emisiones evitadas', sub: impacto.mensajeImpacto, color: styles.statVerde },
+  ] : [
+    { num:'—', unit:'kg', label:'Total rescatado', sub:'Cargando…', color: styles.statVerde },
+    { num:'—', unit:'personas', label:'Beneficiarios', sub:'Cargando…', color: styles.statDorado },
+    { num:'—', unit:'lotes', label:'Lotes entregados', sub:'Cargando…', color: styles.statCoral },
+    { num:'—', unit:'kg CO₂', label:'Emisiones evitadas', sub:'Cargando…', color: styles.statVerde },
+  ]
+
   return (
     <ComercioLayout>
       <div className={styles.page}>
         <div className={styles.pageHeader}>
-          <h1 className={styles.titulo}>Impacto Social</h1>
-          <p className={styles.subtitulo}>Tu huella positiva en la comunidad de Quito.</p>
+          <div>
+            <h1 className={styles.titulo}>Impacto Social</h1>
+            <p className={styles.subtitulo}>Tu huella positiva en la comunidad de Quito.</p>
+          </div>
+          <button onClick={handleDescargarPdf} disabled={descargando} className={styles.statCard} style={{ cursor: 'pointer', flexDirection: 'row', alignItems: 'center', gap: '0.5rem', fontWeight: 700, color: 'var(--fl-verde-musgo)' }}>
+            📄 {descargando ? 'Generando…' : 'Descargar Certificado PDF'}
+          </button>
         </div>
+        {errorPdf && <p className={styles.subtitulo} style={{ color: '#B3452C' }}>{errorPdf}</p>}
 
         <div className={styles.statsGrid}>
-          {[
-            { num:'12,480', unit:'kg', label:'Total rescatado', sub:'+12% este mes', color: styles.statVerde },
-            { num:'4,250',  unit:'personas', label:'Beneficiarios', sub:'8 nuevas fundaciones', color: styles.statDorado },
-            { num:'128',    unit:'empresas', label:'Aliadas activas', sub:'45% restaurantes', color: styles.statCoral },
-            { num:'500',    unit:'kg CO₂', label:'Emisiones evitadas', sub:'Equivale a 50 árboles', color: styles.statVerde },
-          ].map((s,i) => (
+          {stats.map((s,i) => (
             <div key={i} className={`${styles.statCard} ${s.color}`}>
               <span className={styles.statNum}>{s.num}</span>
               <span className={styles.statUnit}>{s.unit}</span>

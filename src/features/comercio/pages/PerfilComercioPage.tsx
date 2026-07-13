@@ -1,7 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ComercioLayout from '../components/ComercioLayout'
+import { getMiPerfil } from '../../perfil/services/perfilService'
 import styles from './PerfilComercioPage.module.css'
+
+interface PerfilComercio {
+  ruc: string
+  nombre: string
+  telefono: string
+  email: string
+  estado: string
+}
 
 export default function PerfilComercioPage() {
   const navigate = useNavigate()
@@ -10,6 +19,15 @@ export default function PerfilComercioPage() {
   const inicial = nombre.charAt(0).toUpperCase()
   const [guardado, setGuardado] = useState(false)
   const [imgPreview, setImgPreview] = useState<string | null>(null)
+  const [perfil, setPerfil] = useState<PerfilComercio | null>(null)
+
+  useEffect(() => {
+    let cancelado = false
+    getMiPerfil()
+      .then((data) => { if (!cancelado) setPerfil(data.perfil) })
+      .catch(() => {})
+    return () => { cancelado = true }
+  }, [])
 
   const handleImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -106,8 +124,14 @@ export default function PerfilComercioPage() {
                 </svg>
               </div>
               <div>
-                <p className={styles.verificadoTitulo}>Negocio verificado</p>
-                <p className={styles.verificadoSub}>Tu establecimiento cumple con los estándares de calidad de FoodLink.</p>
+                <p className={styles.verificadoTitulo}>
+                  {perfil?.estado === 'VERIFICADO' ? 'Negocio verificado' : perfil ? `Estado: ${perfil.estado}` : 'Cargando estado…'}
+                </p>
+                <p className={styles.verificadoSub}>
+                  {perfil?.estado === 'VERIFICADO'
+                    ? 'Tu establecimiento cumple con los estándares de calidad de FoodLink.'
+                    : 'Tu negocio está pendiente de revisión por el equipo de FoodLink.'}
+                </p>
               </div>
             </div>
           </div>
@@ -149,11 +173,11 @@ export default function PerfilComercioPage() {
                 <div className={styles.campoRow}>
                   <div className={styles.campo}>
                     <label className={styles.label}>RUC / NIT</label>
-                    <input type="text" defaultValue="1790123456001" className={styles.input} />
+                    <input type="text" value={perfil?.ruc ?? ''} readOnly className={styles.input} />
                   </div>
                   <div className={styles.campo}>
                     <label className={styles.label}>Teléfono</label>
-                    <input type="tel" defaultValue="+593 98 765 4321" className={styles.input} />
+                    <input type="tel" defaultValue={perfil?.telefono ?? ''} className={styles.input} />
                   </div>
                 </div>
                 <div className={styles.campo}>
