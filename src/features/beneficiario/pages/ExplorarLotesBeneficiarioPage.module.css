@@ -1,0 +1,39 @@
+.page { padding: 2rem 2.5rem 5rem; }
+.pageHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.titulo { font-family: var(--fl-font-display); font-size: 1.625rem; font-weight: 800; color: var(--fl-verde-musgo); margin: 0 0 0.25rem; letter-spacing: -0.03em; }
+.subtitulo { font-size: 0.85rem; color: var(--fl-ink-soft); margin: 0; }
+.searchWrap { display: flex; align-items: center; gap: 0.5rem; background: var(--fl-surface); border: 1px solid var(--fl-border); border-radius: var(--fl-radius-full); padding: 0.55rem 1.125rem; flex-shrink: 0; transition: border-color 0.15s, box-shadow 0.15s; }
+.searchWrap:focus-within { border-color: var(--fl-verde-linea); box-shadow: 0 0 0 3px rgba(31,77,60,0.07); }
+.searchWrap svg { color: var(--fl-ink-faint); flex-shrink: 0; }
+.searchInput { border: none; background: transparent; outline: none; font-size: 0.875rem; color: var(--fl-ink); width: 220px; }
+.searchInput::placeholder { color: var(--fl-ink-faint); }
+.toast { display: flex; align-items: center; gap: 8px; padding: 0.875rem 1.25rem; background: var(--fl-success-suave); border: 1px solid var(--fl-success); border-radius: var(--fl-radius-md); color: var(--fl-success); font-size: 0.875rem; font-weight: 600; margin-bottom: 1.25rem; }
+.filtros { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 0.4rem 0.875rem; border-radius: var(--fl-radius-full); border: 1px solid var(--fl-border-fuerte); background: var(--fl-surface); color: var(--fl-ink-soft); font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.12s; }
+.pill:hover { border-color: var(--fl-verde-bosque); color: var(--fl-verde-bosque); }
+.pillActivo { background: var(--fl-verde-bosque); border-color: var(--fl-verde-bosque); color: #fff; font-weight: 700; }
+.pillCnt { font-size: 0.7rem; font-weight: 700; background: rgba(0,0,0,0.1); padding: 1px 6px; border-radius: var(--fl-radius-full); }
+.pillActivo .pillCnt { background: rgba(255,255,255,0.2); }
+.pillResultado { margin-left: auto; font-size: 0.78rem; color: var(--fl-ink-faint); font-weight: 500; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+.card { background: var(--fl-surface); border: 1px solid var(--fl-border); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s; }
+.card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.09); transform: translateY(-2px); border-color: var(--fl-verde-linea); }
+.cardImgWrap { position: relative; height: 170px; overflow: hidden; }
+.cardImg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s; }
+.card:hover .cardImg { transform: scale(1.04); }
+.tag { position: absolute; top: 10px; left: 10px; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; padding: 4px 9px; border-radius: var(--fl-radius-full); }
+.tag_urgente { background: var(--fl-coral); color: #fff; }
+.tag_verde { background: var(--fl-verde-bosque); color: #fff; }
+.kgBadge { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.9); color: var(--fl-ink-soft); font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: var(--fl-radius-full); backdrop-filter: blur(4px); }
+.cardBody { padding: 1rem 1.125rem 1.125rem; display: flex; flex-direction: column; flex: 1; gap: 0.25rem; }
+.cardCat { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--fl-ink-faint); }
+.cardNombre { font-family: var(--fl-font-display); font-size: 0.975rem; font-weight: 700; color: var(--fl-ink); margin: 0; }
+.cardComercio { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--fl-ink-faint); margin: 0; }
+.cardDesc { font-size: 0.78rem; color: var(--fl-ink-soft); line-height: 1.4; margin: 0; flex: 1; }
+.cardFooter { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--fl-border); flex-wrap: wrap; }
+.cardCaduca { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--fl-ink-faint); font-weight: 500; }
+.btnSolicitar { padding: 0.5rem 1rem; background: var(--fl-verde-bosque); color: #fff; border: none; border-radius: var(--fl-radius-sm); font-size: 0.8rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.12s; font-family: inherit; }
+.btnSolicitar:hover { background: var(--fl-verde-musgo); }
+.btnSolicitarOk { background: var(--fl-ink-faint); cursor: not-allowed; }
+@media (max-width: 768px) { .page { padding: 1.5rem 1.25rem 4rem; } .grid { grid-template-columns: 1fr 1fr; gap: 1rem; } .searchInput { width: 100%; } }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
