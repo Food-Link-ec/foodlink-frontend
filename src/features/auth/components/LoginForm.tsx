@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useForm } from '../../../hooks/useForm'
 import FormField, { inputAria } from '../../../components/ui/FormField'
 import Button from '../../../components/ui/Button'
@@ -15,11 +16,13 @@ const validarCredenciales = (values: LoginRequest): Record<string, string> => {
 }
 
 export default function LoginForm() {
+  const navigate = useNavigate()
   const form = useForm<LoginRequest>({
     initialValues: VALORES_INICIALES,
     validate: validarCredenciales,
     onSubmit: async (values) => {
       await iniciarSesion(values)
+      navigate('/dashboard')
     },
   })
 

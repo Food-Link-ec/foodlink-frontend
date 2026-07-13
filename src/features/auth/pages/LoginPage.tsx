@@ -18,23 +18,15 @@ export const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const response: any = await loginComercio({ email, password });
-      
-      console.log("¡MIRA LO QUE MANDA EL BACKEND! ->", response);
-      
-      // 1. Atrapamos el tipo de usuario o el rol, lo que venga primero
-      let rawRole = response?.tipoUsuario || response?.data?.tipoUsuario || response?.rol || response?.data?.rol || 'COMERCIO';
-      
-      // 2. Lo limpiamos (si viene 'ROLE_COMPRADOR', lo dejamos como 'COMPRADOR')
-      const userRole = String(rawRole).replace('ROLE_', '').toUpperCase();
-      
-      // 3. Atrapamos el nombre
-      const userName = response?.nombre || response?.data?.nombre || response?.name || 'Usuario FoodLink';
-      
-      // 4. Guardamos en el navegador
+      const response = await loginComercio({ email, password });
+
+      const userRole = String(response.tipoUsuario || 'COMERCIO').replace('ROLE_', '').toUpperCase();
+      const userName = response.nombre || 'Usuario FoodLink';
+
       localStorage.setItem('tipoUsuario', userRole);
-      localStorage.setItem('nombreUsuario', String(userName));
-      
+      localStorage.setItem('nombreUsuario', userName);
+      localStorage.setItem('email', response.email || email);
+
       navigate('/dashboard');
     } catch (error: any) {
       setErrorMsg(error.message || 'Correo o contraseña incorrectos');
