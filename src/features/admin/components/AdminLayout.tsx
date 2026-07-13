@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import {type ReactNode } from 'react'
 import { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './AdminLayout.module.css'
@@ -56,18 +56,72 @@ export default function AdminLayout({ children, activeTab, onTabChange, badges =
 
   return (
     <div className={styles.shell}>
+      {/* HEADER */}
       <header className={styles.header}>
-        {/* ... Header (omito por brevedad, es igual) ... */}
+        <div className={styles.headerLeft}>
+          <Link to="/" className={styles.logoLink}>
+            <img src={logoImg} alt="FoodLink" className={styles.logoImg} />
+            <span className={styles.logoText}>FoodLink</span>
+          </Link>
+          <span className={styles.adminBadge}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Panel Admin
+          </span>
+        </div>
+
+        <div className={styles.headerRight}>
+
+          <div className={styles.panelAnchor} ref={perfilRef}>
+            <button
+              className={`${styles.avatarBtn} ${perfilOpen ? styles.avatarBtnActivo : ''}`}
+              onClick={() => setPerfilOpen(o => !o)}
+            >
+              <div className={styles.avatarCircle}>{inicial}</div>
+              <span className={styles.avatarName}>{nombre.split(' ')[0]}</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                style={{ color: 'var(--fl-ink-faint)', transition: 'transform 0.2s', transform: perfilOpen ? 'rotate(180deg)' : 'none' }}>
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            {perfilOpen && (
+              <div className={styles.perfilDropdown}>
+                <div className={styles.perfilDropHeader}>
+                  <div className={styles.perfilDropAvatar}>{inicial}</div>
+                  <div>
+                    <p className={styles.perfilDropNombre}>{nombre}</p>
+                    <span className={styles.perfilDropRol}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      Administrador
+                    </span>
+                  </div>
+                </div>
+                <nav className={styles.perfilDropMenu}>
+                  {/* Links de dropdown */}
+                  <Link to="/dashboard/admin/configuracion" className={styles.perfilDropItem} onClick={() => setPerfilOpen(false)}>
+                    Configuración del sistema
+                  </Link>
+                  <Link to="/dashboard/admin/reportes" className={styles.perfilDropItem} onClick={() => setPerfilOpen(false)}>
+                    Ver reportes
+                  </Link>
+                </nav>
+                <button className={styles.perfilDropLogout} onClick={handleLogout}>
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </header>
 
       <div className={styles.body}>
-        {/* SIDEBAR */}
+        {/* SIDEBAR CORREGIDO */}
         <aside className={styles.sidebar}>
           <div className={styles.userCard}>
             <div className={styles.userAvatar}>{inicial}</div>
             <div className={styles.userInfo}>
               <span className={styles.userName}>{nombre}</span>
-              <span className={styles.userRole}>Super Administrador</span>
+              <span className={styles.userRole}>Administrador</span>
             </div>
           </div>
 
@@ -92,31 +146,17 @@ export default function AdminLayout({ children, activeTab, onTabChange, badges =
             })}
           </nav>
 
-          {/* ESTO ESTABA FUERA, AHORA ESTÁ DENTRO DEL ASIDE */}
           <div className={styles.sideBottom}>
             <div className={styles.sideSystemInfo}>
               <span className={styles.sideSystemDot}/>
               <span>Sistema activo · v1.0</span>
             </div>
 
-            <Link to="/dashboard/admin/configuracion" className={styles.sidePerfilCard}>
-              <div className={styles.sidePerfilAvatar}>{inicial}</div>
-              <div className={styles.sidePerfilInfo}>
-                <span className={styles.sidePerfilNombre}>{nombre}</span>
-                <span className={styles.sidePerfilRol}>Super Admin</span>
-              </div>
-            </Link>
-
             <button className={styles.logoutBtn} onClick={handleLogout}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" y1="12" x2="9" y2="12"/>
-              </svg>
               Cerrar Sesión
             </button>
           </div>
-        </aside> {/* AHORA EL ASIDE CIERRA AQUÍ */}
+        </aside>
 
         <main className={styles.main}>{children}</main>
       </div>
