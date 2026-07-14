@@ -96,7 +96,7 @@ export default function DashboardComprador() {
           <section style={{ backgroundColor: '#1F4D3C', padding: '32px', borderRadius: '16px', marginBottom: '40px', color: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <span style={{ fontSize: '12px', fontWeight: 700, color: '#C6E7D2', letterSpacing: '0.5px', display: 'block', marginBottom: '8px' }}>TU AHORRO TOTAL ESTE MES</span>
-              <div style={{ fontSize: '48px', fontWeight: 900, lineHeight: '1' }}>$42<span style={{ fontSize: '24px', color: '#C6E7D2' }}>.50</span></div>
+              <div style={{ fontSize: '48px', fontWeight: 900, lineHeight: '1' }}>$19<span style={{ fontSize: '24px', color: '#C6E7D2' }}>.50</span></div>
             </div>
             <div style={{ textAlign: 'right' }}>
               <span style={{ fontSize: '14px', color: '#EBE7DF', display: 'block', marginBottom: '4px' }}>Dinero conservado en tu economía</span>

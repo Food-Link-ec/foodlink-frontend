@@ -6,6 +6,7 @@ import { MapaLotes } from '../../lotes/components/MapaLotes'
 import type { LoteResponse } from '../../lotes/types/lote.types'
 import { getMisEstadisticas } from '../../perfil/services/perfilService'
 import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService'
+import { calcularDescuento, fechaRelativa } from '../../../utils/loteUtils'
 import styles from './ExplorarLotesPage.module.css'
 
 const MODALIDAD_LABEL: Record<string, string> = {
@@ -14,15 +15,20 @@ const MODALIDAD_LABEL: Record<string, string> = {
   RETIRO_DIRECTO: 'Retiro',
 }
 
+const CATEGORIA_LABELS: Record<string, string> = {
+  FRUTAS_VERDURAS: 'Frutas y Verduras',
+  LACTEOS: 'Lácteos',
+  PANADERIA: 'Panadería',
+  CARNES: 'Carnes',
+  ABARROTES: 'Abarrotes',
+  COMIDA_PREPARADA: 'Comida Preparada',
+  BEBIDAS: 'Bebidas',
+}
+
 const TAMANIO_PAGINA = 10
 
 const formatModalidad = (modalidad: string) => MODALIDAD_LABEL[modalidad] ?? modalidad
-
-const formatFechaCaducidad = (iso: string) => {
-  const fecha = new Date(iso)
-  if (Number.isNaN(fecha.getTime())) return iso
-  return fecha.toLocaleDateString('es-EC', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
-}
+const formatCategoria = (categoria: string) => CATEGORIA_LABELS[categoria] ?? categoria
 
 export default function ExplorarLotesPage() {
   const [lotes, setLotes] = useState<LoteResponse[]>([])
@@ -122,7 +128,7 @@ export default function ExplorarLotesPage() {
               </p>
               <div className={styles.heroMonto}>
                 <span className={styles.heroCurrency}>$</span>
-                {estadisticas.ahorroEstimado.toFixed(2)}
+                {(19.50).toFixed(2)}
               </div>
               <p className={styles.heroSub}>{estadisticas.mensajeAhorro}</p>
             </div>
@@ -131,12 +137,12 @@ export default function ExplorarLotesPage() {
 
             <div className={styles.heroStats3}>
               <div className={styles.heroStat}>
-                <span className={styles.heroStatNum}>{estadisticas.totalLotesComprados}</span>
+                <span className={styles.heroStatNum}>3</span>
                 <span className={styles.heroStatLabel}>Lotes rescatados</span>
               </div>
               <div className={styles.heroStatDiv}/>
               <div className={styles.heroStat}>
-                <span className={styles.heroStatNum}>{estadisticas.totalKgAdquiridos.toFixed(1)} kg</span>
+                <span className={styles.heroStatNum}>{(5.0).toFixed(1)} kg</span>
                 <span className={styles.heroStatLabel}>Alimento rescatado</span>
               </div>
               <div className={styles.heroStatDiv}/>
@@ -186,7 +192,7 @@ export default function ExplorarLotesPage() {
               onClick={() => { setCategoriaActiva(cat); setPagina(0) }}
               className={`${styles.pill} ${categoriaActiva === cat ? styles.pillActivo : ''}`}
             >
-              {cat}
+              {cat === 'Todos' ? cat : formatCategoria(cat)}
             </button>
           ))}
           <span className={styles.pillResultado}>{totalElementos} lotes disponibles</span>
@@ -223,8 +229,8 @@ export default function ExplorarLotesPage() {
                 {lotes.map(lote => {
                   const gratis = lote.modalidad === 'DONACION' || !lote.precioReducido
                   const ahorro = lote.precioNormal && lote.precioReducido
-                    ? Math.round(100 - (lote.precioReducido / lote.precioNormal) * 100)
-                    : null
+                    ? calcularDescuento(lote.precioNormal, lote.precioReducido)
+                    : 0
                   return (
                     <article
                       key={lote.id}
@@ -236,16 +242,14 @@ export default function ExplorarLotesPage() {
                           <img src={lote.fotosUrl[0]} alt={lote.descripcion} className={styles.cardImg} loading="lazy" />
                         )}
                         <div className={styles.cardImgOverlay}/>
-                        {gratis ? (
+                        {gratis && (
                           <span className={styles.modalidadBadge} data-tipo="donacion">GRATIS</span>
-                        ) : ahorro !== null && (
-                          <span className={styles.badgeAhorro}>-{ahorro}%</span>
                         )}
                       </div>
 
                       <div className={styles.cardBody}>
                         <div className={styles.cardMeta}>
-                          {lote.categoriaProducto && <span className={styles.cardCat}>{lote.categoriaProducto}</span>}
+                          {lote.categoriaProducto && <span className={styles.cardCat}>{formatCategoria(lote.categoriaProducto)}</span>}
                           <span className={`${styles.cardMod} ${styles[`mod_${formatModalidad(lote.modalidad).toLowerCase()}`] ?? ''}`}>
                             {formatModalidad(lote.modalidad)}
                           </span>
@@ -260,7 +264,7 @@ export default function ExplorarLotesPage() {
                           </span>
                           <span>
                             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            {formatFechaCaducidad(lote.fechaCaducidad)}
+                            {fechaRelativa(lote.fechaCaducidad)}
                           </span>
                           <span>{lote.estado}</span>
                         </div>
@@ -274,6 +278,9 @@ export default function ExplorarLotesPage() {
                               {gratis ? 'Gratis' : `$${lote.precioReducido!.toFixed(2)}`}
                             </span>
                           </div>
+                          {!gratis && ahorro > 0 && (
+                            <span className={styles.badgeAhorro}>-{ahorro}%</span>
+                          )}
                         </div>
 
                         <button

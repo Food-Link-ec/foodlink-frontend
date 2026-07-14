@@ -8,6 +8,7 @@ import type { ResumenValoracionesResponse } from '../../valoraciones/services/va
 import { getImpactoComercio } from '../../impacto/services/impactoService'
 import type { ImpactoComercioResponse } from '../../impacto/services/impactoService'
 import type { LoteResponse } from '../../lotes/types/lote.types'
+import { calcularDescuento, fechaRelativa } from '../../../utils/loteUtils'
 import styles from './DetalleLotePage.module.css'
 
 const EstrellasBadge = ({ promedio, total }: { promedio: number; total: number }) => (
@@ -26,13 +27,18 @@ const MODALIDAD_LABEL: Record<string, string> = {
   RETIRO_DIRECTO: 'Retiro',
 }
 
-const formatModalidad = (modalidad: string) => MODALIDAD_LABEL[modalidad] ?? modalidad
-
-const formatFecha = (iso: string) => {
-  const fecha = new Date(iso)
-  if (Number.isNaN(fecha.getTime())) return iso
-  return fecha.toLocaleDateString('es-EC', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
+const CATEGORIA_LABELS: Record<string, string> = {
+  FRUTAS_VERDURAS: 'Frutas y Verduras',
+  LACTEOS: 'Lácteos',
+  PANADERIA: 'Panadería',
+  CARNES: 'Carnes',
+  ABARROTES: 'Abarrotes',
+  COMIDA_PREPARADA: 'Comida Preparada',
+  BEBIDAS: 'Bebidas',
 }
+
+const formatModalidad = (modalidad: string) => MODALIDAD_LABEL[modalidad] ?? modalidad
+const formatCategoria = (categoria: string) => CATEGORIA_LABELS[categoria] ?? categoria
 
 export default function DetalleLotePage() {
   const { id } = useParams<{ id: string }>()
@@ -93,8 +99,8 @@ export default function DetalleLotePage() {
 
   const gratis = lote.modalidad === 'DONACION' || !lote.precioReducido
   const ahorro = lote.precioNormal && lote.precioReducido
-    ? Math.round(100 - (lote.precioReducido / lote.precioNormal) * 100)
-    : null
+    ? calcularDescuento(lote.precioNormal, lote.precioReducido)
+    : 0
   const galeria = lote.fotosUrl?.length ? lote.fotosUrl : []
 
   const handleReservar = async () => {
@@ -125,7 +131,7 @@ export default function DetalleLotePage() {
             Explorar
           </Link>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-          <span className={styles.breadcrumbCat}>{lote.categoriaProducto ?? 'Lote'}</span>
+          <span className={styles.breadcrumbCat}>{lote.categoriaProducto ? formatCategoria(lote.categoriaProducto) : 'Lote'}</span>
         </nav>
 
         {/* GRID PRINCIPAL */}
@@ -179,7 +185,7 @@ export default function DetalleLotePage() {
 
             <div className={styles.loteHeader}>
               <div className={styles.loteMeta}>
-                {lote.categoriaProducto && <span className={styles.loteCategoria}>{lote.categoriaProducto}</span>}
+                {lote.categoriaProducto && <span className={styles.loteCategoria}>{formatCategoria(lote.categoriaProducto)}</span>}
                 <span className={styles.loteModalidad}>{formatModalidad(lote.modalidad)}</span>
                 <span className={styles.loteModalidad}>{lote.estado}</span>
               </div>
@@ -203,7 +209,7 @@ export default function DetalleLotePage() {
                 </div>
                 <div>
                   <span className={styles.datoLabel}>Caduca</span>
-                  <span className={styles.datoVal}>{formatFecha(lote.fechaCaducidad)}</span>
+                  <span className={styles.datoVal}>{fechaRelativa(lote.fechaCaducidad)}</span>
                 </div>
               </div>
             </div>
@@ -222,7 +228,7 @@ export default function DetalleLotePage() {
                     }
                   </div>
                 </div>
-                {ahorro !== null && <span className={styles.pagoAhorroBadge}>-{ahorro}%</span>}
+                {ahorro > 0 && <span className={styles.pagoAhorroBadge}>-{ahorro}%</span>}
               </div>
 
               {errorReserva && (

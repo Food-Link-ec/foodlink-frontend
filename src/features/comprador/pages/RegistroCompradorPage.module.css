@@ -16,7 +16,7 @@
   font-family: 'Sora', sans-serif;
   font-weight: 700;
   font-size: 1.35rem;
-  color: #1F4D3C;
+  color: var(--fl-verde-bosque);
   text-decoration: none;
 }
 .topBarLinks {
@@ -32,11 +32,11 @@
   transition: color 0.2s;
 }
 .topBackLink:hover {
-  color: #1F4D3C;
+  color: var(--fl-verde-bosque);
 }
 .topLoginLink {
   text-decoration: none;
-  color: #1F4D3C;
+  color: var(--fl-verde-bosque);
   font-weight: 700;
   font-size: 0.95rem;
   transition: opacity 0.2s;
@@ -142,7 +142,7 @@
   border-color: #D1CCC1;
 }
 .inputGroup input:focus {
-  border-color: #1F4D3C;
+  border-color: var(--fl-verde-bosque);
   box-shadow: 0 0 0 3px rgba(31, 77, 60, 0.12);
 }
 .fieldError {
@@ -174,7 +174,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  background-color: #9A4225;
+  background-color: var(--fl-coral);
   color: white;
   border: none;
   border-radius: 8px;
@@ -217,7 +217,7 @@
   padding-top: 1.25rem;
 }
 .switchBusiness a {
-  color: #9A4225;
+  color: var(--fl-coral);
   font-weight: 700;
   text-decoration: none;
 }
