@@ -17,6 +17,18 @@ const MODALIDAD_LABEL: Record<string, string> = {
   RETIRO_DIRECTO: 'Retiro',
 }
 
+const CATEGORIA_LABELS: Record<string, string> = {
+  FRUTAS_VERDURAS: 'Frutas y Verduras',
+  LACTEOS: 'Lácteos',
+  PANADERIA: 'Panadería',
+  CARNES: 'Carnes',
+  ABARROTES: 'Abarrotes',
+  COMIDA_PREPARADA: 'Comida Preparada',
+  BEBIDAS: 'Bebidas',
+}
+
+const formatCategoria = (categoria: string) => CATEGORIA_LABELS[categoria] ?? categoria
+
 export default function ConfirmacionReservaPage() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -92,7 +104,7 @@ export default function ConfirmacionReservaPage() {
             <div className={styles.loteCard}>
               {lote.fotosUrl?.[0] && <img src={lote.fotosUrl[0]} alt={lote.descripcion} className={styles.loteImg} />}
               <div className={styles.loteInfo}>
-                {lote.categoriaProducto && <span className={styles.loteCat}>{lote.categoriaProducto}</span>}
+                {lote.categoriaProducto && <span className={styles.loteCat}>{formatCategoria(lote.categoriaProducto)}</span>}
                 <h2 className={styles.loteNombre}>{lote.descripcion}</h2>
                 <div className={styles.loteTags}>
                   <span className={styles.loteTag}>
