@@ -89,6 +89,7 @@ export default function ExplorarLotesPage() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setUbicacion({ lat: position.coords.latitude, lng: position.coords.longitude })
+        setVista('lista')
         setPagina(0)
         setBuscandoUbicacion(false)
       },
@@ -128,7 +129,7 @@ export default function ExplorarLotesPage() {
               </p>
               <div className={styles.heroMonto}>
                 <span className={styles.heroCurrency}>$</span>
-                {(19.50).toFixed(2)}
+                {(estadisticas.ahorroEstimado).toFixed(2)}
               </div>
               <p className={styles.heroSub}>{estadisticas.mensajeAhorro}</p>
             </div>
@@ -137,12 +138,12 @@ export default function ExplorarLotesPage() {
 
             <div className={styles.heroStats3}>
               <div className={styles.heroStat}>
-                <span className={styles.heroStatNum}>3</span>
+                <span className={styles.heroStatNum}>{estadisticas.totalLotesComprados}</span>
                 <span className={styles.heroStatLabel}>Lotes rescatados</span>
               </div>
               <div className={styles.heroStatDiv}/>
               <div className={styles.heroStat}>
-                <span className={styles.heroStatNum}>{(5.0).toFixed(1)} kg</span>
+                <span className={styles.heroStatNum}>{(estadisticas.totalKgAdquiridos).toFixed(1)} kg</span>
                 <span className={styles.heroStatLabel}>Alimento rescatado</span>
               </div>
               <div className={styles.heroStatDiv}/>
@@ -200,8 +201,12 @@ export default function ExplorarLotesPage() {
 
         {/* ACCIONES: cerca de mí + vista lista/mapa */}
         <div className={styles.pills} style={{ marginTop: '-0.5rem' }}>
-          <button className={styles.pill} onClick={ubicacion ? limpiarUbicacion : buscarCercanos} disabled={buscandoUbicacion}>
-            📍 {buscandoUbicacion ? 'Buscando ubicación…' : ubicacion ? 'Quitar filtro de cercanía' : 'Lotes cerca de mí'}
+          <button
+            className={`${styles.pill} ${ubicacion ? styles.pillActivo : ''}`}
+            onClick={ubicacion ? limpiarUbicacion : buscarCercanos}
+            disabled={buscandoUbicacion}
+          >
+            📍 {buscandoUbicacion ? 'Buscando ubicación…' : ubicacion ? '✓ Cerca de mí (5 km)' : 'Lotes cerca de mí'}
           </button>
           <button className={`${styles.pill} ${vista === 'lista' ? styles.pillActivo : ''}`} onClick={() => setVista('lista')}>Lista</button>
           <button className={`${styles.pill} ${vista === 'mapa' ? styles.pillActivo : ''}`} onClick={() => setVista('mapa')}>Mapa</button>
@@ -212,7 +217,12 @@ export default function ExplorarLotesPage() {
         {error && <p className={styles.subtitulo} style={{ color: '#B3452C' }}>{error}</p>}
 
         {vista === 'mapa' && !cargando && !error && (
-          <MapaLotes lotes={lotes} centro={centroMapa} onLoteClick={(id) => navigate(`/dashboard/comprador/lote/${id}`)} />
+          <MapaLotes
+            lotes={lotes}
+            centro={centroMapa}
+            onLoteClick={(id) => navigate(`/dashboard/comprador/lote/${id}`)}
+            ubicacionUsuario={centroMapa}
+          />
         )}
 
         {/* GRID */}
