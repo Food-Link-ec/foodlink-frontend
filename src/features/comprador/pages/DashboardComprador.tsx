@@ -1,11 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { getMisEstadisticas } from '../../perfil/services/perfilService';
+import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService';
 
 export default function DashboardComprador() {
   const navigate = useNavigate();
   const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Comprador';
   const [filtro, setFiltro] = useState('Todos');
   const [pedidoRealizado, setPedidoRealizado] = useState(false);
+  const [ecoStats, setEcoStats] = useState<EstadisticasCompradorResponse | null>(null);
+
+  useEffect(() => {
+    getMisEstadisticas().then(setEcoStats).catch(() => {});
+  }, []);
 
   const ofertas = [
     { id: 1, producto: 'Chorizos Artesanales', comercio: 'Supermaxi La Gasca', precioReal: 6.00, precioOferta: 2.00, ahorro: 66, tag: '⏱️ CADUCA HOY', tagColor: '#B5502E', imgBg: '#FAD8D2' },
@@ -96,11 +103,18 @@ export default function DashboardComprador() {
           <section style={{ backgroundColor: '#1F4D3C', padding: '32px', borderRadius: '16px', marginBottom: '40px', color: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <span style={{ fontSize: '12px', fontWeight: 700, color: '#C6E7D2', letterSpacing: '0.5px', display: 'block', marginBottom: '8px' }}>TU AHORRO TOTAL ESTE MES</span>
-              <div style={{ fontSize: '48px', fontWeight: 900, lineHeight: '1' }}>$19<span style={{ fontSize: '24px', color: '#C6E7D2' }}>.50</span></div>
+              <div style={{ fontSize: '48px', fontWeight: 900, lineHeight: '1' }}>
+                ${Math.floor(ecoStats?.ahorroEstimado ?? 19.50)}
+                <span style={{ fontSize: '24px', color: '#C6E7D2' }}>
+                  .{String(Math.round(((ecoStats?.ahorroEstimado ?? 19.50) % 1) * 100)).padStart(2, '0')}
+                </span>
+              </div>
             </div>
             <div style={{ textAlign: 'right' }}>
               <span style={{ fontSize: '14px', color: '#EBE7DF', display: 'block', marginBottom: '4px' }}>Dinero conservado en tu economía</span>
-              <span style={{ fontSize: '14px', fontWeight: 600, color: '#C6E7D2' }}>Equivale a 18 kg de CO2 evitados 🌍</span>
+              <span style={{ fontSize: '14px', fontWeight: 600, color: '#C6E7D2' }}>
+                Equivale a {(ecoStats?.co2EvitadoKg ?? 0).toFixed(1)} kg de CO₂ evitados 🌍
+              </span>
             </div>
           </section>
 

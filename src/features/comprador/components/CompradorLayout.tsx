@@ -1,9 +1,11 @@
 import type { ReactNode } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import styles from './CompradorLayout.module.css'
 import { NotifPanel, PerfilPanel } from './HeaderPanels'
 import logoImg from '../../../assets/images/foodlink-logo.png.png'
+import { getMisEstadisticas } from '../../perfil/services/perfilService'
+import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService'
 
 interface Props { children: ReactNode }
 
@@ -22,6 +24,11 @@ export default function CompradorLayout({ children }: Props) {
   const nombre = localStorage.getItem('nombreUsuario') || 'Comprador'
   const inicial = nombre.charAt(0).toUpperCase()
   const [panelAbierto, setPanelAbierto] = useState<'notif' | 'perfil' | null>(null)
+  const [ecoStats, setEcoStats] = useState<EstadisticasCompradorResponse | null>(null)
+
+  useEffect(() => {
+    getMisEstadisticas().then(setEcoStats).catch(() => {})
+  }, [])
 
   const togglePanel = (panel: 'notif' | 'perfil') =>
     setPanelAbierto(prev => prev === panel ? null : panel)
@@ -106,7 +113,7 @@ export default function CompradorLayout({ children }: Props) {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
               </div>
               <div>
-                <span className={styles.ecoNum}>18 kg</span>
+                <span className={styles.ecoNum}>{(ecoStats?.co2EvitadoKg ?? 0).toFixed(1)} kg</span>
                 <span className={styles.ecoLabel}>CO₂ evitados este mes</span>
               </div>
             </div>

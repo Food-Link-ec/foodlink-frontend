@@ -22,6 +22,10 @@ export interface EstadisticasCompradorResponse {
   totalKgAdquiridos: number
   ahorroEstimado: number
   mensajeAhorro: string
+  co2EvitadoKg: number
+  kmSinConducir: number
+  arbolesEquivalentes: number
+  ahorroUltimos7Meses: number[]
 }
 
 export const getMisEstadisticas = async (): Promise<EstadisticasCompradorResponse> => {

@@ -4,10 +4,6 @@ import { getMisEstadisticas } from '../../perfil/services/perfilService'
 import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService'
 import styles from './ImpactoPersonalPage.module.css'
 
-const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul']
-const AHORRO_MESES = [0, 0, 0, 0, 2.50, 5.00, 12.00]
-const MAX = Math.max(...AHORRO_MESES)
-
 const LOGROS = [
   { icon: '🌱', titulo: 'Primer Rescate', desc: 'Reservaste tu primer lote', obtenido: true },
   { icon: '🔥', titulo: 'Racha de 7 días', desc: 'Reservas consecutivas una semana', obtenido: true },
@@ -19,12 +15,21 @@ const LOGROS = [
 
 export default function ImpactoPersonalPage() {
   const [stats, setStats] = useState<EstadisticasCompradorResponse | null>(null)
+  const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
     let cancelado = false
-    getMisEstadisticas().then((data) => { if (!cancelado) setStats(data) }).catch(() => {})
+    setCargando(true)
+    getMisEstadisticas()
+      .then((data) => { if (!cancelado) setStats(data) })
+      .catch(() => {})
+      .finally(() => { if (!cancelado) setCargando(false) })
     return () => { cancelado = true }
   }, [])
+
+  const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul']
+  const ahorroMeses = stats?.ahorroUltimos7Meses ?? [0, 0, 0, 0, 0, 0, 0]
+  const maxAhorro = Math.max(...ahorroMeses, 1)
 
   return (
     <CompradorLayout>
@@ -49,7 +54,7 @@ export default function ImpactoPersonalPage() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
             <div>
-              <span className={styles.statNum}>${(19.50).toFixed(2)}</span>
+              <span className={styles.statNum}>{cargando ? '...' : `$${(stats?.ahorroEstimado ?? 0).toFixed(2)}`}</span>
               <span className={styles.statLabel}>Ahorro acumulado</span>
               <span className={styles.statSub}>{stats?.mensajeAhorro ?? 'Desde que te uniste'}</span>
             </div>
@@ -59,7 +64,7 @@ export default function ImpactoPersonalPage() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
             </div>
             <div>
-              <span className={styles.statNum}>{(5.0).toFixed(1)} kg</span>
+              <span className={styles.statNum}>{cargando ? '...' : `${(stats?.totalKgAdquiridos ?? 0).toFixed(1)} kg`}</span>
               <span className={styles.statLabel}>Alimento rescatado</span>
               <span className={styles.statSub}>Peso total adquirido</span>
             </div>
@@ -69,7 +74,7 @@ export default function ImpactoPersonalPage() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             </div>
             <div>
-              <span className={styles.statNum}>3</span>
+              <span className={styles.statNum}>{cargando ? '...' : (stats?.totalLotesComprados ?? 0)}</span>
               <span className={styles.statLabel}>Lotes rescatados</span>
               <span className={styles.statSub}>Total de compras</span>
             </div>
@@ -82,13 +87,13 @@ export default function ImpactoPersonalPage() {
             <h3 className={styles.cardTitulo}>Ahorro mensual</h3>
             <p className={styles.cardSub}>Últimos 7 meses en dólares</p>
             <div className={styles.barChart}>
-              {AHORRO_MESES.map((val, i) => (
+              {ahorroMeses.map((val, i) => (
                 <div key={i} className={styles.barCol}>
-                  <span className={styles.barVal}>${val}</span>
+                  <span className={styles.barVal}>${val.toFixed(0)}</span>
                   <div className={styles.barWrap}>
                     <div
-                      className={`${styles.bar} ${i === AHORRO_MESES.length - 1 ? styles.barActual : ''}`}
-                      style={{ height: `${(val / MAX) * 100}%` }}
+                      className={`${styles.bar} ${i === ahorroMeses.length - 1 ? styles.barActual : ''}`}
+                      style={{ height: `${(val / maxAhorro) * 100}%` }}
                     />
                   </div>
                   <span className={styles.barLabel}>{MESES[i]}</span>
@@ -128,22 +133,22 @@ export default function ImpactoPersonalPage() {
         <div className={styles.co2Card}>
           <div className={styles.co2Left}>
             <p className={styles.co2Eyebrow}>HUELLA AMBIENTAL EVITADA</p>
-            <div className={styles.co2Num}>18 kg <span>CO₂</span></div>
-            <p className={styles.co2Sub}>Equivale a no conducir un auto por 90 km, o cargar un celular durante 2,200 horas.</p>
+            <div className={styles.co2Num}>{cargando ? '...' : `${(stats?.co2EvitadoKg ?? 0).toFixed(1)} kg`} <span>CO₂</span></div>
+            <p className={styles.co2Sub}>Equivale a no conducir un auto por {(stats?.kmSinConducir ?? 0).toFixed(0)} km.</p>
           </div>
           <div className={styles.co2Stats}>
             <div className={styles.co2Stat}>
-              <span className={styles.co2StatNum}>90</span>
+              <span className={styles.co2StatNum}>{(stats?.kmSinConducir ?? 0).toFixed(0)}</span>
               <span className={styles.co2StatLabel}>km sin conducir</span>
             </div>
             <div className={styles.co2Div}/>
             <div className={styles.co2Stat}>
-              <span className={styles.co2StatNum}>3</span>
+              <span className={styles.co2StatNum}>{stats?.arbolesEquivalentes ?? 0}</span>
               <span className={styles.co2StatLabel}>árboles equivalentes</span>
             </div>
             <div className={styles.co2Div}/>
             <div className={styles.co2Stat}>
-              <span className={styles.co2StatNum}>12 kg</span>
+              <span className={styles.co2StatNum}>{(stats?.totalKgAdquiridos ?? 0).toFixed(1)} kg</span>
               <span className={styles.co2StatLabel}>comida rescatada</span>
             </div>
           </div>

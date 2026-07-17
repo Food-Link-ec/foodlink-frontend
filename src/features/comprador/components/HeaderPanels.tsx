@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './HeaderPanels.module.css'
+import { getMisEstadisticas } from '../../perfil/services/perfilService'
+import type { EstadisticasCompradorResponse } from '../../perfil/services/perfilService'
 
 interface Notif {
   id: string
@@ -92,6 +94,11 @@ export function PerfilPanel({ onClose }: { onClose: () => void }) {
   const email = localStorage.getItem('email') || 'usuario@email.com'
   const inicial = nombre.charAt(0).toUpperCase()
   const ref = useRef<HTMLDivElement>(null)
+  const [stats, setStats] = useState<EstadisticasCompradorResponse | null>(null)
+
+  useEffect(() => {
+    getMisEstadisticas().then(setStats).catch(() => {})
+  }, [])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -119,17 +126,17 @@ export function PerfilPanel({ onClose }: { onClose: () => void }) {
       {/* Stats rápidos */}
       <div className={styles.perfilStats}>
         <div className={styles.perfilStat}>
-          <span className={styles.perfilStatNum}>7</span>
+          <span className={styles.perfilStatNum}>{stats?.totalLotesComprados ?? 0}</span>
           <span className={styles.perfilStatLabel}>Pedidos</span>
         </div>
         <div className={styles.perfilStatDiv}/>
         <div className={styles.perfilStat}>
-          <span className={styles.perfilStatNum}>$42</span>
+          <span className={styles.perfilStatNum}>${(stats?.ahorroEstimado ?? 0).toFixed(0)}</span>
           <span className={styles.perfilStatLabel}>Ahorrado</span>
         </div>
         <div className={styles.perfilStatDiv}/>
         <div className={styles.perfilStat}>
-          <span className={styles.perfilStatNum}>18kg</span>
+          <span className={styles.perfilStatNum}>{(stats?.co2EvitadoKg ?? 0).toFixed(0)}kg</span>
           <span className={styles.perfilStatLabel}>CO₂ evitado</span>
         </div>
       </div>
