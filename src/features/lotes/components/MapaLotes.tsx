@@ -20,9 +20,10 @@ interface MapaLotesProps {
   lotes: LoteResponse[]
   centro?: [number, number]
   onLoteClick?: (loteId: string) => void
+  ubicacionUsuario?: [number, number]
 }
 
-export const MapaLotes = ({ lotes, centro, onLoteClick }: MapaLotesProps) => {
+export const MapaLotes = ({ lotes, centro, onLoteClick, ubicacionUsuario }: MapaLotesProps) => {
   const lotesConUbicacion = lotes.filter(
     (l): l is LoteResponse & { latitud: number; longitud: number } => l.latitud !== null && l.longitud !== null
   )
@@ -53,6 +54,19 @@ export const MapaLotes = ({ lotes, centro, onLoteClick }: MapaLotesProps) => {
           </Popup>
         </Marker>
       ))}
+      {ubicacionUsuario && (
+        <Marker
+          position={ubicacionUsuario}
+          icon={L.divIcon({
+            className: '',
+            html: '<div style="width:16px;height:16px;background:#2563eb;border:3px solid white;border-radius:50%;box-shadow:0 0 0 3px rgba(37,99,235,0.3)"></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+          })}
+        >
+          <Popup>📍 Tu ubicación</Popup>
+        </Marker>
+      )}
     </MapContainer>
   )
 }
