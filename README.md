@@ -1,32 +1,39 @@
-# React + TypeScript + Vite
+# FoodLink Frontend 🍲
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Frontend de la plataforma FoodLink, una aplicación diseñada para la gestión y redistribución de excedentes alimentarios. Esta interfaz conecta de manera intuitiva a comercios, compradores y beneficiarios, permitiendo la venta, donación o retiro de alimentos para evitar el desperdicio.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologías y Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+El proyecto está construido con un enfoque en rendimiento, tipado estricto y un diseño de interfaz ágil:
 
-## React Compiler
+*   **Librería Principal:** React 19
+*   **Lenguaje:** TypeScript
+*   **Bundler:** Vite (con HMR y optimización de build)
+*   **Enrutamiento:** React Router DOM
+*   **Estilos:** Tailwind CSS
+*   **Validación de Esquemas:** Zod
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## 🏗️ Arquitectura del Proyecto
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+El código está estructurado siguiendo una **Arquitectura Orientada a Features / Funcionalidades**. Este diseño modular facilita la escalabilidad, el mantenimiento y la separación de responsabilidades, agrupando el código por contexto de negocio en lugar de por tipo de archivo.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+### Estructura de Directorios
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+```text
+src/
+├── app/                  # Configuración global de la aplicación
+│   ├── router/           # Definición de rutas principales (React Router)
+│   └── provider/         # Contextos y proveedores globales
+├── features/             # Módulos organizados por funcionalidad del negocio
+│   ├── comercios/
+│   ├── beneficiarios/
+│   └── lotes/
+├── components/           # Componentes compartidos y de presentación
+│   ├── layouts/          # Estructuras de página (Navbars, Footers, Sidebars)
+│   └── ui/               # Componentes base reutilizables (Botones, Inputs, Modales)
+├── services/             # Integración con la API y lógica de peticiones externas
+├── types/                # Definiciones de interfaces y tipos globales de TypeScript
+├── utils/                # Funciones auxiliares y helpers
+└── App.tsx               # Punto de entrada de la UI
